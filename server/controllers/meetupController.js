@@ -31,7 +31,7 @@ const postMeetup = async (req, res) => {
     try {
         const meetup = await Meetups.create({title, sports, date, location, vacancy, description});
         res.status(200).json(meetup);
-    } catch {
+    } catch (error) {
         res.status(400).json({error: error.message});
     }
 }

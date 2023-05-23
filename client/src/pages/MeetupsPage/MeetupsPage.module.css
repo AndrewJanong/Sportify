@@ -1,0 +1,24 @@
+.meetupspage {
+    background-color: #fff;
+    color: #fff;
+    height: 100vh;
+    width: 100%;
+    padding-left: 20%;
+}
+
+.filter {
+    width: 100%;
+    height: 8%;
+    background-color: #FFEAE3;
+}
+
+.meetups {
+    width: 100%;
+    height: 92%;
+    padding-top: 2rem;
+    background-color: #1E2A46;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}

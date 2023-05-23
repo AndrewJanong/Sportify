@@ -1,0 +1,9 @@
+form {
+    display: flex;
+    flex-direction: column;
+}
+
+.primarybutton {
+    background-color: #1E2A46;
+    border: #1E2A46;
+}
