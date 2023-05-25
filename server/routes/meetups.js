@@ -1,11 +1,17 @@
 const express = require('express');
 const Meetups = require('../models/meetupModel');
-const {getMeetups, getMeetup, postMeetup, deleteMeetup, updateMeetup} = require('../controllers/meetupController');
+const {getMeetups, getUserMeetups, getMeetup, postMeetup, deleteMeetup, updateMeetup} = require('../controllers/meetupController');
+const requireAuth = require('../middleware/requireAuth');
 
 const router = express.Router();
 
+router.use(requireAuth);
+
 // GET all meetups
 router.get('/', getMeetups);
+
+// GET all meetups
+router.get('/user', getUserMeetups);
   
 // GET a single meetup
 router.get('/:id', getMeetup);

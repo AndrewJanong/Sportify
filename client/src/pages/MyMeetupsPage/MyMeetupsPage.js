@@ -1,16 +1,16 @@
 import React, { useEffect } from "react";
-import styles from "./MeetupsPage.module.css";
+import styles from "./MyMeetupsPage.module.css";
 import MeetupCard from "./MeetupCard";
 import { useMeetupsContext } from "../../hooks/useMeetupsContext";
 import { useAuthContext } from "../../hooks/useAuthContext";
 
-const MeetupsPage = (props) => {
+const MyMeetupsPage = (props) => {
     const { meetups, dispatch } = useMeetupsContext();
     const { user } = useAuthContext();
 
     useEffect(() => {
         const fetchMeetups = async () => {
-            const response = await fetch('api/meetups', {
+            const response = await fetch('api/meetups/user', {
                 headers: {
                     'Authorization': `Bearer ${user.token}`
                 }
@@ -46,4 +46,4 @@ const MeetupsPage = (props) => {
     )
 }
 
-export default MeetupsPage;
+export default MyMeetupsPage;

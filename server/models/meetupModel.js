@@ -19,11 +19,19 @@ const meetupSchema = new Schema({
         type: String,
         required: true
     },
+    members: {
+        type: Number,
+        required: true
+    },
     vacancy: {
         type: Number,
         required: true
     },
     description: {
+        type: String,
+        require: true
+    },
+    user_id: {
         type: String,
         require: true
     }

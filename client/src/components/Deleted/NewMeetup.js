@@ -1,11 +1,14 @@
+import 'bootstrap/dist/css/bootstrap.min.css';
 import { useState } from 'react';
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
-import 'bootstrap/dist/css/bootstrap.min.css';
 import styles from './NewMeetup.module.css';
+import { useMeetupsContext } from '../../hooks/useMeetupsContext';
+
 
 
 function NewMeetup() {
+  const { dispatch } = useMeetupsContext();
   const [show, setShow] = useState(false);
   const [title, setTitle] = useState('');
   const [sports, setSports] = useState('');
@@ -42,6 +45,10 @@ function NewMeetup() {
         setLocation('');
         setVacancy(0);
         setDescription('');
+        dispatch({
+          type: 'CREATE_MEETUP',
+          payload: json
+        })
 
         console.log('New meetup added!');
         handleClose();

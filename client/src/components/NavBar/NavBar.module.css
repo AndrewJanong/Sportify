@@ -5,7 +5,7 @@
     position: fixed;
     background-color: #541521;
 
-    padding: 1%;
+    padding: 1rem;
 
     display: flex;
     flex-direction: column;
@@ -14,9 +14,8 @@
 }
 
 .top {
-    border: 1px solid white;
     width: 100%;
-    height: 60%;
+    height: 70%;
 }
 
 .top > img {
@@ -24,18 +23,43 @@
 }
 
 .sections {
-    border: 1px solid yellow;
-    height: 100px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
 }
 
 .bottom {
-    border: 1px solid white;
     color: #fff;
     width: 100%;
-    height: 40%;
+    height: 30%;
 
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: flex-end;
+}
+
+.createmeetup {
+    width: 144px;
+    height: 32px;
+    border: none;
+    border-radius: 8px;
+    background-color: #FFEAE3;
+}
+
+.login {
+    width: 72px;
+    height: 32px;
+    border: none;
+    border-radius: 8px;
+    margin-top: 12px;
+    background-color: #9aedc5;
+}
+
+.createmeetup:hover {
+    background-color: #ead7d0;
+}
+
+.login:hover {
+    background-color: #7cd6aa;
 }

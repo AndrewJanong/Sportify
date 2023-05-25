@@ -7,6 +7,13 @@ const getMeetups = async (req, res) => {
     res.status(200).json(meetups);
 }
 
+const getUserMeetups = async (req, res) => {
+    const user_id = req.user._id;
+
+    const meetups = await Meetups.find({user_id}).sort({createdAt: -1});
+    res.status(200).json(meetups);
+}
+
 //getting a single Meetup
 const getMeetup = async (req, res) => {
     const { id } = req.params;
@@ -26,10 +33,12 @@ const getMeetup = async (req, res) => {
 
 //post a single Meetup
 const postMeetup = async (req, res) => {
-    const {title, sports, date, location, vacancy, description} = req.body;
+    const {title, sports, date, location, members, vacancy, description} = req.body;
 
     try {
-        const meetup = await Meetups.create({title, sports, date, location, vacancy, description});
+        const user_id = req.user._id;
+        
+        const meetup = await Meetups.create({title, sports, date, location, members, vacancy, description, user_id});
         res.status(200).json(meetup);
     } catch (error) {
         res.status(400).json({error: error.message});
@@ -70,4 +79,4 @@ const updateMeetup = async (req, res) => {
     res.status(200).json(meetup);
 }
 
-module.exports = {getMeetups, getMeetup, postMeetup, deleteMeetup, updateMeetup};
+module.exports = {getMeetups, getUserMeetups, getMeetup, postMeetup, deleteMeetup, updateMeetup};

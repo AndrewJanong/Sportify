@@ -1,0 +1,24 @@
+.newmeetup {
+    background-color: #1E2A46;
+    color: #fff;
+    height: 100vh;
+    width: 100%;
+    padding-left: 20%;
+}
+
+.container {
+    padding: 1rem;
+}
+
+.form {
+    display: flex;
+    flex-direction: column;
+}
+
+.form input {
+    width: 50%;
+}
+
+.form button {
+    width: 6rem;
+}

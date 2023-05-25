@@ -1,6 +1,9 @@
+require('dotenv').config()
+
 const express = require('express');
 const mongoose = require('mongoose');
 const meetupRoutes = require('./routes/meetups');
+const userRoutes = require('./routes/user');
 
 const app = express();
 
@@ -11,11 +14,12 @@ app.use((req, res, next) => {
     next();
 });
 
-const PORT = 4000;
-const MONGO_URI = 'mongodb+srv://sportify:Sportify2357@sportify.5yxzgan.mongodb.net/';
+const PORT = process.env.PORT;
+const MONGO_URI = process.env.MONGO_URI;
 
 //routes
 app.use('/api/meetups', meetupRoutes);
+app.use('/api/user', userRoutes);
 
 //connect to DB
 mongoose.connect(MONGO_URI)
