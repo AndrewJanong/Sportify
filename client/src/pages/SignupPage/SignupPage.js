@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 import { useSignup } from '../../hooks/useSignup';
 
 const SignupPage = (props) => {
+    const [username, setUsername] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const { signup, error, isLoading } = useSignup();
@@ -11,13 +12,19 @@ const SignupPage = (props) => {
     const handleSubmit = async (e) => {
         e.preventDefault();
     
-        await signup(email, password);
+        await signup(username, email, password);
     }
 
     return (
         <div className={styles.login}>
             <div className={styles.container}>
                 <form className={styles.signupform} onSubmit={handleSubmit}>
+                    <label htmlFor="">Username:</label>
+                    <input
+                        type="text"
+                        onChange={(e) => setUsername(e.target.value)}
+                        value={username}
+                    />
                     <label htmlFor="">Email:</label>
                     <input
                         type="email"

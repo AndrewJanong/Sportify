@@ -4,9 +4,11 @@
 
     border-radius: 5px;
     display: flex;
-    justify-content: space-around;
+    justify-content: flex-start;
     align-items: center;
     color: #fff;
+
+    overflow: hidden;
 }
 
 .section:hover {
@@ -15,6 +17,7 @@
 
 .section img {
     width: 2rem;
+    margin-right: 20px;
 }
 
 .section p {

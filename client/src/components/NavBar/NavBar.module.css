@@ -23,9 +23,11 @@
 }
 
 .sections {
+    width: 100%;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
+    align-items: center;
 }
 
 .bottom {
@@ -47,7 +49,7 @@
     background-color: #FFEAE3;
 }
 
-.login {
+.login, .logout {
     width: 72px;
     height: 32px;
     border: none;
@@ -62,4 +64,22 @@
 
 .login:hover {
     background-color: #7cd6aa;
+}
+
+.logout {
+    background-color: #ff7c7c;
+}
+
+.logout:hover {
+    background-color: #dd6b6b;
+}
+
+.loggedin {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.user {
+    margin: 20px 0;
 }

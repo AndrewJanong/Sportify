@@ -7,6 +7,7 @@ import LoginPage from './pages/LoginPage/LoginPage';
 import SignupPage from './pages/SignupPage/SignupPage';
 import NewMeetupPage from './pages/NewMeetupPage/NewMeetupPage';
 import MyMeetupsPage from './pages/MyMeetupsPage/MyMeetupsPage';
+import MeetupInfoPage from './pages/MeetupInfoPage/MeetupInfoPage';
 
 
 
@@ -22,6 +23,11 @@ function App() {
           <Route 
             path="/"
             element={<MeetupsPage />}
+          />
+
+          <Route 
+            path="/meetups/:meetupId"
+            element={<MeetupInfoPage />}
           />
 
           <Route 

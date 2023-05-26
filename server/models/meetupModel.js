@@ -20,7 +20,7 @@ const meetupSchema = new Schema({
         required: true
     },
     members: {
-        type: Number,
+        type: [String],
         required: true
     },
     vacancy: {

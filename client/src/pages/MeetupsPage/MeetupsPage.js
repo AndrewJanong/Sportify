@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import styles from "./MeetupsPage.module.css";
-import MeetupCard from "./MeetupCard";
+import MeetupCard from "../../components/MeetupCard/MeetupCard";
 import { useMeetupsContext } from "../../hooks/useMeetupsContext";
 import { useAuthContext } from "../../hooks/useAuthContext";
 

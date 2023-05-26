@@ -27,7 +27,7 @@ const NewMeetupPage = (props) => {
             return;
         }
         
-        const members = 1;
+        const members = [user.username];
         const meetup = {title, sports, date, location, members, vacancy, description};
     
         const response = await fetch('/api/meetups', {

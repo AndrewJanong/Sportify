@@ -20,13 +20,13 @@ const NavBar = (props) => {
             <div className={styles.top}>
                 <img src={Logo} alt="" />
                 <div className={styles.sections}>
-                    <Link to="/mymeetups" style={{ textDecoration: 'none' }}>
+                    <Link to="/mymeetups" style={{ textDecoration: 'none', width: '100%'}}>
                         <Section section={'My Meetups'} />
                     </Link>
-                    <Link to="/" style={{ textDecoration: 'none' }}>
+                    <Link to="/" style={{ textDecoration: 'none', width: '100%' }}>
                         <Section section={'Meetups'} />
                     </Link>
-                    <Link to="/" style={{ textDecoration: 'none' }}>
+                    <Link to="/" style={{ textDecoration: 'none', width: '100%' }}>
                         <Section section={'Discussions'} />
                     </Link>
                 </div>
@@ -47,8 +47,8 @@ const NavBar = (props) => {
                             Create a Meetup
                         </button>
                     </Link>
-                    <button onClick={handleLogout}>Log Out</button>
-                    <div className={styles.user}>{user.email}</div>
+                    <button className={styles.logout} onClick={handleLogout}>Log Out</button>
+                    <div className={styles.user}>{user.username}</div>
                 </div>}
             </div>
         </div>
