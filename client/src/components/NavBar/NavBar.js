@@ -26,7 +26,7 @@ const NavBar = (props) => {
                     <Link to="/" style={{ textDecoration: 'none', width: '100%' }}>
                         <Section section={'Meetups'} />
                     </Link>
-                    <Link to="/" style={{ textDecoration: 'none', width: '100%' }}>
+                    <Link to="/discussions" style={{ textDecoration: 'none', width: '100%' }}>
                         <Section section={'Discussions'} />
                     </Link>
                 </div>
@@ -47,8 +47,10 @@ const NavBar = (props) => {
                             Create a Meetup
                         </button>
                     </Link>
-                    <button className={styles.logout} onClick={handleLogout}>Log Out</button>
-                    <div className={styles.user}>{user.username}</div>
+                    <div>
+                        <div className={styles.user}>{user.username}</div>
+                        <button className={styles.logout} onClick={handleLogout}>Log Out</button>
+                    </div>
                 </div>}
             </div>
         </div>

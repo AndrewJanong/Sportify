@@ -18,6 +18,7 @@ const SignupPage = (props) => {
     return (
         <div className={styles.login}>
             <div className={styles.container}>
+                <h2>Sign Up</h2>
                 <form className={styles.signupform} onSubmit={handleSubmit}>
                     <label htmlFor="">Username:</label>
                     <input

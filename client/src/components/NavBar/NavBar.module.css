@@ -75,9 +75,16 @@
 }
 
 .loggedin {
+    width: 70%;
     display: flex;
     flex-direction: column;
     align-items: center;
+}
+
+.loggedin > div {
+    width: 100%;
+    display: flex;
+    justify-content: space-around;
 }
 
 .user {

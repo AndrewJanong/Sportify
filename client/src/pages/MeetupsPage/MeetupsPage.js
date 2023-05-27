@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import styles from "./MeetupsPage.module.css";
 import MeetupCard from "../../components/MeetupCard/MeetupCard";
 import { useMeetupsContext } from "../../hooks/useMeetupsContext";
@@ -7,6 +7,9 @@ import { useAuthContext } from "../../hooks/useAuthContext";
 const MeetupsPage = (props) => {
     const { meetups, dispatch } = useMeetupsContext();
     const { user } = useAuthContext();
+    const [sports, setSports] = useState('Any');
+
+    const ListOfSports = ['Any', 'Basketball', 'Soccer', 'Voleyball', 'Badminton', 'Table Tennis', 'Tennis'];
 
     useEffect(() => {
         const fetchMeetups = async () => {
@@ -33,10 +36,33 @@ const MeetupsPage = (props) => {
     return (
         <div className={styles.meetupspage}>
             <div className={styles.filter}>
-
+                <div className={styles.sportsFilter}>
+                    <p>Sports:</p>
+                    <select name="" id="" value={sports} onChange={(e) => setSports(e.target.value)}>
+                        {
+                            ListOfSports.map(sport =>
+                                <option
+                                    key={sport}
+                                    value={sport}
+                                >
+                                        {sport}
+                                </option>
+                            )
+                        }
+                    </select>
+                </div>
             </div>
             <div className={styles.meetups}>
-                {meetups && meetups.map((meetup) => {
+                {meetups && 
+                meetups
+                .filter((meetup) => {
+                    if (sports === 'Any') {
+                        return true;
+                    } else {
+                        return sports === meetup.sports;
+                    }
+                })
+                .map((meetup) => {
                     return (
                         <MeetupCard key={meetup._id} meetup={meetup}/>
                     )

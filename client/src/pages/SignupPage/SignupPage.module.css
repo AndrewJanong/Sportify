@@ -18,6 +18,12 @@
     justify-content: center; 
 }
 
+.container h2 {
+    width: 320px;
+    margin-bottom: 16px;
+    border-bottom: 1px solid #fff;
+}
+
 .signupform {
     display: flex;
     flex-direction: column;

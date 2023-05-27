@@ -8,12 +8,6 @@ import { useParams } from "react-router-dom";
 import { useMeetupsContext } from "../../hooks/useMeetupsContext";
 import { useAuthContext } from "../../hooks/useAuthContext";
 
-//function useForceUpdate(){
-//    const [value, setValue] = useState(0); // integer state
-//    return () => setValue(value => value + 1); // update state to force render
-    // A function that increment 👆🏻 the previous state like here 
-    // is better than directly setting `setValue(value + 1)`
-//}
 
 const MeetupInfoPage = (props) => {
     const navigate = useNavigate();
@@ -24,7 +18,6 @@ const MeetupInfoPage = (props) => {
     const meetupId = params.meetupId;
     const meetup = meetups.filter(x => x._id === meetupId)[0];
     const usernames = meetup.members;
-    //const forceUpdate = useForceUpdate();
     
 
     const handleJoin = async (e) => {
@@ -60,7 +53,6 @@ const MeetupInfoPage = (props) => {
                 type: 'SET_MEETUPS',
                 payload: newMeetups
             })
-            //forceUpdate();
             navigate('/');
         } else {
             console.log('error update');
@@ -70,7 +62,7 @@ const MeetupInfoPage = (props) => {
     return (
         <div className={styles.meetup}>
             <div className={styles.header}>
-                <h1>{meetup.title}</h1>
+                <p>{meetup.title}</p>
                 <button className={styles.edit}>Edit</button>
                 <button className={styles.delete}>Delete</button>
             </div>

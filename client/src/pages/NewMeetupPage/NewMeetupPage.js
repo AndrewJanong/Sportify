@@ -63,9 +63,11 @@ const NewMeetupPage = (props) => {
     return (
         <div className={styles.newmeetup}>
             <div className={styles.container}>
+                <h2>Create Meetup</h2>
                 <form action="" className={styles.form} onSubmit={handleSubmit}>
                     <label htmlFor="">Title</label>
                     <input
+                        maxLength={50}
                         type="text"
                         onChange={(e) => setTitle(e.target.value)}
                         value={title}
@@ -103,11 +105,19 @@ const NewMeetupPage = (props) => {
                         min="1"
                     />
                     <label htmlFor="">Description</label>
-                    <input
-                        type="text"
+                    {/* <input
+                        style={{height: '4.8rem', alignItems: 'start'}}
+                        type="textarea"
                         onChange={(e) => setDescription(e.target.value)}
                         value={description}
-                    />
+                    /> */}
+                    <textarea 
+                        cols="30" 
+                        rows="10" 
+                        maxLength={300}
+                        onChange={(e) => setDescription(e.target.value)}
+                        value={description}
+                    ></textarea>
                     <button>Create</button>
                 </form>
                 {error && <div>{error}</div>}
