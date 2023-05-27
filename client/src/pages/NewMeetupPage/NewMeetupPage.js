@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import styles from './NewMeetupPage.module.css';
+import Success from "../../popups/Success";
 import { useMeetupsContext } from "../../hooks/useMeetupsContext";
 import { useAuthContext } from "../../hooks/useAuthContext";
 
@@ -56,6 +57,10 @@ const NewMeetupPage = (props) => {
             })
     
             console.log('New meetup added!');
+            Success.fire({
+                icon: 'success',
+                title: 'Meetup created'
+            })
             navigate("/");
         }
     }
