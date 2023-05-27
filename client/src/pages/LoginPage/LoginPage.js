@@ -32,7 +32,7 @@ const LoginPage = (props) => {
                         value={password}
                     />
                     <button disabled={isLoading}>Log In</button>
-                    {error && <div className="error">{error}</div>}
+                    {error && <div className={styles.error}>{error}</div>}
                 </form>
                 <p>Don't Have an account?</p>
                 <Link to="/signup" style={{ textDecoration: 'none' }}>

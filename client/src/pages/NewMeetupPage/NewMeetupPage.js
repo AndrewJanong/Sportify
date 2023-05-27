@@ -120,7 +120,7 @@ const NewMeetupPage = (props) => {
                     ></textarea>
                     <button>Create</button>
                 </form>
-                {error && <div>{error}</div>}
+                {error && <div className={styles.error}>{error}</div>}
             </div>
         </div>
     )

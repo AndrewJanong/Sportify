@@ -37,6 +37,10 @@ const getMeetup = async (req, res) => {
 const postMeetup = async (req, res) => {
     const {title, sports, date, location, members, vacancy, description} = req.body;
 
+    if (!(title && sports && date && location && members && vacancy && description)) {
+        res.status(400).json({error: 'Please fill in all fields'})
+    }
+
     try {
         const user_id = req.user._id;
         
