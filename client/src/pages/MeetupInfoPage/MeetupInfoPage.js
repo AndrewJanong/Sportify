@@ -1,5 +1,6 @@
 import React from "react";
 import styles from './MeetupInfoPage.module.css';
+import Swal from 'sweetalert2';
 import { useNavigate } from "react-router-dom";
 import DateWhite from '../../icons/DateWhite.png';
 import LocationWhite from '../../icons/LocationWhite.png';
@@ -7,6 +8,7 @@ import MemberWhite from '../../icons/MemberWhite.png';
 import { useParams } from "react-router-dom";
 import { useMeetupsContext } from "../../hooks/useMeetupsContext";
 import { useAuthContext } from "../../hooks/useAuthContext";
+
 
 
 const MeetupInfoPage = (props) => {
@@ -18,6 +20,10 @@ const MeetupInfoPage = (props) => {
     const meetupId = params.meetupId;
     const meetup = meetups.filter(x => x._id === meetupId)[0];
     const usernames = meetup.members;
+
+    const handleTest = (e) => {
+        e.preventDefault();
+    }
     
 
     const handleJoin = async (e) => {
@@ -59,12 +65,57 @@ const MeetupInfoPage = (props) => {
         }
     }
 
+    const handleDelete = async (e) => {
+        e.preventDefault();
+
+        if (!user) {
+            return;
+        }
+
+        Swal.fire({
+            title: 'Are you sure?',
+            text: "You won't be able to revert this!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Yes, delete it!'
+        }).then(async (result) => {
+            if (result.isConfirmed) {
+                Swal.fire(
+                    'Deleted!',
+                    'Your file has been deleted.',
+                    'success'
+                )
+
+                const response = await fetch('/api/meetups/' + meetup._id, {
+                    method: 'DELETE',
+                    headers: {
+                        'Authorization': `Bearer ${user.token}`
+                    }
+                })
+        
+                const json = await response.json();
+        
+                if (response.ok) {
+                    dispatch({
+                        type: 'DELETE_WORKOUT',
+                        payload: json
+                    })
+        
+                    navigate('/');
+                }
+            }
+        })
+        
+    }
+
     return (
         <div className={styles.meetup}>
             <div className={styles.header}>
                 <p>{meetup.title}</p>
-                <button className={styles.edit}>Edit</button>
-                <button className={styles.delete}>Delete</button>
+                {user.username === meetup.members[0] && <button className={styles.edit} onClick={handleTest}>Edit</button>}
+                {user.username === meetup.members[0] && <button className={styles.delete} onClick={handleDelete}>Delete</button>}
             </div>
             <div className={styles.info}>
                 <div className={styles.container}>

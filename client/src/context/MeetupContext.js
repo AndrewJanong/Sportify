@@ -12,6 +12,10 @@ export const meetupsReducer = (state, action) => {
             return {
                 meetups: [action.payload, ...state.meetups]
             }
+        case 'DELETE_MEETUP': 
+            return {
+                meetups: state.meetups.filter((meetup) => meetup._id !== action.payload._id)
+            }
         default:
             return state;
     }
