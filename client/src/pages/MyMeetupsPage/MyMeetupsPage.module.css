@@ -42,6 +42,17 @@
     margin: none;
 }
 
+.upcomingFilter {
+    color: #000;
+    display: flex;
+    align-items: center;
+    margin-left: 24px;
+}
+
+.upcomingFilter > input {
+    margin-right: 10px;
+}
+
 .meetups {
     width: 100%;
     padding-top: 2rem;

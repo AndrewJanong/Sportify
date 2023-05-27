@@ -13,6 +13,15 @@
     justify-content: space-around;
 }
 
+.header {
+    display: flex;
+    justify-content: space-between;
+}
+
+.header p {
+    font-size: 12px;
+}
+
 .meetupcard > button {
     outline: none;
     border: none;

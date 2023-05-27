@@ -8,6 +8,7 @@ const MyMeetupsPage = (props) => {
     const { meetups, dispatch } = useMeetupsContext();
     const { user } = useAuthContext();
     const [sports, setSports] = useState('Any');
+    const [created, setCreated] = useState(false);
 
     const ListOfSports = ['Any', 'Basketball', 'Soccer', 'Voleyball', 'Badminton', 'Table Tennis', 'Tennis'];
 
@@ -51,6 +52,13 @@ const MyMeetupsPage = (props) => {
                         }
                     </select>
                 </div>
+                <div className={styles.upcomingFilter}>
+                    <input
+                    type="checkbox"
+                    defaultChecked={created}
+                    onChange={(e) => setCreated(!created)}/>
+                    <label>Only Created By Me</label>
+                </div>
             </div>
             <div className={styles.meetups}>
                 {meetups && 
@@ -60,6 +68,13 @@ const MyMeetupsPage = (props) => {
                         return true;
                     } else {
                         return sports === meetup.sports;
+                    }
+                })
+                .filter((meetup) => {
+                    if (!created) {
+                        return true;
+                    } else {
+                        return meetup.members[0] === user.username;
                     }
                 })
                 .map((meetup) => {

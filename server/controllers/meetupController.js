@@ -8,9 +8,11 @@ const getMeetups = async (req, res) => {
 }
 
 const getUserMeetups = async (req, res) => {
-    const user_id = req.user._id;
+    //const user_id = req.user._id;
+    const user_username = req.user.username;
 
-    const meetups = await Meetups.find({user_id}).sort({createdAt: -1});
+    //const meetups = await Meetups.find({user_id}).sort({createdAt: -1});
+    const meetups = await Meetups.find({members: user_username}).sort({createdAt: -1});
     res.status(200).json(meetups);
 }
 

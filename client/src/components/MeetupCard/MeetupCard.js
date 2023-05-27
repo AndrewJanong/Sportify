@@ -16,7 +16,10 @@ const MeetupCard = (props) => {
 
     return (
         <div className={styles.meetupcard}>
-            <h1>{props.meetup.title}</h1>
+            <div className={styles.header}>
+                <h1>{props.meetup.title}</h1>
+                <p>Created by {props.meetup.members[0]}</p>
+            </div>
             <p>{props.meetup.sports}</p>
             <div className={styles.info}>
                 <div className={styles.date}>

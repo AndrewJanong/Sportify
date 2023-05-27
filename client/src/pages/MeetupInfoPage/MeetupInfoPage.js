@@ -21,8 +21,22 @@ const MeetupInfoPage = (props) => {
     const meetup = meetups.filter(x => x._id === meetupId)[0];
     const usernames = meetup.members;
 
-    const handleTest = (e) => {
+    const Toast = Swal.mixin({
+        toast: true,
+        position: 'top-end',
+        showConfirmButton: false,
+        timer: 3000,
+        timerProgressBar: true,
+        didOpen: (toast) => {
+          toast.addEventListener('mouseenter', Swal.stopTimer)
+          toast.addEventListener('mouseleave', Swal.resumeTimer)
+        }
+    })  
+
+    const handleUpdate = (e) => {
         e.preventDefault();
+
+        Swal.fire('Feature coming soon...')
     }
     
 
@@ -30,6 +44,11 @@ const MeetupInfoPage = (props) => {
         e.preventDefault();
 
         if (!user) {
+            return;
+        }
+
+        if (usernames.length === meetup.vacancy) {
+            Swal.fire('Meetup is full!');
             return;
         }
 
@@ -58,6 +77,10 @@ const MeetupInfoPage = (props) => {
             dispatch({
                 type: 'SET_MEETUPS',
                 payload: newMeetups
+            })
+            Toast.fire({
+                icon: 'success',
+                title: 'Joined Meetup'
             })
             navigate('/');
         } else {
@@ -110,11 +133,68 @@ const MeetupInfoPage = (props) => {
         
     }
 
+    const handleLeave = async (e) => {
+        e.preventDefault();
+
+        if (!user) {
+            return;
+        }
+
+        Swal.fire({
+            title: 'Are you sure?',
+            text: "Others might replace you!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Yes, leave!'
+        }).then(async (result) => {
+            if (result.isConfirmed) {
+                Swal.fire(
+                    'Left!',
+                    'You have left the meetup',
+                    'success'
+                )
+
+                const response = await fetch('/api/meetups/' + meetupId, {
+                    method: 'PATCH',
+                    body: JSON.stringify({members: usernames.filter((u) => u !== user.username)}),
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${user.token}`
+                    },
+        
+                });
+        
+                const json = await response.json();
+                const newMeetups = meetups.map((meetup) => {
+                    if (meetup._id === meetupId) {
+                        return json;
+                    } else {
+                        return meetup;
+                    } 
+                })
+        
+                console.log(newMeetups);
+
+                if (response.ok) {
+                    dispatch({
+                        type: 'SET_MEETUPS',
+                        payload: newMeetups
+                    })
+                    navigate('/');
+                } else {
+                    console.log('error update');
+                }
+            }
+        })
+    }
+
     return (
         <div className={styles.meetup}>
             <div className={styles.header}>
                 <p>{meetup.title}</p>
-                {user.username === meetup.members[0] && <button className={styles.edit} onClick={handleTest}>Edit</button>}
+                {user.username === meetup.members[0] && <button className={styles.edit} onClick={handleUpdate}>Edit</button>}
                 {user.username === meetup.members[0] && <button className={styles.delete} onClick={handleDelete}>Delete</button>}
             </div>
             <div className={styles.info}>
@@ -157,10 +237,10 @@ const MeetupInfoPage = (props) => {
                     Join
             </button>
             }
-            {
-            usernames.includes(user.username) && <button 
+            { 
+            usernames.includes(user.username) && user.username !== meetup.members[0] && <button 
                 className={styles.leave} 
-                
+                onClick={handleLeave}
             >
                     Leave
             </button>

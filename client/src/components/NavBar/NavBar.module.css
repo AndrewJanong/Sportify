@@ -55,7 +55,8 @@
     border: none;
     border-radius: 8px;
     margin-top: 12px;
-    background-color: #9aedc5;
+    color: #fff;
+    background-color: #005c22;
 }
 
 .createmeetup:hover {
@@ -63,15 +64,15 @@
 }
 
 .login:hover {
-    background-color: #7cd6aa;
+    background-color: #004218;
 }
 
 .logout {
-    background-color: #ff7c7c;
+    background-color: #ff0000;
 }
 
 .logout:hover {
-    background-color: #dd6b6b;
+    background-color: #db0000;
 }
 
 .loggedin {

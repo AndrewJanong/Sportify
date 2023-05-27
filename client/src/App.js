@@ -25,7 +25,7 @@ function App() {
         <Routes>
           <Route 
             path="/"
-            element={user ? <MeetupsPage /> : <EmptyPage />}
+            element={user ? <MyMeetupsPage /> : <EmptyPage />}
           />
 
           <Route 

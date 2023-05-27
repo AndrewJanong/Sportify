@@ -23,7 +23,7 @@ const NavBar = (props) => {
                     <Link to="/mymeetups" style={{ textDecoration: 'none', width: '100%'}}>
                         <Section section={'My Meetups'} />
                     </Link>
-                    <Link to="/" style={{ textDecoration: 'none', width: '100%' }}>
+                    <Link to="/meetups" style={{ textDecoration: 'none', width: '100%' }}>
                         <Section section={'Meetups'} />
                     </Link>
                     <Link to="/discussions" style={{ textDecoration: 'none', width: '100%' }}>

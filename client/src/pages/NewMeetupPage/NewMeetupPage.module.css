@@ -1,3 +1,7 @@
+@import url("https://fonts.googleapis.com/css2?family=Montserrat&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@700&display=swap");
+
+
 .newmeetup {
     background-color: #1E2A46;
     color: #fff;
@@ -34,6 +38,7 @@
 .form input, .form select {
     outline: none;
     border: none;
+    font-family: "Montserrat", sans-serif;
 
     width: 100%;
     height: 1.6rem;
@@ -48,6 +53,7 @@
 .form textarea {
     outline: none;
     border: none;
+    font-family: "Montserrat", sans-serif;
 
     width: 100%;
     border-radius: 8px;
