@@ -13,11 +13,13 @@ const SignupPage = (props) => {
     const handleSubmit = async (e) => {
         e.preventDefault();
     
-        await signup(username, email, password);
-        Success.fire({
-            icon: 'success',
-            title: 'Signed up'
-        })
+        const err = await signup(username, email, password);
+        if (err !== 'error') {
+            Success.fire({
+                icon: 'success',
+                title: 'Signed up'
+            })
+        }
     }
 
     return (

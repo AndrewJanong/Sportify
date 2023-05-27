@@ -12,11 +12,13 @@ const LoginPage = (props) => {
     const handleSubmit = async (e) => {
         e.preventDefault();
     
-        await login(email, password);
-        Success.fire({
-            icon: 'success',
-            title: 'Logged in'
-        })
+        const err = await login(email, password);
+        if (err !== 'error') {
+            Success.fire({
+                icon: 'success',
+                title: 'Logged in'
+            }
+        )}
     }
 
     return (
