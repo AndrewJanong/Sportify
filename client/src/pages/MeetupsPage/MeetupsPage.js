@@ -13,7 +13,7 @@ const MeetupsPage = (props) => {
 
     useEffect(() => {
         const fetchMeetups = async () => {
-            const response = await fetch('api/meetups', {
+            const response = await fetch(process.env.REACT_APP_BASEURL+'api/meetups', {
                 headers: {
                     'Authorization': `Bearer ${user.token}`
                 }

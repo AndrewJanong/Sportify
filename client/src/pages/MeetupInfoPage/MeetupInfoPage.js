@@ -41,7 +41,7 @@ const MeetupInfoPage = (props) => {
             return;
         }
 
-        const response = await fetch('/api/meetups/' + meetupId, {
+        const response = await fetch(process.env.REACT_APP_BASEURL+'/api/meetups/' + meetupId, {
             method: 'PATCH',
             body: JSON.stringify({members: [...usernames, user.username]}),
             headers: {
@@ -100,7 +100,7 @@ const MeetupInfoPage = (props) => {
                     'success'
                 )
 
-                const response = await fetch('/api/meetups/' + meetup._id, {
+                const response = await fetch(process.env.REACT_APP_BASEURL+'/api/meetups/' + meetup._id, {
                     method: 'DELETE',
                     headers: {
                         'Authorization': `Bearer ${user.token}`
@@ -145,7 +145,7 @@ const MeetupInfoPage = (props) => {
                     'success'
                 )
 
-                const response = await fetch('/api/meetups/' + meetupId, {
+                const response = await fetch(process.env.REACT_APP_BASEURL+'/api/meetups/' + meetupId, {
                     method: 'PATCH',
                     body: JSON.stringify({members: usernames.filter((u) => u !== user.username)}),
                     headers: {

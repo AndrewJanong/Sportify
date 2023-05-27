@@ -31,7 +31,7 @@ const NewMeetupPage = (props) => {
         const members = [user.username];
         const meetup = {title, sports, date, location, members, vacancy, description};
     
-        const response = await fetch('/api/meetups', {
+        const response = await fetch(process.env.REACT_APP_BASEURL+'/api/meetups', {
             method: 'POST',
             body: JSON.stringify(meetup),
             headers: {
