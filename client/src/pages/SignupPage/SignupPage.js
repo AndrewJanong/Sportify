@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import styles from './SignupPage.module.css';
+import Success from "../../popups/Success";
 import { Link } from "react-router-dom";
 import { useSignup } from '../../hooks/useSignup';
 
@@ -13,6 +14,10 @@ const SignupPage = (props) => {
         e.preventDefault();
     
         await signup(username, email, password);
+        Success.fire({
+            icon: 'success',
+            title: 'Signed up'
+        })
     }
 
     return (

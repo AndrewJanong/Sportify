@@ -1,6 +1,7 @@
 import React from "react";
 import styles from './MeetupInfoPage.module.css';
 import Swal from 'sweetalert2';
+import Success from "../../popups/Success";
 import { useNavigate } from "react-router-dom";
 import DateWhite from '../../icons/DateWhite.png';
 import LocationWhite from '../../icons/LocationWhite.png';
@@ -19,19 +20,7 @@ const MeetupInfoPage = (props) => {
 
     const meetupId = params.meetupId;
     const meetup = meetups.filter(x => x._id === meetupId)[0];
-    const usernames = meetup.members;
-
-    const Toast = Swal.mixin({
-        toast: true,
-        position: 'top-end',
-        showConfirmButton: false,
-        timer: 3000,
-        timerProgressBar: true,
-        didOpen: (toast) => {
-          toast.addEventListener('mouseenter', Swal.stopTimer)
-          toast.addEventListener('mouseleave', Swal.resumeTimer)
-        }
-    })  
+    const usernames = meetup.members; 
 
     const handleUpdate = (e) => {
         e.preventDefault();
@@ -78,7 +67,7 @@ const MeetupInfoPage = (props) => {
                 type: 'SET_MEETUPS',
                 payload: newMeetups
             })
-            Toast.fire({
+            Success.fire({
                 icon: 'success',
                 title: 'Joined Meetup'
             })

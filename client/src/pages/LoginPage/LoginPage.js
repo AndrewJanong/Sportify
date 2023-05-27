@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import styles from './LoginPage.module.css';
+import Success from "../../popups/Success";
 import { Link } from "react-router-dom";
 import { useLogin } from "../../hooks/useLogin";
 
@@ -12,6 +13,10 @@ const LoginPage = (props) => {
         e.preventDefault();
     
         await login(email, password);
+        Success.fire({
+            icon: 'success',
+            title: 'Logged in'
+        })
     }
 
     return (
