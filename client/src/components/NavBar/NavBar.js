@@ -3,17 +3,11 @@ import styles from './NavBar.module.css';
 import { Link } from 'react-router-dom';
 import Logo from '../../icons/Logo.png';
 import Section from './Section';
-import { useLogout } from '../../hooks/useLogout';
 import { useAuthContext } from '../../hooks/useAuthContext';
 
 const NavBar = (props) => {
 
-    const { logout } = useLogout();
     const { user } = useAuthContext();
-
-    const handleLogout = () => {
-        logout();
-    }
 
     return (
         <div className={styles.navbar}>
@@ -48,8 +42,12 @@ const NavBar = (props) => {
                         </button>
                     </Link>
                     <div>
-                        <div className={styles.user}>{user.username}</div>
-                        <button className={styles.logout} onClick={handleLogout}>Log Out</button>
+                        <div className={styles.user} onClick={(e) => console.log(user.token)}>
+                            <Link to={`/profile/${(user.username)}`} style={{ textDecoration: 'none', color: '#fff' }}>
+                                {user.username}
+                            </Link>
+                        </div>
+
                     </div>
                 </div>}
             </div>

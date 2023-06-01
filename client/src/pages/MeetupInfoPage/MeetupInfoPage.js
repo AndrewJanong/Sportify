@@ -9,6 +9,7 @@ import MemberWhite from '../../icons/MemberWhite.png';
 import { useParams } from "react-router-dom";
 import { useMeetupsContext } from "../../hooks/useMeetupsContext";
 import { useAuthContext } from "../../hooks/useAuthContext";
+import UserCard from "../../components/UserCard/UserCard";
 
 
 
@@ -209,11 +210,16 @@ const MeetupInfoPage = (props) => {
             <div className={styles.members}>
                 <h2>In The Meetup</h2>
                 <div>
-                    {usernames.map((username) => {
+                    {/* {usernames.map((username) => {
                         return (
                             <div key={username}>
                                 <p>{username}</p>
                             </div>
+                        )
+                    })} */}
+                    {usernames.map((username) => {
+                        return (
+                            <UserCard username={username}/>
                         )
                     })}
                 </div>

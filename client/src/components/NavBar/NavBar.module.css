@@ -90,4 +90,21 @@
 
 .user {
     margin: 20px 0;
+    width: 100px;
+    height: 30px;
+    border-radius: 12px;
+}
+
+.user:hover {
+    background-color: #7b1f30;
+}
+
+.user > * {
+    width: 100px;
+    height: 30px;
+    border-radius: 12px;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }

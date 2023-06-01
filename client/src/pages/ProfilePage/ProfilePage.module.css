@@ -1,0 +1,54 @@
+.profilePage {
+    background-color: #1E2A46;
+    color: #fff;
+    height: 100vh;
+    width: 100%;
+    padding: 36px;
+    padding-left: calc(20% + 36px);
+}
+
+.container {
+    display: flex;
+}
+
+.username {
+
+    width: 288px;
+    height: 64px;
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+}
+
+.profilePicture, .profilePicture > img {
+    height: 200px;
+    width: 200px;
+
+    border-radius: 50%;
+    border: 0.1px solid white;
+}
+
+.profilePicture {
+    margin-right: 24px;
+}
+
+.logout, .edit {
+    width: 72px;
+    height: 32px;
+    border: none;
+    border-radius: 8px;
+    color: #fff;
+    background-color: #ff0000;;
+}
+
+.logout:hover {
+    background-color: #db0000;
+}
+
+.edit {
+    background-color: #3b62be;
+}
+
+.edit:hover {
+    background-color: #3355a5;
+}
