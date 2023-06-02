@@ -38,7 +38,7 @@
     border: none;
     border-radius: 8px;
     color: #fff;
-    background-color: #ff0000;;
+    background-color: #ff0000;
 }
 
 .logout:hover {
@@ -51,4 +51,36 @@
 
 .edit:hover {
     background-color: #3355a5;
+}
+
+.friendship > button {
+    width: 90px;
+    height: 32px;
+    border: none;
+    border-radius: 8px;
+    color: #fff;
+}
+
+.addFriend {
+    background-color: #3b62be;
+}
+
+.addFriend:hover {
+    background-color: #3355a5;
+}
+
+.requestedFriend, .pendingFriend {
+    background-color: #7f7f7f;
+}
+
+.requestedFriend:hover, .pendingFriend:hover {
+    background-color: #656565;
+}
+
+.removeFriend {
+    background-color: #ff0000;
+}
+
+.removeFriend:hover {
+    background-color: #db0000;
 }

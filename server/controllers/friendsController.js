@@ -59,7 +59,7 @@ const sendFriendRequest = async (req, res) => {
             { $push: { friends: docB._id }}
         )
 
-        res.status(200).json({updateUserA, updateUserB});
+        res.status(200).json(docA);
     } catch (err) {
         res.status(400).json({error: err.message});
     }
@@ -80,7 +80,7 @@ const acceptFriendRequest = async (req, res) => {
             { $set: { status: 3 }}
         )
 
-        res.status(200).json({a, b});
+        res.status(200).json(a);
     } catch (err) {
         res.status(400).json({error: err.message});
     }
@@ -106,7 +106,7 @@ const rejectFriendRequest = async (req, res) => {
             { $pull: { friends: docB._id }}
         )
 
-        res.status(200).json({updateUserA, updateUserB});
+        res.status(200).json(docA);
     } catch (err) {
         res.status(400).json({error: err.message});
     }
@@ -132,7 +132,7 @@ const removeFriend = async (req, res) => {
             { username: recipient },
             { $pull: { friends: docB._id }}
         )
-        res.status(200).json({updateUserA, updateUserB});
+        res.status(200).json(docA);
     } catch (err) {
         res.status(400).json({error: err.message});
     }

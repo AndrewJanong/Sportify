@@ -219,7 +219,7 @@ const MeetupInfoPage = (props) => {
                     })} */}
                     {usernames.map((username) => {
                         return (
-                            <UserCard username={username}/>
+                            <UserCard username={username} key={username}/>
                         )
                     })}
                 </div>
