@@ -3,21 +3,46 @@
     color: #fff;
     height: 100vh;
     width: 100%;
-    padding: 36px;
-    padding-left: calc(20% + 36px);
+    padding: 36px 60px;
+    padding-left: calc(20% + 60px);
 }
 
-.container {
+.header {
     display: flex;
+    border: 1px solid white;
+}
+
+.profile {
+    border: 1px solid white;
 }
 
 .username {
-
-    width: 288px;
+    width: 488px;
     height: 64px;
     display: flex;
+
+    border: 1px solid white;
+}
+
+.username > p {
+    width: 288px;
+    height: 64px;
+    border: 1px solid white;
+    font-size: 24px;
+
+    display: flex;
+    justify-content: center;
     align-items: center;
+}
+
+.userFunctions {
+    width: 200px;
+    height: 64px;
+    border: 1px solid white;
+
+    display: flex;
     justify-content: space-around;
+    align-items: center;
 }
 
 .profilePicture, .profilePicture > img {
@@ -53,12 +78,27 @@
     background-color: #3355a5;
 }
 
+.friendship {
+    height: 64px;
+    width: 288px;
+    border: 1px solid white;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
 .friendship > button {
     width: 90px;
     height: 32px;
     border: none;
     border-radius: 8px;
     color: #fff;
+}
+
+
+.friendship > button > img {
+    height: 24px;
 }
 
 .addFriend {
@@ -83,4 +123,43 @@
 
 .removeFriend:hover {
     background-color: #db0000;
+}
+
+
+.navigation {
+    height: 36px;
+    width: 100%;
+    margin-top: 24px;
+    border-bottom: 1px solid rgb(255, 255, 255, 0.4);
+
+    display: flex;
+}
+
+.navigation > p {
+    width: 33.333%;
+    height: 36px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.navigation > p:hover, .nav-current {
+    border-bottom: 1px solid rgb(255, 255, 255);
+    font-weight: 600;
+    cursor: pointer;
+}
+
+
+.container {
+    width: 100%;
+    margin-top: 24px;
+}
+
+#friends {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+#friends > div {
+    margin: 0 12px;
 }
