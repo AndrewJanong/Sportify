@@ -14,11 +14,12 @@ const loginUser = async (req, res) => {
         const username = user.username;
         const friends = user.friends;
         const userId = user._id;
+        const picture = user.picture;
 
         //create token
         const token = createToken(user._id);
 
-        res.status(200).json({username, email, friends, token, userId});
+        res.status(200).json({username, email, friends, picture, token, userId});
     } catch (error) {
         res.status(400).json({error: error.message});
     }
@@ -42,7 +43,21 @@ const signupUser = async (req, res) => {
     }
 }
 
+const getUserInfo = async (req, res) => {
+    const { username } = req.params;
+    const user = await User.findOne({username});
+    res.status(200).json(user);
+}
+
+const updateUserInfo = async (req, res) => {
+    const { username } = req.params;
+    const user = await User.findOneAndUpdate({username}, {...req.body});
+    res.status(200).json(user);
+} 
+
 module.exports = {
     loginUser,
-    signupUser
+    signupUser,
+    getUserInfo,
+    updateUserInfo
 }

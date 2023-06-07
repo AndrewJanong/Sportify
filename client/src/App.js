@@ -11,6 +11,7 @@ import MyMeetupsPage from './pages/MyMeetupsPage/MyMeetupsPage';
 import MeetupInfoPage from './pages/MeetupInfoPage/MeetupInfoPage';
 import DiscussionsPage from './pages/DiscussionsPage/DiscussionsPage';
 import ProfilePage from './pages/ProfilePage/ProfilePage';
+import EditProfilePage from './pages/EditProfilePage/EditProfilePage';
 
 
 
@@ -66,6 +67,11 @@ function App() {
           <Route 
             path="/profile/:username"
             element={user ? <ProfilePage /> : <Navigate to="/"/>}
+          />
+
+          <Route 
+            path="/edit/:username"
+            element={user ? <EditProfilePage /> : <Navigate to="/"/>}
           />
 
           

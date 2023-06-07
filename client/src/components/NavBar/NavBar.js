@@ -1,6 +1,7 @@
 import React from 'react';
 import styles from './NavBar.module.css';
 import { Link } from 'react-router-dom';
+import { Image } from 'cloudinary-react';
 import Logo from '../../icons/Logo.png';
 import Section from './Section';
 import { useAuthContext } from '../../hooks/useAuthContext';
@@ -44,7 +45,11 @@ const NavBar = (props) => {
                     <div>
                         <div className={styles.user} onClick={(e) => console.log(user.token)}>
                             <Link to={`/profile/${(user.username)}`} style={{ textDecoration: 'none', color: '#fff' }}>
-                                {user.username}
+                                <Image 
+                                    cloudName={`${process.env.REACT_APP_IMAGECLOUD}`} 
+                                    publicId={`${user.picture || "Member_qx5vfp"}`}>
+                                </Image>
+                                <p onClick={(e) => {console.log(user)}}>{user.username}</p>
                             </Link>
                         </div>
 

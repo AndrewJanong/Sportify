@@ -115,7 +115,7 @@
 }
 
 .members > div > div {
-    margin-right: 24px;
+    margin: 0 12px;
 }
 
 .join, .leave {

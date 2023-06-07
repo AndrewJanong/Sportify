@@ -10,7 +10,7 @@ router.use(requireAuth);
 // GET all meetups
 router.get('/', getMeetups);
 
-// GET all meetups
+// GET user meetups
 router.get('/user', getUserMeetups);
   
 // GET a single meetup

@@ -90,8 +90,8 @@
 
 .user {
     margin: 20px 0;
-    width: 100px;
-    height: 30px;
+    width: 160px;
+    height: 48px;
     border-radius: 12px;
 }
 
@@ -100,11 +100,19 @@
 }
 
 .user > * {
-    width: 100px;
-    height: 30px;
+    width: 160px;
+    height: 48px;
     border-radius: 12px;
 
     display: flex;
-    justify-content: center;
+    justify-content: space-around;
     align-items: center;
+}
+
+.user img {
+    width: 36px;
+    height: 36px;
+    background-color: #dbdada;;
+    border: 1px solid rgb(255, 255, 255, 0.1);
+    border-radius: 50%;
 }

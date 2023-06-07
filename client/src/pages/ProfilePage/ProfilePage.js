@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from "react";
+import { Image } from 'cloudinary-react';
 import styles from './ProfilePage.module.css';
-import Member from '../../icons/Member.png';
 import Loading from '../../icons/Loading.gif';
+import { useNavigate } from "react-router-dom";
 import UserCard from "../../components/UserCard/UserCard";
 import MeetupCard from "../../components/MeetupCard/MeetupCard";
 import { useParams } from "react-router-dom";
@@ -12,12 +13,21 @@ import { useMeetupsContext } from "../../hooks/useMeetupsContext";
 
 const ProfilePage = (props) => {
     const params = useParams();
+    const navigate = useNavigate();
     const { logout } = useLogout();
     const { meetups, dispatch } = useMeetupsContext();
     const { user } = useAuthContext();
     const [status, setStatus] = useState(-1);
     const [display, setDisplay] = useState('friends');
     const [friends, setFriends] = useState([]);
+    const [userInfo, setUserInfo] = useState({});
+    
+
+    const handleEditProfile = (e) => {
+        e.preventDefault();
+
+        navigate(`/edit/${params.username}`);
+    }
 
     const userA = user.username;
     const userB = params.username;
@@ -57,9 +67,23 @@ const ProfilePage = (props) => {
             }
         }
 
+        const getUserInfo = async () => {
+            const response = await fetch(process.env.REACT_APP_BASEURL+'/api/user/'+userB, {
+                headers: {
+                    'Authorization': `Bearer ${user.token}`
+                }
+            });
+            const json = await response.json();
+
+            if (response.ok) {
+                setUserInfo(json);
+            }
+        }
+
         if (user) {
             getFriendshipStatus();
             fetchMeetups();
+            getUserInfo();
         }
     }, [dispatch, status, user, userA, userB])
 
@@ -119,36 +143,41 @@ const ProfilePage = (props) => {
         <div className={styles.profilePage}>
             <div className={styles.header}>
                 <div className={styles.profilePicture}>
-                    <img src={Member} alt="" />
+                    {/* <img src={Member} alt="" /> */}
+                    <Image 
+                        cloudName={`${process.env.REACT_APP_IMAGECLOUD}`} 
+                        publicId={`${userInfo.picture || "Member_qx5vfp"}`}>
+                    </Image>
                 </div>
                 <div className={styles.profile}>
                     <div className={styles.username}>
                         <p>{params.username}</p>
+                        { user.username === params.username &&
                         <div className={styles.userFunctions}>
-                            { user.username === params.username &&
-                                <button className={styles.edit}>Edit</button>
+                            <button className={styles.edit} onClick={handleEditProfile}>Edit</button>
+                            <button className={styles.logout} onClick={handleLogout}>Log Out</button>
+                        </div>}
+                        { userA !== userB &&
+                        <div className={styles.friendship}>
+                            { status === -1 &&
+                                <button className={styles.loading}><img src={Loading} alt="" /></button>
                             }
-                            { user.username === params.username &&
-                                <button className={styles.logout} onClick={handleLogout}>Log Out</button>
+                            { status === 0 &&
+                                <button className={styles.addFriend} onClick={handleAddFriend}>Add Friend</button>
                             }
-                        </div>
+                            { status === 1 &&
+                                <button className={styles.requestedFriend}>Requested</button>
+                            }
+                            { status === 2 &&
+                                <button className={styles.pendingFriend} onClick={handleAcceptFriend}>Accept Request</button>
+                            }
+                            { status === 3 &&
+                                <button className={styles.removeFriend} onClick={handleRemoveFriend}>Remove Friend</button>
+                            }
+                        </div>}
                     </div>
-                    <div className={styles.friendship}>
-                        { status === -1 && userA !== userB &&
-                            <button className={styles.loading}><img src={Loading} alt="" /></button>
-                        }
-                        { status === 0 && userA !== userB &&
-                            <button className={styles.addFriend} onClick={handleAddFriend}>Add Friend</button>
-                        }
-                        { status === 1 && userA !== userB &&
-                            <button className={styles.requestedFriend}>Requested</button>
-                        }
-                        { status === 2 && userA !== userB &&
-                            <button className={styles.pendingFriend} onClick={handleAcceptFriend}>Accept Request</button>
-                        }
-                        { status === 3 && userA !== userB &&
-                            <button className={styles.removeFriend} onClick={handleRemoveFriend}>Remove Friend</button>
-                        }
+                    <div className={styles.bio}>
+
                     </div>
                 </div>
             </div>
