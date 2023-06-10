@@ -12,6 +12,7 @@ import MeetupInfoPage from './pages/MeetupInfoPage/MeetupInfoPage';
 import DiscussionsPage from './pages/DiscussionsPage/DiscussionsPage';
 import ProfilePage from './pages/ProfilePage/ProfilePage';
 import EditProfilePage from './pages/EditProfilePage/EditProfilePage';
+import NotificationsPage from './pages/NotificationsPage/NotificationsPage';
 
 
 
@@ -72,6 +73,11 @@ function App() {
           <Route 
             path="/edit/:username"
             element={user ? <EditProfilePage /> : <Navigate to="/"/>}
+          />
+
+          <Route 
+            path="/notifications/:username"
+            element={user ? <NotificationsPage /> : <Navigate to="/"/>}
           />
 
           

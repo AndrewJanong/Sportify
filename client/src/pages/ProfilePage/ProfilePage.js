@@ -98,8 +98,23 @@ const ProfilePage = (props) => {
             }
         })
 
+        const notification = await fetch(process.env.REACT_APP_BASEURL+'/api/notifications/', {
+            method: 'POST',
+            body: JSON.stringify({
+                type: "friend-request",
+                target_user: userB,
+                sender: userA,
+                message: `You got a friend request from ${userA}`
+            }),
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        })
+
         const json = await response.json();
+        const notification_json = await notification.json();
         console.log(json);
+        console.log(notification_json);
         setStatus(json.status);
     }
 

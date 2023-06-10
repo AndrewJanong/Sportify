@@ -3,6 +3,7 @@ import styles from './NavBar.module.css';
 import { Link } from 'react-router-dom';
 import { Image } from 'cloudinary-react';
 import Logo from '../../icons/Logo.png';
+import NotificationsWhite from '../../icons/NotificationsWhite.png';
 import Section from './Section';
 import { useAuthContext } from '../../hooks/useAuthContext';
 
@@ -42,7 +43,7 @@ const NavBar = (props) => {
                             Create a Meetup
                         </button>
                     </Link>
-                    <div>
+                    <div className={styles.container}>
                         <div className={styles.user} onClick={(e) => console.log(user.token)}>
                             <Link to={`/profile/${(user.username)}`} style={{ textDecoration: 'none', color: '#fff' }}>
                                 <Image 
@@ -52,8 +53,13 @@ const NavBar = (props) => {
                                 <p onClick={(e) => {console.log(user)}}>{user.username}</p>
                             </Link>
                         </div>
-
+                        <div className={styles.notifications}>
+                            <Link to={`/notifications/${(user.username)}`} style={{ textDecoration: 'none', color: '#fff' }}>
+                                    <img src={NotificationsWhite} alt="" />
+                            </Link>
+                        </div>
                     </div>
+                    {/* <button onClick={(e) => console.log(user)}>idk</button> */}
                 </div>}
             </div>
         </div>

@@ -1,0 +1,30 @@
+.card {
+    width: 600px;
+    height: 72px;
+    display: flex;
+
+    border: 1px solid white;
+}
+
+.message {
+    width: 400px;
+    height: 72px;
+    border: 1px solid white;
+}
+
+.message > p {
+    width: 400px;
+    height: 72px;
+    padding: 6px;
+    font-size: 16px;
+
+    display: flex;
+    align-items: center;
+}
+
+.buttons {
+    width: 200px;
+    height: 72px;
+
+    border: 1px solid white;
+}

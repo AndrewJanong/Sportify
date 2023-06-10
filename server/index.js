@@ -5,6 +5,8 @@ const mongoose = require('mongoose');
 const meetupRoutes = require('./routes/meetups');
 const userRoutes = require('./routes/user');
 const friendsRoutes = require('./routes/friends');
+const notificationsRoutes = require('./routes/notifications');
+const groupsRoutes = require('./routes/groups');
 const cors = require('cors');
 
 const app = express();
@@ -24,6 +26,10 @@ const MONGO_URI = process.env.MONGO_URI;
 app.use('/api/meetups', meetupRoutes);
 app.use('/api/user', userRoutes);
 app.use('/api/friends', friendsRoutes);
+app.use('/api/notifications', notificationsRoutes);
+app.use('/api/groups', groupsRoutes);
+
+
 //connect to DB
 mongoose.connect(MONGO_URI)
     .then(() => {

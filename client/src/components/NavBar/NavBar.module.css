@@ -88,6 +88,12 @@
     justify-content: space-around;
 }
 
+.container {
+    height: 80px;
+    display: flex;
+    align-items: center;
+}
+
 .user {
     margin: 20px 0;
     width: 160px;
@@ -115,4 +121,23 @@
     background-color: #dbdada;;
     border: 1px solid rgb(255, 255, 255, 0.1);
     border-radius: 50%;
+}
+
+.notifications, .notifications > *{
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.notifications:hover {
+    background-color: #7b1f30;
+}
+
+.notifications img {
+    width: 36px;
+    height: 36px;
 }
