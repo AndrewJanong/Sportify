@@ -3,6 +3,7 @@ require('dotenv').config()
 const express = require('express');
 const mongoose = require('mongoose');
 const meetupRoutes = require('./routes/meetups');
+const discussionRoutes = require('./routes/discussion');
 const userRoutes = require('./routes/user');
 const friendsRoutes = require('./routes/friends');
 const notificationsRoutes = require('./routes/notifications');
@@ -24,6 +25,7 @@ const MONGO_URI = process.env.MONGO_URI;
 
 //routes
 app.use('/api/meetups', meetupRoutes);
+app.use('/api/discussions', discussionRoutes)
 app.use('/api/user', userRoutes);
 app.use('/api/friends', friendsRoutes);
 app.use('/api/notifications', notificationsRoutes);
