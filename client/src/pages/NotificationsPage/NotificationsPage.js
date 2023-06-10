@@ -7,6 +7,7 @@ const NotificationsPage = (props) => {
 
     const { user } = useAuthContext();
     const [notifications, setNotifications] = useState([]);
+    const [refresh, setRefresh] = useState(1);
 
     // Fetch the user notifications
     useEffect(() => {
@@ -27,7 +28,11 @@ const NotificationsPage = (props) => {
         if (user) {
             fetchNotifications();
         }
-    }, [user])
+    }, [user, refresh])
+
+    const refreshPage = () => {
+        setRefresh((refresh + 1) % 2);
+    }
 
     return (
         <div className={styles.page}>
@@ -35,7 +40,11 @@ const NotificationsPage = (props) => {
             <div className={styles.notifications}>
                 {notifications.map((notification) => {
                     return (
-                        <NotificationCard key={notification._id} notification={notification}/>
+                        <NotificationCard 
+                            key={notification._id} 
+                            notification={notification} 
+                            refreshPage={refreshPage}
+                        />
                     )
                 }) }
             </div>

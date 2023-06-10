@@ -26,5 +26,33 @@
     width: 200px;
     height: 72px;
 
+    display: flex;
+    align-items: center;
+    justify-content: center;
     border: 1px solid white;
 }
+
+.buttons > button {
+    width: 90px;
+    height: 32px;
+    border: none;
+    border-radius: 8px;
+    color: #fff;
+}
+
+.acceptButton {
+    background-color: #3b8132;
+}
+
+.acceptButton:hover {
+    background-color: #276221;
+}
+
+.confirmButton {
+    background-color: #3b62be;
+}
+
+.confirmButton:hover {
+    background-color: #3355a5;
+}
+
