@@ -90,7 +90,7 @@
     width: 200px;
 
     display: flex;
-    justify-content: center;
+    justify-content: space-around;
     align-items: center;
 }
 
@@ -115,19 +115,27 @@
     background-color: #3355a5;
 }
 
-.requestedFriend, .pendingFriend {
+.requestedFriend {
     background-color: #7f7f7f;
 }
 
-.requestedFriend:hover, .pendingFriend:hover {
+.requestedFriend:hover {
     background-color: #656565;
 }
 
-.removeFriend {
+.pendingFriend {
+    background-color: #3b8132;
+}
+
+.pendingFriend:hover {
+    background-color: #276221;
+}
+
+.removeFriend, .rejectFriend {
     background-color: #ff0000;
 }
 
-.removeFriend:hover {
+.removeFriend:hover, .rejectFriend:hover {
     background-color: #db0000;
 }
 

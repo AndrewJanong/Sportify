@@ -1,20 +1,29 @@
 .card {
-    width: 600px;
-    height: 72px;
+    width: 700px;
+    height: 100px;
     display: flex;
+
+    border: 1px solid white;
+}
+
+.sender {
+    width: 200px;
+    height: 100px;
+    display: flex;
+    align-items: center;
 
     border: 1px solid white;
 }
 
 .message {
     width: 400px;
-    height: 72px;
+    height: 100px;
     border: 1px solid white;
 }
 
 .message > p {
     width: 400px;
-    height: 72px;
+    height: 100px;
     padding: 6px;
     font-size: 16px;
 
@@ -23,12 +32,12 @@
 }
 
 .buttons {
-    width: 200px;
-    height: 72px;
+    width: 300px;
+    height: 100px;
 
     display: flex;
     align-items: center;
-    justify-content: center;
+    justify-content: space-around;
     border: 1px solid white;
 }
 
@@ -46,6 +55,14 @@
 
 .acceptButton:hover {
     background-color: #276221;
+}
+
+.rejectButton {
+    background-color: #ff0000;
+}
+
+.rejectButton:hover {
+    background-color: #db0000;
 }
 
 .confirmButton {

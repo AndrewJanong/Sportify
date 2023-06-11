@@ -35,6 +35,8 @@ const UserCard = (props) => {
         navigate(`/profile/${props.username}`);
     }
 
+    const profilePictureOnly = props.pictureOnly || false;
+
     return (
         <div className={styles.card} onClick={handleOpenProfile}>
             <div className={styles.profilePicture}>
@@ -43,9 +45,10 @@ const UserCard = (props) => {
                 publicId={`${userInfo.picture || "Member_qx5vfp"}`}>
             </Image>
             </div>
+            {!profilePictureOnly && 
             <div className={styles.username}>
                 <p>{props.username}</p>
-            </div>
+            </div>}
         </div>
     )
 }

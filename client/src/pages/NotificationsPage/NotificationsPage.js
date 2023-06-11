@@ -47,6 +47,9 @@ const NotificationsPage = (props) => {
                         />
                     )
                 }) }
+                {notifications.length === 0 &&
+                    <p>No notifications</p>
+                }
             </div>
         </div>
     )

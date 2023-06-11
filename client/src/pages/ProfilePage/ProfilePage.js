@@ -21,6 +21,7 @@ const ProfilePage = (props) => {
     const [display, setDisplay] = useState('friends');
     const [friends, setFriends] = useState([]);
     const [userInfo, setUserInfo] = useState({});
+    const [notifications, setNotifications] = useState([]);
     
 
     const handleEditProfile = (e) => {
@@ -80,10 +81,25 @@ const ProfilePage = (props) => {
             }
         }
 
+        const fetchNotifications = async () => {
+            const response = await fetch(process.env.REACT_APP_BASEURL+'/api/notifications/'+user.username, {
+                headers: {
+                    'Authorization': `Bearer ${user.token}`
+                }
+            });
+            const json = await response.json();
+
+            if (response.ok) {
+                setNotifications(json);
+                console.log(json);
+            }
+        }
+
         if (user) {
             getFriendshipStatus();
             fetchMeetups();
             getUserInfo();
+            fetchNotifications();
         }
     }, [dispatch, status, user, userA, userB])
 
@@ -129,9 +145,86 @@ const ProfilePage = (props) => {
             }
         })
 
+        const notif_id = notifications
+            .filter((notification) => notification.sender === userB && 
+                                      notification.type === 'friend-request')[0]._id;
+
+        const deleted = await fetch(process.env.REACT_APP_BASEURL+'/api/notifications/'+notif_id, {
+            method: 'DELETE',
+            headers: {
+                'Authorization': `Bearer ${user.token}`
+            }
+        })
+
+        const notification_response = await fetch(process.env.REACT_APP_BASEURL+'/api/notifications/', {
+            method: 'POST',
+            body: JSON.stringify({
+                type: "message",
+                target_user: userB,
+                sender: user.username,
+                message: `${user.username} has accepted your friend request!`
+            }),
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        })
+            
+
         const json = await response.json();
+        const deleted_json = await deleted.json();
+        const notification_response_json = await notification_response.json();
+        
         console.log(json);
+        console.log(deleted_json);
+        console.log(notification_response_json);
         setStatus(3);
+    }
+
+    const handleRejectFriend = async (e) => {
+        e.preventDefault();
+
+        const response = await fetch(process.env.REACT_APP_BASEURL+'/api/friends/reject', {
+            method: 'PATCH',
+            body: JSON.stringify({requester: userA, recipient: userB}),
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        })
+
+        const notif_id = notifications
+            .filter((notification) => notification.sender === userB && 
+                                      notification.type === 'friend-request')[0]._id;
+
+
+        const deleted = await fetch(process.env.REACT_APP_BASEURL+'/api/notifications/'+notif_id, {
+            method: 'DELETE',
+            headers: {
+                'Authorization': `Bearer ${user.token}`
+            }
+        })
+
+        const notification_response = await fetch(process.env.REACT_APP_BASEURL+'/api/notifications/', {
+            method: 'POST',
+            body: JSON.stringify({
+                type: "message",
+                target_user: userB,
+                sender: user.username,
+                message: `${user.username} has rejected your friend request!`
+            }),
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        })
+            
+
+        const json = await response.json();
+        const deleted_json = await deleted.json();
+        const notification_response_json = await notification_response.json();
+        
+        console.log(json);
+        console.log(deleted_json);
+        console.log(notification_response_json);
+        setStatus(0);
     }
 
     const handleRemoveFriend = async (e) => {
@@ -184,7 +277,10 @@ const ProfilePage = (props) => {
                                 <button className={styles.requestedFriend}>Requested</button>
                             }
                             { status === 2 &&
-                                <button className={styles.pendingFriend} onClick={handleAcceptFriend}>Accept Request</button>
+                                <button className={styles.pendingFriend} onClick={handleAcceptFriend}>Accept</button>
+                            }
+                            { status === 2 &&
+                                <button className={styles.rejectFriend} onClick={handleRejectFriend}>Reject</button>
                             }
                             { status === 3 &&
                                 <button className={styles.removeFriend} onClick={handleRemoveFriend}>Remove Friend</button>
