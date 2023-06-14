@@ -38,6 +38,11 @@ const NavBar = (props) => {
                 </div>}
                 { user &&
                 <div className={styles.loggedin}> 
+                    <Link to="/newdiscussion" style={{ textDecoration: 'none' }}>
+                        <button type='button' className={styles.creatediscussion}>
+                            Create a Discussion
+                        </button>
+                    </Link>
                     <Link to="/newmeetup" style={{ textDecoration: 'none' }}>
                         <button type='button' className={styles.createmeetup}>
                             Create a Meetup

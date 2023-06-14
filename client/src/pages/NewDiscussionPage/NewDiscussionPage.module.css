@@ -1,0 +1,87 @@
+@import url("https://fonts.googleapis.com/css2?family=Montserrat&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@700&display=swap");
+
+
+.newdiscussion {
+    background-color: #1E2A46;
+    color: #fff;
+    height: 100vh;
+    width: 100%;
+    padding-left: 20%;
+}
+
+.container {
+    width: 100%;
+    height: 100%;
+
+    padding: 1rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center; 
+}
+
+.container h2 {
+    width: 370px;
+    margin-bottom: 16px;
+    border-bottom: 1px solid #fff;
+}
+
+.form {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    width: 370px;
+    height: 450px;
+}
+
+.form input, .form select {
+    outline: none;
+    border: none;
+    font-family: "Montserrat", sans-serif;
+
+    width: 100%;
+    height: 1.6rem;
+    border-radius: 8px;
+    padding: none;
+    margin: none;
+
+    display: flex;
+    align-items: center;
+}
+
+.form textarea {
+    outline: none;
+    border: none;
+    font-family: "Montserrat", sans-serif;
+
+    width: 100%;
+    border-radius: 8px;
+    padding: none;
+    margin: none;
+    resize: none;
+}
+
+.container button {
+    outline: none;
+    border: none;
+
+    width: 6rem;
+    height: 1.6rem;
+    margin-top: 1em;
+    border-radius: 8px;
+    background-color: #FFEAE3;;
+}
+
+.container button:hover {
+    background-color: #ead7d0;
+}
+
+.error {
+    padding: 10px;
+    background: #ffefef;
+    border: 1px solid #e7195a;
+    color: #e7195a;
+    border-radius: 4px;
+    margin: 20px 0;
+}

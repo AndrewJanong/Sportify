@@ -7,6 +7,5 @@ export const useMeetupsContext = () => {
     if (!context) {
         throw Error('useMeetupContext Error');
     }
-
     return context;
 }
