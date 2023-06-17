@@ -13,6 +13,10 @@ import DiscussionsPage from './pages/DiscussionsPage/DiscussionsPage';
 import ProfilePage from './pages/ProfilePage/ProfilePage';
 import EditProfilePage from './pages/EditProfilePage/EditProfilePage';
 import NotificationsPage from './pages/NotificationsPage/NotificationsPage';
+import GroupsPage from './pages/GroupsPage/GroupsPage';
+import NewGroupPage from './pages/NewGroupPage/NewGroupPage';
+import Group from './pages/Group/Group';
+import GroupInfoPage from './pages/GroupInfoPage/GroupInfoPage';
 
 
 
@@ -78,6 +82,26 @@ function App() {
           <Route 
             path="/notifications/:username"
             element={user ? <NotificationsPage /> : <Navigate to="/"/>}
+          />
+          
+          <Route 
+            path="/mygroups"
+            element={user ? <GroupsPage /> : <Navigate to="/"/>}
+          />
+
+          <Route 
+            path="/newgroup"
+            element={user ? <NewGroupPage /> : <Navigate to="/"/>}
+          />
+
+          <Route 
+            path="/group/:id"
+            element={user ? <Group /> : <Navigate to="/"/>}
+          />
+
+          <Route 
+            path="/group/info/:id"
+            element={user ? <GroupInfoPage /> : <Navigate to="/"/>}
           />
 
           

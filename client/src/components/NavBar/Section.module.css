@@ -11,8 +11,12 @@
     overflow: hidden;
 }
 
-.section:hover {
+.section:hover, .hovered {
     background-color: #7b1f30;
+}
+
+.currentPage {
+    font-weight: 700;
 }
 
 .section img {

@@ -46,12 +46,21 @@ const signupUser = async (req, res) => {
 const getUserInfo = async (req, res) => {
     const { username } = req.params;
     const user = await User.findOne({username});
+
+    if (!user) {
+        res.status(400).json({error: 'User not found'});
+        return;
+    }
     res.status(200).json(user);
 }
 
 const updateUserInfo = async (req, res) => {
     const { username } = req.params;
     const user = await User.findOneAndUpdate({username}, {...req.body});
+    if (!user) {
+        res.status(400).json({error: 'User not found'})
+        return;
+    }
     res.status(200).json(user);
 } 
 

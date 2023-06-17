@@ -1,0 +1,71 @@
+.page {
+    background-color: #1E2A46;
+    color: #fff;
+    height: 100vh;
+    width: 100%;
+    padding: 36px 60px;
+    padding-left: calc(20% + 60px);
+}
+
+.header {
+    height: 72px;
+    width: 100%;
+    margin-bottom: 24px;
+
+    border: 1px solid white;
+}
+
+.members {
+    width: 100%;
+}
+
+.memberHeader {
+    width: 100%;
+    height: 48px;
+    display: flex;
+    align-items: center;
+    margin-bottom: 12px;
+
+    border: 1px solid white;
+}
+
+.memberHeader h2 {
+    margin-right: 24px;
+}
+
+
+.page button {
+    width: 90px;
+    height: 32px;
+    border: none;
+    border-radius: 8px;
+    color: #fff;
+}
+
+#addMemberButton {
+    background-color: #3b62be;
+}
+
+#addMemberButton:hover {
+    background-color: #3355a5;
+}
+
+.members .membersContainer {
+    border: 1px solid white;
+    height: 440px;
+    width: 100%;
+    margin-bottom: 12px;
+    display: flex;
+}
+
+.membersContainer > div {
+    margin-right: 16px;
+}
+
+#chatButton {
+    background-color: #3b62be;
+}
+
+#chatButton:hover {
+    background-color: #3355a5;
+}
