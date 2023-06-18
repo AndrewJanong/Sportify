@@ -25,14 +25,14 @@ const getUserGroups = async (req, res) => {
 
 // Create a new group
 const createGroup = async (req, res) => {
-    const {name, sports, members} = req.body;
+    const {name, picture, sports, members} = req.body;
 
-    if (!(name && sports && members)) {
+    if (!(name && picture && sports && members)) {
         return res.status(400).json({error: 'Please fill in all fields'});
     }
 
     try {
-        const group = await Groups.create({name, sports, members});
+        const group = await Groups.create({name, picture, sports, members});
         res.status(200).json(group);
     } catch (error) {
         res.status(400).json({error: error.message});

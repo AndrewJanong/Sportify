@@ -1,8 +1,9 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import styles from './NewGroupPage.module.css';
 import { useNavigate } from "react-router-dom";
 import { useAuthContext } from "../../hooks/useAuthContext";
 import Cross from '../../icons/Cross.png';
+import { Image } from 'cloudinary-react';
 
 const NewGroupPage = (props) => {
     const [groupName, setGroupName] = useState('');
@@ -12,6 +13,30 @@ const NewGroupPage = (props) => {
     const { user } = useAuthContext();
     const [addedMembers, setAddedMembers] = useState([]);
     const navigate = useNavigate();
+    const [imageSelected, setImageSelected] = useState('');
+    const [picture, setPicture] = useState("ezpvrwy02j9wt9uzn20s");
+
+    useEffect(() => {
+        const uploadImage = async () => {
+            const url = `https://api.cloudinary.com/v1_1/dpjocjbpp/image/upload`;
+            const data = new FormData();
+            data.append('file', imageSelected);
+            data.append('upload_preset', process.env.REACT_APP_PRESET);
+    
+            const fetched = await fetch(url, {
+                method: "post",
+                body: data,
+            });
+            const parsed = await fetched.json();
+            console.log(
+                parsed.public_id // 200, success!
+            );
+    
+            if (parsed) setPicture(parsed.public_id);
+        }
+
+        if (imageSelected) uploadImage();
+    }, [imageSelected]);
 
     const ListOfSports = ['', 'Basketball', 'Soccer', 'Voleyball', 'Badminton', 'Table Tennis', 'Tennis'];
 
@@ -24,6 +49,7 @@ const NewGroupPage = (props) => {
         
         const group = {
             name: groupName,
+            picture,
             sports,
             members: [user.username]
         };
@@ -138,6 +164,16 @@ const NewGroupPage = (props) => {
                 <h1>Create Group</h1>
             </div>
             <form action="" className={styles.form}>
+                <label htmlFor="">Group Picture</label>
+                <div className={styles.groupPicture}>
+                    <Image
+                        cloudName={`${process.env.REACT_APP_IMAGECLOUD}`}
+                        publicId={`${picture}`}>
+                    </Image>
+                    <input type="file" accept=".jpg, .png" onChange={(e) => {
+                        setImageSelected(e.target.files[0]);
+                    }}/>
+                </div>
                 <label htmlFor="">Group Name</label>
                 <input
                     maxLength={50}

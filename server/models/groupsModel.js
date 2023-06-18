@@ -8,6 +8,9 @@ const groupSchema = new Schema({
         required: true,
         unique: true
     },
+    picture: {
+        type: String
+    },
     sports: {
         type: String,
         required: true

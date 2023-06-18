@@ -8,11 +8,19 @@
 }
 
 .header {
-    height: 72px;
+    height: 240px;
     width: 100%;
     margin-bottom: 24px;
 
     border: 1px solid white;
+}
+
+.header img {
+    height: 160px;
+    width: 160px;
+    border-radius: 50%;
+    background-color: rgb(255, 255, 255, 0.2);
+    
 }
 
 .members {
@@ -52,7 +60,7 @@
 
 .members .membersContainer {
     border: 1px solid white;
-    height: 440px;
+    height: 280px;
     width: 100%;
     margin-bottom: 12px;
     display: flex;

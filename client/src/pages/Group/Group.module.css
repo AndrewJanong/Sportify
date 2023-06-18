@@ -8,7 +8,6 @@
 }
 
 .header {
-    border: 1px solid white;
     height: 48px;
     width: 100%;
     margin-bottom: 24px;
@@ -27,6 +26,14 @@
     border: none;
     border-radius: 8px;
     color: #fff;
+}
+
+.header img {
+    width: 44px;
+    height: 44px;
+    margin-right: 12px;
+    border-radius: 50%;
+    background-color: rgb(255, 255, 255, 0.2);
 }
 
 #info {

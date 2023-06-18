@@ -5,6 +5,7 @@ import { useParams } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
 import UserCard from "../../components/UserCard/UserCard";
+import { Image } from "cloudinary-react";
 
 
 const GroupInfoPage = (props) => {
@@ -123,6 +124,10 @@ const GroupInfoPage = (props) => {
     return (
         <div className={styles.page}>
             <div className={styles.header}>
+                <Image
+                    cloudName={`${process.env.REACT_APP_IMAGECLOUD}`}
+                    publicId={`${groupInfo.picture || "ezpvrwy02j9wt9uzn20s"}`}>
+                </Image>
                 <h1>{groupInfo.name}</h1>
                 <p>Sports: {groupInfo.sports}</p>
             </div>

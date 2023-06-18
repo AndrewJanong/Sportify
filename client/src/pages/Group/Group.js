@@ -3,6 +3,7 @@ import styles from './Group.module.css';
 import { useAuthContext } from "../../hooks/useAuthContext";
 import { useParams } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
+import { Image } from "cloudinary-react";
 
 const Group = (props) => {
     const params = useParams();
@@ -32,6 +33,10 @@ const Group = (props) => {
     return (
         <div className={styles.page}>
             <div className={styles.header}>
+                <Image
+                    cloudName={`${process.env.REACT_APP_IMAGECLOUD}`}
+                    publicId={`${groupInfo.picture || "ezpvrwy02j9wt9uzn20s"}`}>
+                </Image>
                 <h1>{groupInfo.name}</h1>
                 <button id={styles.info} onClick={() => navigate('/group/info/'+params.id)}>Group Info</button>
             </div>

@@ -12,7 +12,9 @@
     flex-direction: column;
     justify-content: center;
     width: 600px;
-    height: 400px;
+    height: 540px;
+
+    border: 1px solid white;
 }
 
 .form label {
@@ -33,6 +35,43 @@
     display: flex;
     align-items: center;
 }
+
+.groupPicture {
+    border: 1px solid white;
+
+    height: 210px;
+    display: flex;
+    align-items: center;
+}
+
+.groupPicture > img {
+    height: 200px;
+    width: 200px;
+
+    border-radius: 50%;
+    margin-right: 24px;
+    background-color: rgb(255, 255, 255, 0.2);
+}
+
+.groupPicture > div * {
+    font-family: "Montserrat", sans-serif;
+}
+
+.groupPicture input::file-selector-button {
+    outline: none;
+    border: none;
+    font-family: "Montserrat", sans-serif;
+
+    border-radius: 5px;
+    height: 24px;
+    width: 96px;
+    cursor: pointer;
+}
+
+.groupPicture input::file-selector-button:hover {
+    background-color: #e1e1e1;
+}
+
 
 .invite {
     display: flex;
