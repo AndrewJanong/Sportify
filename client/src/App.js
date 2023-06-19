@@ -17,6 +17,7 @@ import GroupsPage from './pages/GroupsPage/GroupsPage';
 import NewGroupPage from './pages/NewGroupPage/NewGroupPage';
 import Group from './pages/Group/Group';
 import GroupInfoPage from './pages/GroupInfoPage/GroupInfoPage';
+import SearchPage from './pages/SearchPage/SearchPage';
 
 
 
@@ -52,6 +53,16 @@ function App() {
           <Route 
             path="/mymeetups"
             element={user ? <MyMeetupsPage /> : <EmptyPage />}
+          />
+
+          <Route 
+            path="/search"
+            element={user ? <SearchPage /> : <EmptyPage />}
+          />
+
+          <Route 
+            path="/newmeetup/:groupId"
+            element={user ? <NewMeetupPage /> : <Navigate to="/"/>}
           />
 
           <Route 

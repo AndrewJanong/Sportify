@@ -20,6 +20,9 @@ const NavBar = (props) => {
                     <Link to="/mymeetups" style={{ textDecoration: 'none', width: '100%'}} onClick={() => setPath("/mymeetups")}>
                         <Section section={'My Meetups'} path={"/mymeetups" === path}/>
                     </Link>
+                    <Link to="/search" style={{ textDecoration: 'none', width: '100%'}} onClick={() => setPath("/search")}>
+                        <Section section={'Search'} path={"/search" === path}/>
+                    </Link>
                     <Link to="/mygroups" style={{ textDecoration: 'none', width: '100%'}} onClick={() => setPath("/mygroups")}>
                         <Section section={'Groups'} path={"/mygroups" === path}/>
                     </Link>

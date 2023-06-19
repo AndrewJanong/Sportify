@@ -37,10 +37,19 @@
 }
 
 #info {
+    margin-right: 12px;
     background-color: #3b62be;
 }
 
 #info:hover {
+    background-color: #3355a5;
+}
+
+#createMeetup {
+    background-color: #3b62be;
+}
+
+#createMeetup:hover {
     background-color: #3355a5;
 }
 

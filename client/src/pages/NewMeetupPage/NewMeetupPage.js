@@ -1,11 +1,13 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import styles from './NewMeetupPage.module.css';
 import Success from "../../popups/Success";
 import { useMeetupsContext } from "../../hooks/useMeetupsContext";
 import { useAuthContext } from "../../hooks/useAuthContext";
+import { useParams } from "react-router-dom";
 
 const NewMeetupPage = (props) => {
+    const params = useParams();
     const { dispatch } = useMeetupsContext();
     const [title, setTitle] = useState('');
     const [sports, setSports] = useState('');
@@ -13,13 +15,40 @@ const NewMeetupPage = (props) => {
     const [location, setLocation] = useState('');
     const [vacancy, setVacancy] = useState(1);
     const [description, setDescription] = useState('');
+    const [groupInfo, setGroupInfo] = useState({});
     const [error, setError] = useState('');
 
     const { user } = useAuthContext();
     const navigate = useNavigate();
 
-    const ListOfSports = ['', 'Basketball', 'Soccer', 'Voleyball', 'Badminton', 'Table Tennis', 'Tennis'];
+    useEffect(() => {
+        const getGroupInfo = async () => {
+            const response = await fetch(process.env.REACT_APP_BASEURL+'/api/groups/'+params.groupId, {
+                headers: {
+                    'Authorization': `Bearer ${user.token}`
+                }
+            });
+            const json = await response.json();
 
+            if (response.ok) {
+                setGroupInfo(json);
+            }
+        }
+
+        if (user && params.groupId) {
+            getGroupInfo();
+            setSports(groupInfo.sports);
+        }
+    }, [user, params.groupId, groupInfo.sports])
+
+    let tomorrow = new Date();
+    tomorrow.setDate(tomorrow.getDate()+1); 
+
+    let day = tomorrow.getDate();
+    let month = tomorrow.getMonth() + 1;
+    let year = tomorrow.getFullYear();
+
+    const ListOfSports = ['', 'Basketball', 'Soccer', 'Voleyball', 'Badminton', 'Table Tennis', 'Tennis'];
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -28,8 +57,11 @@ const NewMeetupPage = (props) => {
             return;
         }
         
-        const members = [user.username];
-        const meetup = {title, sports, date, location, members, vacancy, description};
+        let members = [user.username];
+        if (params.groupId) {
+            members = [user.username, ...groupInfo.members.filter((member) => member !== user.username)];
+        }
+        const meetup = {title, sports, date, location, members, vacancy: members.length, description};
     
         const response = await fetch(process.env.REACT_APP_BASEURL+'/api/meetups', {
             method: 'POST',
@@ -69,6 +101,12 @@ const NewMeetupPage = (props) => {
         <div className={styles.newmeetup}>
             <div className={styles.container}>
                 <h2>Create Meetup</h2>
+
+                {params.groupId &&
+                    <div className={styles.group}>
+                        <h3>Group: {groupInfo.name}</h3>
+                    </div>
+                }
                 <form action="" className={styles.form} onSubmit={handleSubmit}>
                     <label htmlFor="">Title</label>
                     <input
@@ -95,6 +133,7 @@ const NewMeetupPage = (props) => {
                         type="datetime-local"
                         onChange={(e) => setDate(e.target.value)}
                         value={date}
+                        min={`${year}-${month}-${day}T00:00`}
                     />
                     <label htmlFor="">Location</label>
                     <input
@@ -102,20 +141,15 @@ const NewMeetupPage = (props) => {
                         onChange={(e) => setLocation(e.target.value)}
                         value={location}
                     />
-                    <label htmlFor="">Vacancy</label>
+                    {!params.groupId && <label htmlFor="">Vacancy</label>}
+                    {!params.groupId && 
                     <input
                         type="number"
                         onChange={(e) => setVacancy(e.target.value)}
                         value={vacancy}
                         min="1"
-                    />
+                    />}
                     <label htmlFor="">Description</label>
-                    {/* <input
-                        style={{height: '4.8rem', alignItems: 'start'}}
-                        type="textarea"
-                        onChange={(e) => setDescription(e.target.value)}
-                        value={description}
-                    /> */}
                     <textarea 
                         cols="30" 
                         rows="10" 

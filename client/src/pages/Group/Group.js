@@ -39,6 +39,7 @@ const Group = (props) => {
                 </Image>
                 <h1>{groupInfo.name}</h1>
                 <button id={styles.info} onClick={() => navigate('/group/info/'+params.id)}>Group Info</button>
+                <button id={styles.createMeetup} onClick={() => navigate('/newmeetup/'+params.id)}>Create Meetup</button>
             </div>
             <div className={styles.chat}>
                 <p>Chatting feature comming soon...</p>
