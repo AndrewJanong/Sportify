@@ -11,8 +11,6 @@
     height: 240px;
     width: 100%;
     margin-bottom: 24px;
-
-    border: 1px solid white;
 }
 
 .header img {
@@ -21,6 +19,10 @@
     border-radius: 50%;
     background-color: rgb(255, 255, 255, 0.2);
     
+}
+
+.header h1 {
+    margin-right: 12px;
 }
 
 .members {
@@ -33,8 +35,6 @@
     display: flex;
     align-items: center;
     margin-bottom: 12px;
-
-    border: 1px solid white;
 }
 
 .memberHeader h2 {
@@ -50,6 +50,15 @@
     color: #fff;
 }
 
+
+#editButton {
+    background-color: #3b62be;
+}
+
+#editButton:hover {
+    background-color: #3355a5;
+}
+
 #addMemberButton {
     background-color: #3b62be;
 }
@@ -59,7 +68,6 @@
 }
 
 .members .membersContainer {
-    border: 1px solid white;
     height: 280px;
     width: 100%;
     margin-bottom: 12px;

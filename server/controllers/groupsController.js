@@ -39,6 +39,23 @@ const createGroup = async (req, res) => {
     }
 }
 
+// Edit a group
+const updateGroup = async (req, res) => {
+    const { id } = req.params;
+
+    if (!mongoose.Types.ObjectId.isValid(id)) {
+        return res.status(400).json({error: "No such group"});
+    }
+
+    const group = await Groups.findOneAndUpdate({_id: id}, {...req.body});
+
+    if (!group) {
+        return res.status(400).json({error: "No such group"});
+    }
+
+    res.status(200).json(group);
+}
+
 // Delete a group
 const deleteGroup = async (req, res) => {
     const { id } = req.params;
@@ -104,6 +121,7 @@ module.exports = {
     getGroup,
     getUserGroups,
     createGroup,
+    updateGroup,
     deleteGroup,
     addMember,
     removeMember

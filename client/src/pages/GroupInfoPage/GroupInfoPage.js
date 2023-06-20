@@ -128,13 +128,19 @@ const GroupInfoPage = (props) => {
                     cloudName={`${process.env.REACT_APP_IMAGECLOUD}`}
                     publicId={`${groupInfo.picture || "ezpvrwy02j9wt9uzn20s"}`}>
                 </Image>
-                <h1>{groupInfo.name}</h1>
+                <div style={{display: 'flex', alignItems: 'center'}} >
+                    <h1>{groupInfo.name}</h1>
+                    {groupInfo.members && groupInfo.members.includes(user.username) &&
+                    <button id={styles.editButton} onClick={() => navigate("/group/edit/"+params.id)}>Edit</button>}
+                </div>
                 <p>Sports: {groupInfo.sports}</p>
+                
             </div>
             <div className={styles.members}>
                 <div className={styles.memberHeader}>
                     <h2>Members</h2>
-                    <button id={styles.addMemberButton} onClick={handleAddMember}>Add Member</button>
+                    {groupInfo.members && groupInfo.members.includes(user.username) &&
+                    <button id={styles.addMemberButton} onClick={handleAddMember}>Add Member</button>}
                 </div>
                 <div className={styles.membersContainer}>
                     {groupInfo.members &&
@@ -142,7 +148,8 @@ const GroupInfoPage = (props) => {
                     }
                 </div>
             </div>
-            <button id={styles.chatButton} onClick={() => navigate('/group/'+params.id)}>Chat</button>
+            {groupInfo.members && groupInfo.members.includes(user.username) &&
+            <button id={styles.chatButton} onClick={() => navigate('/group/'+params.id)}>Chat</button>}
         </div>
     )
 }

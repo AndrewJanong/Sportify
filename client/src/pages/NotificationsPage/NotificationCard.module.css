@@ -1,5 +1,5 @@
 .card {
-    width: 700px;
+    width: 800px;
     height: 100px;
     display: flex;
 }
@@ -9,12 +9,17 @@
     height: 100px;
     display: flex;
     align-items: center;
+    justify-content: center;
+
+    border: 1px solid white;
 }
 
 .message {
     width: 400px;
     height: 100px;
     display: flex;
+
+    border: 1px solid white;
 }
 
 .message > p {
@@ -28,12 +33,14 @@
 }
 
 .buttons {
-    width: 300px;
+    width: 400px;
     height: 100px;
 
     display: flex;
     align-items: center;
     justify-content: space-around;
+
+    border: 1px solid white;
 }
 
 .buttons > button {

@@ -17,6 +17,7 @@ import GroupsPage from './pages/GroupsPage/GroupsPage';
 import NewGroupPage from './pages/NewGroupPage/NewGroupPage';
 import Group from './pages/Group/Group';
 import GroupInfoPage from './pages/GroupInfoPage/GroupInfoPage';
+import EditGroupPage from './pages/EditGroupPage/EditGroupPage';
 import SearchPage from './pages/SearchPage/SearchPage';
 
 
@@ -113,6 +114,11 @@ function App() {
           <Route 
             path="/group/info/:id"
             element={user ? <GroupInfoPage /> : <Navigate to="/"/>}
+          />
+
+          <Route 
+            path="/group/edit/:id"
+            element={user ? <EditGroupPage /> : <Navigate to="/"/>}
           />
 
           

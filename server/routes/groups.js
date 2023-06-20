@@ -3,6 +3,7 @@ const Groups = require('../models/groupsModel');
 const {getGroups,
     getUserGroups,
     createGroup,
+    updateGroup,
     deleteGroup,
     getGroup,
     addMember,
@@ -25,6 +26,9 @@ router.get('/user/:username', getUserGroups);
   
 // POST a new group
 router.post('/', createGroup);
+
+// PATCH a group
+router.patch('/:id', updateGroup);
   
 // DELETE a group
 router.delete('/:id', deleteGroup);
