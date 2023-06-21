@@ -17,6 +17,7 @@ const NewDiscussionPage = () => {
     const [likes, setLikes] = useState(["null"]); 
     const [creator, setCreator] = useState(user.username);
     const [error, setError] = useState('');
+    const comments = [{uName: user.username, comment: "default"}];
 
     const [imageSelected, setImageSelected] = useState('');
 
@@ -44,7 +45,7 @@ const NewDiscussionPage = () => {
         const parsed = await fetched.json();
 
         //POSTING 
-        const discussion = {title, sports, date, text, likes, picture: parsed.public_id, creator};
+        const discussion = {title, sports, date, text, likes, picture: parsed.public_id, creator, comments};
 
         const response = await fetch(process.env.REACT_APP_BASEURL+'/api/discussions', {
             method: 'POST',

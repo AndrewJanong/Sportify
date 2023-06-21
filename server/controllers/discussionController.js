@@ -26,18 +26,15 @@ const getDiscussion = async (req, res) => {
 
 //post a single Discussion
 const postDiscussion = async (req, res) => {
-    //check for the likes. 
-    const {title, sports, date, text, likes, picture, creator} = req.body;
+    const {title, sports, date, text, likes, picture, creator, comments} = req.body;
 
-    if (!(title && sports && date && text && creator)) { //likes?
+    if (!(title && sports && date && text && creator)) { 
         return res.status(400).json({error: 'Please fill in all fields'});
     }
 
     try {
         const user_id = req.user._id;
-        
-        //check for the picture as it is not required
-        const discussion = await Discussions.create({title, sports, date, text, likes, picture, creator, user_id});
+        const discussion = await Discussions.create({title, sports, date, text, likes, picture, creator, comments, user_id});
         res.status(200).json(discussion);
     } catch (error) {
         res.status(400).json({error: error.message});

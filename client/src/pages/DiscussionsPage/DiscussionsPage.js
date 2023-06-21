@@ -34,9 +34,6 @@ const DiscussionsPage = (props) => {
     }, [dispatch, user])
 
     return (
-        // <div className={styles.discussionsPage}>
-        //     testssss
-        // </div>
         <div className={styles.discussionspage}>
             <div className={styles.filter}>
                 <div className={styles.sportsFilter}>

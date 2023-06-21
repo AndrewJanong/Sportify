@@ -30,6 +30,10 @@ const discussionSchema = new Schema({
         type: String,
         require: true
     },
+    comments: {
+        type: [Schema.Types.Mixed],
+        ref: 'Comments'
+    },
     user_id: {
         type: String,
         require: true
