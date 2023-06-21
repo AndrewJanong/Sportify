@@ -3,12 +3,14 @@ import styles from './GroupsPage.module.css';
 import { useNavigate } from "react-router-dom";
 import { useAuthContext } from "../../hooks/useAuthContext";
 import GroupCard from "./GroupCard";
+import LoadingPage from "../LoadingPage/LoadingPage";
 
 const GroupsPage = (props) => {
 
     const navigate = useNavigate();
     const { user } = useAuthContext();
     const [userGroups, setUserGroups] = useState([]);
+    const [loading, setLoading] = useState(true);
 
     useEffect(() => {
         const fetchUserGroups = async () => {
@@ -21,6 +23,7 @@ const GroupsPage = (props) => {
 
             if (response.ok) {
                 setUserGroups(json);
+                setLoading(false);
             }
         }
 
@@ -31,6 +34,10 @@ const GroupsPage = (props) => {
 
     const handleCreateGroup = () => {
         navigate('/newgroup');
+    }
+
+    if (loading) {
+        return <LoadingPage />;
     }
 
     return (

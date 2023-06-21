@@ -14,6 +14,12 @@
     font-weight: 600;
 }
 
+.profilePicture {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
 .profilePicture, .profilePicture > img {
     height: 72px;
     width: 72px;

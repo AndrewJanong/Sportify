@@ -6,6 +6,7 @@ import { useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
 import UserCard from "../../components/UserCard/UserCard";
 import { Image } from "cloudinary-react";
+import LoadingPage from "../LoadingPage/LoadingPage";
 
 
 const GroupInfoPage = (props) => {
@@ -13,6 +14,7 @@ const GroupInfoPage = (props) => {
     const navigate = useNavigate();
     const { user } = useAuthContext();
     const [groupInfo, setGroupInfo] = useState({});
+    const [loading, setLoading] = useState(true);
 
     useEffect(() => {
         const getGroupInfo = async () => {
@@ -25,6 +27,7 @@ const GroupInfoPage = (props) => {
 
             if (response.ok) {
                 setGroupInfo(json);
+                setLoading(false);
             }
         }
 
@@ -32,6 +35,10 @@ const GroupInfoPage = (props) => {
             getGroupInfo();
         }
     }, [user, params.id])
+
+    if (loading) {
+        return <LoadingPage />;
+    }
 
     const addMember = async (member) => {
         const request = await fetch(process.env.REACT_APP_BASEURL+'/api/group-requests/', {

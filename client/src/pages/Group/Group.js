@@ -4,12 +4,14 @@ import { useAuthContext } from "../../hooks/useAuthContext";
 import { useParams } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import { Image } from "cloudinary-react";
+import LoadingPage from "../LoadingPage/LoadingPage";
 
 const Group = (props) => {
     const params = useParams();
     const navigate = useNavigate();
     const { user } = useAuthContext();
     const [groupInfo, setGroupInfo] = useState({});
+    const [loading, setLoading] = useState(true);
 
     useEffect(() => {
         const getGroupInfo = async () => {
@@ -22,6 +24,7 @@ const Group = (props) => {
 
             if (response.ok) {
                 setGroupInfo(json);
+                setLoading(false);
             }
         }
 
@@ -29,6 +32,10 @@ const Group = (props) => {
             getGroupInfo();
         }
     }, [user, params.id])
+
+    if (loading) {
+        return <LoadingPage />;
+    }
 
     return (
         <div className={styles.page}>
