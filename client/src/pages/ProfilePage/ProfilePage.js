@@ -22,7 +22,6 @@ const ProfilePage = (props) => {
     const [friends, setFriends] = useState([]);
     const [userInfo, setUserInfo] = useState({});
     const [notifications, setNotifications] = useState([]);
-    
 
     const handleEditProfile = (e) => {
         e.preventDefault();

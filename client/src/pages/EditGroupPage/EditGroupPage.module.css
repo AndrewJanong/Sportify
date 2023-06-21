@@ -1,0 +1,125 @@
+@import url("https://fonts.googleapis.com/css2?family=Montserrat&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@700&display=swap");
+
+.page {
+    background-color: #1E2A46;
+    color: #fff;
+    height: 100vh;
+    width: 100%;
+    padding: 36px 60px;
+    padding-left: calc(20% + 60px);
+}
+
+.form {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    width: 600px;
+    height: 540px;
+}
+
+.form label {
+    margin-top: 8px;
+}
+
+.form input, .form select {
+    outline: none;
+    border: none;
+    font-family: "Montserrat", sans-serif;
+
+    width: 320px;
+    height: 1.6rem;
+    border-radius: 8px;
+    padding: none;
+    margin: none;
+
+    display: flex;
+    align-items: center;
+}
+
+.groupPicture {
+    height: 210px;
+    display: flex;
+    align-items: center;
+}
+
+.groupPicture > img {
+    height: 200px;
+    width: 200px;
+
+    border-radius: 50%;
+    margin-right: 24px;
+    background-color: rgb(255, 255, 255, 0.2);
+}
+
+.groupPicture > div * {
+    font-family: "Montserrat", sans-serif;
+}
+
+.groupPicture input::file-selector-button {
+    outline: none;
+    border: none;
+    font-family: "Montserrat", sans-serif;
+
+    border-radius: 5px;
+    height: 24px;
+    width: 96px;
+    cursor: pointer;
+}
+
+.groupPicture input::file-selector-button:hover {
+    background-color: #e1e1e1;
+}
+
+
+.invite {
+    display: flex;
+}
+
+.form button {
+    outline: none;
+    border: none;
+
+    width: 100px;
+    height: 24px;
+    border-radius: 8px;
+    font-family: "Montserrat", sans-serif;
+    color: #fff;
+    background-color: #FFEAE3;;
+}
+
+.form button:hover {
+    background-color: #ead7d0;
+    cursor: pointer;
+
+}
+
+#editButton {
+    margin-top: 24px;
+    margin-right: 12px;
+}
+
+#editButton {
+    background-color: #3b62be;
+}
+
+#editButton:hover {
+    background-color: #3355a5;
+}
+
+#cancelButton {
+    background-color: #ff0000;
+}
+
+#cancelButton:hover {
+    background-color: #db0000;
+}
+
+.error {
+    padding: 10px;
+    background: #ffefef;
+    border: 1px solid #e7195a;
+    color: #e7195a;
+    border-radius: 4px;
+    margin: 20px 0;
+}

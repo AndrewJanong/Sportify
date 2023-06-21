@@ -3,11 +3,13 @@ import styles from "./MeetupsPage.module.css";
 import MeetupCard from "../../components/MeetupCard/MeetupCard";
 import { useMeetupsContext } from "../../hooks/useMeetupsContext";
 import { useAuthContext } from "../../hooks/useAuthContext";
+import LoadingPage from "../LoadingPage/LoadingPage";
 
 const MeetupsPage = (props) => {
     const { meetups, dispatch } = useMeetupsContext();
     const { user } = useAuthContext();
     const [sports, setSports] = useState('Any');
+    const [loading, setLoading] = useState(true);
 
     const ListOfSports = ['Any', 'Basketball', 'Soccer', 'Voleyball', 'Badminton', 'Table Tennis', 'Tennis'];
 
@@ -25,6 +27,7 @@ const MeetupsPage = (props) => {
                     type: 'SET_MEETUPS',
                     payload: json
                 })
+                setLoading(false);
             }
         }
 
@@ -32,6 +35,10 @@ const MeetupsPage = (props) => {
             fetchMeetups();
         }
     }, [dispatch, user])
+
+    if (loading) {
+        return <LoadingPage />
+    }
 
     return (
         <div className={styles.meetupspage}>

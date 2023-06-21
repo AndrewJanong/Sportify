@@ -1,0 +1,65 @@
+.page {
+    background-color: #1E2A46;
+    color: #fff;
+    height: 100vh;
+    width: 100%;
+    padding: 36px 60px;
+    padding-left: calc(20% + 60px);
+}
+
+.header {
+    height: 48px;
+    width: 100%;
+    margin-bottom: 24px;
+
+    display: flex;
+    align-items: center;
+}
+
+.header > h1 {
+    margin-right: 24px;
+}
+
+.header button {
+    width: 90px;
+    height: 32px;
+    border: none;
+    border-radius: 8px;
+    color: #fff;
+}
+
+.header img {
+    width: 44px;
+    height: 44px;
+    margin-right: 12px;
+    border-radius: 50%;
+    background-color: rgb(255, 255, 255, 0.2);
+}
+
+#info {
+    margin-right: 12px;
+    background-color: #3b62be;
+}
+
+#info:hover {
+    background-color: #3355a5;
+}
+
+#createMeetup {
+    background-color: #3b62be;
+}
+
+#createMeetup:hover {
+    background-color: #3355a5;
+}
+
+.chat {
+    height: 560px;
+    width: 100%;
+    background-color: #28375a;
+    border-radius: 12px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}

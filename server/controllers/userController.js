@@ -43,21 +43,41 @@ const signupUser = async (req, res) => {
     }
 }
 
+const getUsers = async (req, res) => {
+    const users = await User.find({});
+
+    if (!users) {
+        res.status(400).json({error: 'User not found'});
+        return;
+    }
+    res.status(200).json(users);
+}
+
 const getUserInfo = async (req, res) => {
     const { username } = req.params;
     const user = await User.findOne({username});
+
+    if (!user) {
+        res.status(400).json({error: 'User not found'});
+        return;
+    }
     res.status(200).json(user);
 }
 
 const updateUserInfo = async (req, res) => {
     const { username } = req.params;
     const user = await User.findOneAndUpdate({username}, {...req.body});
+    if (!user) {
+        res.status(400).json({error: 'User not found'})
+        return;
+    }
     res.status(200).json(user);
 } 
 
 module.exports = {
     loginUser,
     signupUser,
+    getUsers,
     getUserInfo,
     updateUserInfo
 }

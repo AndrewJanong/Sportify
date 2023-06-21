@@ -1,0 +1,26 @@
+.card {
+    width: 600px;
+    height: 64px;
+    background-color: transparent;
+    border-radius: 10px;
+    margin-top: 16px;
+    cursor: pointer;
+    
+    display: flex;
+    align-items: center;
+}
+
+.card:hover {
+    background-color: rgb(255, 255, 255, 0.05);
+}
+
+.groupPicture {
+    margin-right: 12px;
+}
+
+.groupPicture > img {
+    height: 56px;
+    width: 56px;
+    border-radius: 50%;
+    background-color: rgb(255, 255, 255, 0.2);
+}

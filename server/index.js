@@ -8,6 +8,7 @@ const userRoutes = require('./routes/user');
 const friendsRoutes = require('./routes/friends');
 const notificationsRoutes = require('./routes/notifications');
 const groupsRoutes = require('./routes/groups');
+const groupRequestsRoutes = require('./routes/groupRequests');
 const cors = require('cors');
 
 const app = express();
@@ -30,6 +31,7 @@ app.use('/api/user', userRoutes);
 app.use('/api/friends', friendsRoutes);
 app.use('/api/notifications', notificationsRoutes);
 app.use('/api/groups', groupsRoutes);
+app.use('/api/group-requests', groupRequestsRoutes);
 
 
 //connect to DB

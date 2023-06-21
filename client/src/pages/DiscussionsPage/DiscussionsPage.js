@@ -1,3 +1,5 @@
+/* eslint-disable */
+
 import React, { useEffect, useState } from "react";
 import styles from './DiscussionsPage.module.css';
 import DiscussionCard from "../../components/DiscussionCard/DiscussionCard";
@@ -7,6 +9,7 @@ import { useAuthContext } from "../../hooks/useAuthContext";
 const DiscussionsPage = (props) => {
     const { discussions, dispatch } = useDiscussionsContext();
     const { user } = useAuthContext();
+
     const [sports, setSports] = useState('Any');
 
     const ListOfSports = ['Any', 'Basketball', 'Soccer', 'Voleyball', 'Badminton', 'Table Tennis', 'Tennis'];
@@ -71,4 +74,8 @@ const DiscussionsPage = (props) => {
     )
 }
 
+
+/* eslint-enable */
+
 export default DiscussionsPage;
+

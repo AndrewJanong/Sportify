@@ -14,6 +14,12 @@ import NewDiscussionPage from './pages/NewDiscussionPage/NewDiscussionPage';
 import ProfilePage from './pages/ProfilePage/ProfilePage';
 import EditProfilePage from './pages/EditProfilePage/EditProfilePage';
 import NotificationsPage from './pages/NotificationsPage/NotificationsPage';
+import GroupsPage from './pages/GroupsPage/GroupsPage';
+import NewGroupPage from './pages/NewGroupPage/NewGroupPage';
+import Group from './pages/Group/Group';
+import GroupInfoPage from './pages/GroupInfoPage/GroupInfoPage';
+import EditGroupPage from './pages/EditGroupPage/EditGroupPage';
+import SearchPage from './pages/SearchPage/SearchPage';
 
 
 
@@ -57,6 +63,16 @@ function App() {
           />
 
           <Route 
+            path="/search"
+            element={user ? <SearchPage /> : <EmptyPage />}
+          />
+
+          <Route 
+            path="/newmeetup/:groupId"
+            element={user ? <NewMeetupPage /> : <Navigate to="/"/>}
+          />
+
+          <Route 
             path="/newmeetup"
             element={user ? <NewMeetupPage /> : <Navigate to="/"/>}
           />
@@ -84,6 +100,31 @@ function App() {
           <Route 
             path="/notifications/:username"
             element={user ? <NotificationsPage /> : <Navigate to="/"/>}
+          />
+          
+          <Route 
+            path="/mygroups"
+            element={user ? <GroupsPage /> : <Navigate to="/"/>}
+          />
+
+          <Route 
+            path="/newgroup"
+            element={user ? <NewGroupPage /> : <Navigate to="/"/>}
+          />
+
+          <Route 
+            path="/group/:id"
+            element={user ? <Group /> : <Navigate to="/"/>}
+          />
+
+          <Route 
+            path="/group/info/:id"
+            element={user ? <GroupInfoPage /> : <Navigate to="/"/>}
+          />
+
+          <Route 
+            path="/group/edit/:id"
+            element={user ? <EditGroupPage /> : <Navigate to="/"/>}
           />
 
           
