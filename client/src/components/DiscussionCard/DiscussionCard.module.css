@@ -1,0 +1,140 @@
+.discussioncard {
+    width: 80%;
+    height: auto; /*check for bugs*/
+    padding: 24px;
+    border-radius: 1rem;
+    margin-top: 1rem;
+    background-color: white;
+    color: #000;
+    overflow: hidden;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+}
+
+.header {
+    display: flex;
+    justify-content: space-between;
+}
+
+.header p {
+    font-size: 12px;
+    margin-bottom: 12px;
+    text-align: right;
+}
+
+.sports {
+    margin-bottom: 5px;
+}
+
+.picture {
+    width: 50%;
+    margin-bottom: 7px;
+
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.text {
+    margin-bottom: 10px;
+}
+
+.info {
+    display: flex;
+    justify-content: space-between;
+}
+
+.info img {
+    height: 12px;
+    margin-right: 6px;
+}
+
+.info > button {
+    outline: none;
+    border: none;
+    
+    
+    height: 31px;
+    width: 72px;
+    border-radius: 5px;
+}
+
+.info > .likes:hover {
+    background-color: #dfdfdf;
+}
+
+.info > .likesafter:hover {
+    background-color: #6db7e4;
+}
+
+.info > .likes {
+    color: #ffffff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.info > .likesafter {
+    color: #ffffff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #24a0ed;
+}
+
+
+.info > .delete {
+    background-color: #ed4337;
+    color: #ffffff;
+}
+
+.likes {
+    text-align: center;
+}
+
+h3 {
+    margin-top: 10px;
+}
+
+.form {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 5px;
+    
+}
+
+.form input {
+    width: 82% ;
+    border-radius: 0.5rem;
+}
+
+.form button {
+    outline: none;
+    border: none;
+    color: #ffffff;
+    
+    height: 31px;
+    width: 72px;
+    border-radius: 5px;
+    margin-left: 0.8rem;
+
+    background-color: #24a0ed;
+}
+
+.form button:hover {
+    background-color: #6db7e4;
+}
+
+.comments > .indComment {
+    margin-top: 0.6rem;
+    background-color: rgb(211, 211, 211);
+    
+    padding: 7px;
+    border-radius: 0.5rem;
+}
+
+.comments > .indComment p {
+   font-weight: 520;
+   margin-bottom: 1px;
+}

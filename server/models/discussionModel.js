@@ -20,11 +20,19 @@ const discussionSchema = new Schema({
         require: true
     },
     likes: {
-        type: Number,
+        type: [String],
         require: true
     },
     picture: {
-        type: String
+        type: String,
+    },
+    creator: {
+        type: String,
+        require: true
+    },
+    comments: {
+        type: [Schema.Types.Mixed],
+        ref: 'Comments'
     },
     user_id: {
         type: String,

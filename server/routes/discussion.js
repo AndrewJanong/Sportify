@@ -1,6 +1,6 @@
 const express = require('express');
 const Discussions = require('../models/discussionModel');
-const {getDiscussions, getDiscussion, postDiscussion, deleteDiscussion} = require('../controllers/discussionController');
+const {getDiscussions, getDiscussion, postDiscussion, deleteDiscussion, updateDiscussion} = require('../controllers/discussionController');
 const requireAuth = require('../middleware/requireAuth');
 
 const router = express.Router();
@@ -18,5 +18,8 @@ router.post('/', postDiscussion);
   
 // DELETE a discussion
 router.delete('/:id', deleteDiscussion);
+
+// UPDATE a discussion
+router.patch('/:id', updateDiscussion);
   
 module.exports = router;

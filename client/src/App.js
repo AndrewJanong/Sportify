@@ -10,6 +10,7 @@ import NewMeetupPage from './pages/NewMeetupPage/NewMeetupPage';
 import MyMeetupsPage from './pages/MyMeetupsPage/MyMeetupsPage';
 import MeetupInfoPage from './pages/MeetupInfoPage/MeetupInfoPage';
 import DiscussionsPage from './pages/DiscussionsPage/DiscussionsPage';
+import NewDiscussionPage from './pages/NewDiscussionPage/NewDiscussionPage';
 import ProfilePage from './pages/ProfilePage/ProfilePage';
 import EditProfilePage from './pages/EditProfilePage/EditProfilePage';
 import NotificationsPage from './pages/NotificationsPage/NotificationsPage';
@@ -44,6 +45,11 @@ function App() {
           <Route 
             path="/discussions"
             element={user ? <DiscussionsPage /> : <EmptyPage />}
+          />
+
+          <Route 
+            path="/newdiscussion"
+            element={user ? <NewDiscussionPage /> : <Navigate to="/"/>}
           />
 
           <Route 
