@@ -5,17 +5,23 @@ import Loading from '../../icons/Loading.gif';
 import { useNavigate } from "react-router-dom";
 import UserCard from "../../components/UserCard/UserCard";
 import MeetupCard from "../../components/MeetupCard/MeetupCard";
+import DiscussionCard from "../../components/DiscussionCard/DiscussionCard";
 import { useParams } from "react-router-dom";
 import { useLogout } from '../../hooks/useLogout';
 import { useAuthContext } from "../../hooks/useAuthContext";
 import { useMeetupsContext } from "../../hooks/useMeetupsContext";
-
+import { useDiscussionsContext } from "../../hooks/useDiscussionsContext";
 
 const ProfilePage = (props) => {
     const params = useParams();
     const navigate = useNavigate();
     const { logout } = useLogout();
-    const { meetups, dispatch } = useMeetupsContext();
+    const meetupsContext = useMeetupsContext();
+    const meetups = meetupsContext.meetups;
+    const meetupsDispatch = meetupsContext.dispatch;
+    const discussionsContext = useDiscussionsContext();
+    const discussions = discussionsContext.discussions;
+    const discussionsDispatch = discussionsContext.dispatch;
     const { user } = useAuthContext();
     const [status, setStatus] = useState(-1);
     const [display, setDisplay] = useState('friends');
@@ -60,8 +66,24 @@ const ProfilePage = (props) => {
             const json = await response.json();
 
             if (response.ok) {
-                dispatch({
+                meetupsDispatch({
                     type: 'SET_MEETUPS',
+                    payload: json
+                })
+            }
+        }
+
+        const fetchDiscussions = async () => {
+            const response = await fetch(process.env.REACT_APP_BASEURL+'/api/discussions', {
+                headers: {
+                    'Authorization': `Bearer ${user.token}`
+                }
+            });
+            const json = await response.json();
+
+            if (response.ok) {
+                discussionsDispatch({
+                    type: 'SET_DISCUSSIONS',
                     payload: json
                 })
             }
@@ -97,10 +119,11 @@ const ProfilePage = (props) => {
         if (user) {
             getFriendshipStatus();
             fetchMeetups();
+            fetchDiscussions();
             getUserInfo();
             fetchNotifications();
         }
-    }, [dispatch, status, user, userA, userB])
+    }, [meetupsDispatch, discussionsDispatch, status, user, userA, userB])
 
     const handleAddFriend = async (e) => {
         e.preventDefault();
@@ -311,7 +334,14 @@ const ProfilePage = (props) => {
                 }
                 { display === "discussions" &&
                     <div id={styles.discussions}>
+                        {discussions &&
                         discussions
+                        .filter((discussion) => discussion.creator.includes(userB))
+                        .map((discussion) => {
+                            return (
+                                <DiscussionCard key={discussion._id} discussion={discussion}/>
+                            )
+                        })}
                     </div>
                 }
                 { display === "friends" &&
