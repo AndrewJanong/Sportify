@@ -60,7 +60,11 @@
     height: 1.6rem;
     margin-top: 1em;
     border-radius: 8px;
-    background-color: #FFEAE3;;
+    background-color: #FFEAE3;
+}
+
+.signupButton:disabled:hover {
+    background-color: #FFEAE3;
 }
 
 .container button:hover {

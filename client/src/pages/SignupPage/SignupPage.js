@@ -26,7 +26,7 @@ const SignupPage = (props) => {
         if (username.length === 0) return "";
         if (username.length > 16) {
             return "username can only be up to 16 characters";
-        } else if (!username.match(/^[0-9a-z]+$/)) {
+        } else if (!username.match(/^[0-9a-zA-Z]+$/)) {
             return "username must be alphanumeric";
         } else {
             return "";
@@ -63,6 +63,16 @@ const SignupPage = (props) => {
         }
     }
 
+    const disableButton = () => {
+        if (!username || !email || !password) {
+            return true;
+        }
+
+        if (checkUsername() || checkEmail() || checkPassword()) return true;
+
+        return false;
+    }
+
     return (
         <div className={styles.login}>
             <div className={styles.container}>
@@ -71,6 +81,7 @@ const SignupPage = (props) => {
                     <label htmlFor="">Username:</label>
                     <input
                         type="text"
+                        placeholder="Username"
                         onChange={(e) => setUsername(e.target.value)}
                         value={username}
                         style={  checkUsername() !== "" ? {
@@ -81,6 +92,7 @@ const SignupPage = (props) => {
                     <label htmlFor="">Email:</label>
                     <input
                         type="email"
+                        placeholder="Email"
                         onChange={(e) => setEmail(e.target.value)}
                         value={email}
                         style={  checkEmail() !== "" ? {
@@ -92,6 +104,7 @@ const SignupPage = (props) => {
                     <label htmlFor="">Password:</label>
                     <input
                         type="password"
+                        placeholder="Password"
                         onChange={(e) => setPassword(e.target.value)}
                         value={password}
                         style={  checkPassword() !== "" ? {
@@ -99,7 +112,7 @@ const SignupPage = (props) => {
                         } : {}}
                     />
                     <p className={styles.invalid}>{checkPassword(password)}</p>
-                    <button disabled={isLoading}>Sign Up</button>
+                    <button disabled={disableButton() || isLoading} className={styles.signupButton}>Sign Up</button>
                     {error && <div className={styles.error}>{error}</div>}
                 </form>
                 <p>Already Have an account?</p>
