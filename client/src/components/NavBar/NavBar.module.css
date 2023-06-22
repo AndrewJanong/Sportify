@@ -4,6 +4,7 @@
     z-index: 1;
     position: fixed;
     background-color: #541521;
+    background-color: #001C30;
 
     padding: 1rem;
 
@@ -56,6 +57,10 @@
     border-radius: 8px;
     background-color: #FFEAE3;
     margin-bottom: 20px;
+}
+
+button {
+    font-family: inherit;
 }
 
 .login, .logout {
@@ -116,6 +121,7 @@
 
 .user:hover {
     background-color: #7b1f30;
+    background-color: #1E2A46;
 }
 
 .user > * {
@@ -148,6 +154,7 @@
 
 .notifications:hover {
     background-color: #7b1f30;
+    background-color: #1E2A46;
 }
 
 .notifications img {

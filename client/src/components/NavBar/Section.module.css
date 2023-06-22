@@ -13,6 +13,7 @@
 
 .section:hover, .hovered {
     background-color: #7b1f30;
+    background-color: #1E2A46;
 }
 
 .currentPage {
