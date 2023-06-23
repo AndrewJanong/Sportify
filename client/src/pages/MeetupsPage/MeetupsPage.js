@@ -45,12 +45,13 @@ const MeetupsPage = (props) => {
             <div className={styles.filter}>
                 <div className={styles.sportsFilter}>
                     <p>Sports:</p>
-                    <select name="" id="" value={sports} onChange={(e) => setSports(e.target.value)}>
+                    <select name="" id="" value={sports} onChange={(e) => setSports(e.target.value)} data-testid="select">
                         {
                             ListOfSports.map(sport =>
                                 <option
                                     key={sport}
                                     value={sport}
+                                    data-testid="select-option"
                                 >
                                         {sport}
                                 </option>

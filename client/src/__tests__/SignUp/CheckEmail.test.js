@@ -1,12 +1,12 @@
 import { render, screen, act, fireEvent } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
-import SignupPage from "./SignupPage";
-import { AuthContext } from "../../context/AuthContext";
 import { MemoryRouter } from "react-router-dom";
 import '@testing-library/jest-dom/extend-expect';
+import SignupPage from "../../pages/SignupPage/SignupPage";
+import { AuthContext } from "../../context/AuthContext";
 
-describe('Test Username', () => {
-    test('Empty username is invalid', async () => {
+describe('Test Email', () => {
+    test('Empty email is invalid', async () => {
         const dispatch = jest.fn();
         render(
             <AuthContext.Provider value={{dispatch}}>
@@ -19,7 +19,7 @@ describe('Test Username', () => {
         expect(await screen.findByRole('button', { name: /sign up/i})).toBeDisabled();
     })
 
-    test('Username longer than 16 characters is invalid', async () => {
+    test("String without '@' is an invalid email", async () => {
         const dispatch = jest.fn();
         render(
             <AuthContext.Provider value={{dispatch}}>
@@ -30,14 +30,14 @@ describe('Test Username', () => {
         );
 
         act(() => {
-            const usernameInput = screen.getByPlaceholderText(/username/i);
-            userEvent.type(usernameInput, "ilovemathematicsss");
+            const emailInput = screen.getByPlaceholderText(/email/i);
+            userEvent.type(emailInput, "andrewjanong.gmail.com");
         })
     
-        expect(screen.getByText('username can only be up to 16 characters')).toBeInTheDocument();
+        expect(screen.getByText('please enter a valid email')).toBeInTheDocument();
     })
 
-    test('Username with non-alphanumeric characters is invalid', async () => {
+    test("String with more than one '@' is an invalid email", async () => {
         const dispatch = jest.fn();
         render(
             <AuthContext.Provider value={{dispatch}}>
@@ -48,14 +48,32 @@ describe('Test Username', () => {
         );
 
         act(() => {
-            const usernameInput = screen.getByPlaceholderText(/username/i);
-            userEvent.type(usernameInput, "#cool");
+            const emailInput = screen.getByPlaceholderText(/email/i);
+            userEvent.type(emailInput, "andrewjanong@@gmail.com");
         })
     
-        expect(screen.getByText('username must be alphanumeric')).toBeInTheDocument();
+        expect(screen.getByText('please enter a valid email')).toBeInTheDocument();
     })
 
-    test('MessiTheGOAT is a valid username' , async () => {
+    test("String without '.' after '@' is an invalid email", async () => {
+        const dispatch = jest.fn();
+        render(
+            <AuthContext.Provider value={{dispatch}}>
+                <MemoryRouter>
+                    <SignupPage />
+                </MemoryRouter>
+            </AuthContext.Provider>
+        );
+
+        act(() => {
+            const emailInput = screen.getByPlaceholderText(/email/i);
+            userEvent.type(emailInput, "andrewjanong@gmailcom");
+        })
+    
+        expect(screen.getByText('please enter a valid email')).toBeInTheDocument();
+    })
+
+    test('messi@gmail.com is a valid email' , async () => {
         const dispatch = jest.fn();
         render(
             <AuthContext.Provider value={{dispatch}}>
@@ -77,7 +95,7 @@ describe('Test Username', () => {
         expect(await screen.findByRole('button', { name: /sign up/i})).toBeEnabled();
     })
 
-    test('Username mario is already taken' , async () => {
+    test('Email dummy1@gmail.com is already taken' , async () => {
         const dispatch = jest.fn();
         render(
             <AuthContext.Provider value={{dispatch}}>
@@ -93,12 +111,11 @@ describe('Test Username', () => {
             const emailInput = screen.getByPlaceholderText(/email/i);
             const passwordInput = screen.getByPlaceholderText(/password/i);
             userEvent.type(usernameInput, "mario");
-            userEvent.type(emailInput, "messi@gmail.com");
+            userEvent.type(emailInput, "dummy1@gmail.com");
             userEvent.type(passwordInput, "Messi123$");
             fireEvent.click(signupButton);
         })
     
-        expect(await screen.findByText('Username is already in use')).toBeInTheDocument();
+        expect(await screen.findByText('Email is already in use')).toBeInTheDocument();
     })
 })
-
