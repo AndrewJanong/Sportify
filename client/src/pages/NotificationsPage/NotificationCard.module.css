@@ -10,16 +10,12 @@
     display: flex;
     align-items: center;
     justify-content: center;
-
-    border: 1px solid white;
 }
 
 .message {
     width: 400px;
     height: 100px;
     display: flex;
-
-    border: 1px solid white;
 }
 
 .message > p {
@@ -39,8 +35,6 @@
     display: flex;
     align-items: center;
     justify-content: space-around;
-
-    border: 1px solid white;
 }
 
 .buttons > button {

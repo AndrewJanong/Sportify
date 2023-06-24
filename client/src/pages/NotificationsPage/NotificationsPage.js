@@ -2,12 +2,14 @@ import React, { useEffect, useState } from "react";
 import styles from './NotificationsPage.module.css';
 import NotificationCard from "./NotificationCard";
 import { useAuthContext } from "../../hooks/useAuthContext";
+import LoadingPage from "../LoadingPage/LoadingPage";
 
 const NotificationsPage = (props) => {
 
     const { user } = useAuthContext();
     const [notifications, setNotifications] = useState([]);
     const [refresh, setRefresh] = useState(1);
+    const [loading, setLoading] = useState(true);
 
     // Fetch the user notifications
     useEffect(() => {
@@ -21,7 +23,7 @@ const NotificationsPage = (props) => {
 
             if (response.ok) {
                 setNotifications(json);
-                console.log(json);
+                setLoading(false);
             }
         }
 
@@ -32,6 +34,10 @@ const NotificationsPage = (props) => {
 
     const refreshPage = () => {
         setRefresh((refresh + 1) % 2);
+    }
+
+    if (loading) {
+        return <LoadingPage />
     }
 
     return (
