@@ -61,7 +61,7 @@
 }
 
 .info > .likes:hover {
-    background-color: #dfdfdf;
+    background-color: #b9b9b9;
 }
 
 .info > .likesafter:hover {
@@ -73,6 +73,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
+    background-color: #d3d3d3;
 }
 
 .info > .likesafter {
