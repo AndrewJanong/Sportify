@@ -16,6 +16,7 @@ const NavBar = (props) => {
         <div className={styles.navbar}>
             <div className={styles.top}>
                 <img src={Logo} alt="" />
+                {user && 
                 <div className={styles.sections}>
                     <Link to="/mymeetups" style={{ textDecoration: 'none', width: '100%'}} onClick={() => setPath("/mymeetups")}>
                         <Section section={'My Meetups'} path={"/mymeetups" === path}/>
@@ -32,7 +33,7 @@ const NavBar = (props) => {
                     <Link to="/discussions" style={{ textDecoration: 'none', width: '100%' }} onClick={() => setPath("/discussions")}>
                         <Section section={'Discussions'} path={"/discussions" === path}/>
                     </Link>
-                </div>
+                </div>}
             </div>
             <div className={styles.bottom}>
                 { !user && 

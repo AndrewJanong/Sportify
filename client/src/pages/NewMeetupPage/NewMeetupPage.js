@@ -6,12 +6,23 @@ import { useMeetupsContext } from "../../hooks/useMeetupsContext";
 import { useAuthContext } from "../../hooks/useAuthContext";
 import { useParams } from "react-router-dom";
 
+const getTomorrowDate = () => {
+    let tomorrow = new Date();
+    tomorrow.setDate(tomorrow.getDate()+1); 
+
+    let day = tomorrow.getDate();
+    let month = tomorrow.getMonth() + 1;
+    let year = tomorrow.getFullYear();
+
+    return `${year}-${month}-${day}T00:00`;
+}
+
 const NewMeetupPage = (props) => {
     const params = useParams();
     const { dispatch } = useMeetupsContext();
     const [title, setTitle] = useState('');
     const [sports, setSports] = useState('');
-    const [date, setDate] = useState('');
+    const [date, setDate] = useState(getTomorrowDate());
     const [location, setLocation] = useState('');
     const [vacancy, setVacancy] = useState(1);
     const [description, setDescription] = useState('');
@@ -41,12 +52,7 @@ const NewMeetupPage = (props) => {
         }
     }, [user, params.groupId, groupInfo.sports])
 
-    let tomorrow = new Date();
-    tomorrow.setDate(tomorrow.getDate()+1); 
-
-    let day = tomorrow.getDate();
-    let month = tomorrow.getMonth() + 1;
-    let year = tomorrow.getFullYear();
+    
 
     const ListOfSports = ['', 'Basketball', 'Soccer', 'Voleyball', 'Badminton', 'Table Tennis', 'Tennis'];
 
@@ -97,6 +103,34 @@ const NewMeetupPage = (props) => {
         }
     }
 
+    const dateValid = () => {
+        let tomorrow = new Date();
+        tomorrow.setDate(tomorrow.getDate()+1); 
+
+        let day = Number(tomorrow.getDate());
+        let month = Number(tomorrow.getMonth() + 1);
+        let year = Number(tomorrow.getFullYear());
+
+        const inputDate = date.split('T')[0].split('-').map((x) => Number(x));
+        console.log(inputDate);
+        console.log(year, month, day);
+        if (inputDate[0] < year) {
+            return false;
+        } else if (inputDate[0] === year) {
+            if (inputDate[1] < month) {
+                return false;
+            } else if (inputDate[1] === month) {
+                if (inputDate[2] < day) {
+                    return false;
+                } else {
+                    return true;
+                }
+            }
+        }
+
+        return true;
+    }
+
     return (
         <div className={styles.newmeetup}>
             <div className={styles.container}>
@@ -133,8 +167,9 @@ const NewMeetupPage = (props) => {
                         type="datetime-local"
                         onChange={(e) => setDate(e.target.value)}
                         value={date}
-                        min={`${year}-${month}-${day}T00:00`}
+                        style={!dateValid() ? {marginBottom: '0'} : {}}
                     />
+                    {!dateValid() && <p id={styles.invalidDate}>Meetups must be arranged at least 1 day before</p>}
                     <label htmlFor="">Location</label>
                     <input
                         type="text"
@@ -157,7 +192,7 @@ const NewMeetupPage = (props) => {
                         onChange={(e) => setDescription(e.target.value)}
                         value={description}
                     ></textarea>
-                    <button>Create</button>
+                    <button disabled={!dateValid()}>Create</button>
                 </form>
                 {error && <div className={styles.error}>{error}</div>}
             </div>

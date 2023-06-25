@@ -36,7 +36,7 @@
     flex-direction: column;
     justify-content: center;
     width: 320px;
-    height: 400px;
+    height: 480px;
 }
 
 .form input, .form select {
@@ -52,6 +52,16 @@
 
     display: flex;
     align-items: center;
+}
+
+.form input, .form select {
+    margin-bottom: 8px;
+}
+
+#invalidDate {
+    font-size: 12px;
+    margin-bottom: 8px;
+    color: #ff8164;
 }
 
 .form textarea {
@@ -79,6 +89,10 @@
 
 .container button:hover {
     background-color: #ead7d0;
+}
+
+.container button:disabled:hover {
+    background-color: #FFEAE3;
 }
 
 .error {
