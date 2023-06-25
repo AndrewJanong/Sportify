@@ -21,6 +21,7 @@ const MeetupsPage = (props) => {
                 }
             });
             const json = await response.json();
+            setLoading(false);
 
             if (response.ok) {
                 dispatch({
