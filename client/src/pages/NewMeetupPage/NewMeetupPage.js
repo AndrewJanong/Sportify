@@ -64,10 +64,14 @@ const NewMeetupPage = (props) => {
         }
         
         let members = [user.username];
+        
+
+        let meetup = {title, sports, date, location, members, vacancy, description};
+
         if (params.groupId) {
             members = [user.username, ...groupInfo.members.filter((member) => member !== user.username)];
+            meetup.vacancy = members.length;
         }
-        const meetup = {title, sports, date, location, members, vacancy: members.length, description};
     
         const response = await fetch(process.env.REACT_APP_BASEURL+'/api/meetups', {
             method: 'POST',
