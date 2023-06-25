@@ -33,7 +33,7 @@ const NewDiscussionPage = () => {
         }
 
         //PROCESS Image
-        const url = `https://api.cloudinary.com/v1_1/dpjocjbpp/image/upload`;
+        const url = `https://api.cloudinary.com/v1_1/${process.env.REACT_APP_IMAGECLOUD}/image/upload`;
         const data = new FormData();
         data.append('file', imageSelected);
         data.append('upload_preset', process.env.REACT_APP_PRESET);

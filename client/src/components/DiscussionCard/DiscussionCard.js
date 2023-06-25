@@ -108,7 +108,7 @@ const DiscussionCard = (props) => {
             if (result.isConfirmed) {
                 Swal.fire(
                     'Deleted!',
-                    'Your file has been deleted.',
+                    'Your discussion has been deleted.',
                     'success'
                 )
 

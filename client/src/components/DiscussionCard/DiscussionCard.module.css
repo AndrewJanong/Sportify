@@ -90,6 +90,10 @@
     color: #ffffff;
 }
 
+.info > .delete:hover {
+    background-color: #d03a2f;
+}
+
 .likes {
     text-align: center;
 }
