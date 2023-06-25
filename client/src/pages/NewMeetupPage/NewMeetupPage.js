@@ -71,6 +71,7 @@ const NewMeetupPage = (props) => {
         if (params.groupId) {
             members = [user.username, ...groupInfo.members.filter((member) => member !== user.username)];
             meetup.vacancy = members.length;
+            meetup.members = members;
         }
     
         const response = await fetch(process.env.REACT_APP_BASEURL+'/api/meetups', {
