@@ -21,7 +21,7 @@ const SearchPage = (props) => {
             });
             const json = await response.json();
             
-            if (json[0].test) {
+            if (json.length > 0 && json[0].test) {
                 setUsers(json.filter((user) => user.username.includes(input)));
                 setIsLoading(false);
             }

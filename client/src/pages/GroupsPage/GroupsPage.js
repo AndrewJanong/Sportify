@@ -21,7 +21,7 @@ const GroupsPage = (props) => {
             });
             const json = await response.json();
 
-            if (json[0].test) {
+            if (json.length > 0 && json[0].test) {
                 setUserGroups(json);
                 setLoading(false);
             }

@@ -25,7 +25,7 @@ const GroupInfoPage = (props) => {
             });
             const json = await response.json();
 
-            if (json.test) {
+            if (json && json.test) {
                 setGroupInfo(json);
                 setLoading(false);
             }
