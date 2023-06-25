@@ -68,7 +68,7 @@ describe('Notifications Page', () => {
         expect(await screen.findByText(/Reject/i)).toBeInTheDocument();
     })
 
-    test('Notification page renders correctly and displays the notfication cards', async () => {
+    test('Notifications page renders correctly and displays the notfication cards', async () => {
         const dispatch = jest.fn();
         const user = jest.fn();
 
