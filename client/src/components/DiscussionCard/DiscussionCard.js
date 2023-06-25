@@ -207,7 +207,7 @@ const DiscussionCard = (props) => {
                     onChange={(e) => setCommentForm(e.target.value)}
                     value={commentForm}
                 />
-                <button onClick={handleClick}>Comment</button>
+                <button onClick={handleClick} disabled={commentForm === ''} id={styles.commentButton}>Comment</button>
                 <button onClick={handleShow}>{show ? "Show Less" : "Show More"}</button>
             </div>
 

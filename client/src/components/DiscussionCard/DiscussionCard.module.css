@@ -131,6 +131,10 @@ h3 {
     background-color: #6db7e4;
 }
 
+#commentButton:disabled {
+    background-color: #6db7e4;
+}
+
 .comments > .indComment {
     margin-top: 0.6rem;
     background-color: rgb(211, 211, 211);
