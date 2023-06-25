@@ -20,6 +20,11 @@ const SearchPage = (props) => {
                 }
             });
             const json = await response.json();
+            
+            if (json[0].test) {
+                setUsers(json.filter((user) => user.username.includes(input)));
+                setIsLoading(false);
+            }
 
             if (response.ok) {
                 setUsers(json.filter((user) => user.username.includes(input)));
@@ -31,6 +36,8 @@ const SearchPage = (props) => {
             fetchUsers();
         }
     }, [user, input])
+
+    console.log(users);
 
     return (
         <div className={styles.page}>

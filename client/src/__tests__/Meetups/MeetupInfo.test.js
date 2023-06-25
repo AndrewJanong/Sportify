@@ -6,7 +6,6 @@ import MeetupInfoPage from "../../pages/MeetupInfoPage/MeetupInfoPage";
 import { AuthContext } from "../../context/AuthContext";
 import { MeetupsContext } from "../../context/MeetupContext";
 import { BrowserRouter, Router } from "react-router-dom";
-import { createMemoryHistory } from 'history';
 
 const meetups = [
     {
@@ -22,9 +21,6 @@ const meetups = [
     }
 ]
 
-const mockedUseParams = jest.fn(() => {meetupId: "testId"});
-
-
 jest.mock('react-router-dom', () => ({
     ...jest.requireActual('react-router-dom'), // use actual for all non-hook parts
     useParams: () => ({meetupId: "testId"}),
@@ -37,10 +33,6 @@ afterEach(() => {
 
 describe('Meetups Page', () => {
     test('Renders correctly and displays meetup info', async () => {
-
-        const history = createMemoryHistory();
-        const route = '/meetups/testId';
-        history.push(route);
         
         const dispatch = jest.fn();
         const user = jest.fn();

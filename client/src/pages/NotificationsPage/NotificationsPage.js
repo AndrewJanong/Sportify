@@ -21,6 +21,11 @@ const NotificationsPage = (props) => {
             });
             const json = await response.json();
 
+            if (json[0].test) {
+                setNotifications(json);
+                setLoading(false);
+            }
+
             if (response.ok) {
                 setNotifications(json);
                 setLoading(false);
