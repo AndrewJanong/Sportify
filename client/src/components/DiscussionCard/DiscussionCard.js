@@ -15,7 +15,7 @@ const DiscussionCard = (props) => {
     const id = props.discussion._id;
     
     const { discussions, dispatch } = useDiscussionsContext();
-    const discussion = discussions.filter(x => x._id === id)[0];
+    const discussion = props.discussion;
 
     const [likesList, setLikesList] = useState(discussion.likes);
     
@@ -190,7 +190,7 @@ const DiscussionCard = (props) => {
             {discussion.picture && <Image className={styles.picture}cloudName={`${process.env.REACT_APP_IMAGECLOUD}`} publicId={`${discussion.picture}`}></Image>}
             <p className={styles.text}>{props.discussion.text}</p>
             <div className={styles.info}>
-                <button className={likesList.includes(user.username) ? styles.likesafter : styles.likes} onClick={likeHandler} >
+                <button className={likesList.includes(user.username) ? styles.likesafter : styles.likes} onClick={likeHandler} data-testid="likestest" >
                     <img src={Likes} alt="" />
                     <p>{likesList.length-1}</p>
                 </button>
