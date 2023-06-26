@@ -41,7 +41,7 @@ const DiscussionsPage = (props) => {
             <div className={styles.filter}>
                 <div className={styles.sportsFilter}>
                     <p>Sports:</p>
-                    <select name="" id="" value={sports} onChange={(e) => setSports(e.target.value)}>
+                    <select name="" id="" value={sports} onChange={(e) => setSports(e.target.value)} data-testid="select2">
                         {
                             ListOfSports.map(sport =>
                                 <option
