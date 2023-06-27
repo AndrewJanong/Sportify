@@ -23,6 +23,10 @@
     width: 100%;
 }
 
+.active {
+    font-weight: 600;
+}
+
 .sections {
     width: 100%;
     display: flex;
