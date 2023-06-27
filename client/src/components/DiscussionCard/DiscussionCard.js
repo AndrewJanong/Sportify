@@ -218,7 +218,7 @@ const DiscussionCard = (props) => {
                     .filter((comment) => comment !== commentsList[0])
                     .map((comment) => {
                     return (
-                        <div className={styles.indComment}>
+                        <div className={styles.indComment} key={comment}>
                             <p>{comment.uName}</p> 
                             {comment.comment}
                         </div>

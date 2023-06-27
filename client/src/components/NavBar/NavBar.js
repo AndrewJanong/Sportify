@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
+import React from 'react';
 import styles from './NavBar.module.css';
-import { Link } from 'react-router-dom';
+import { Link, NavLink } from 'react-router-dom';
 import { Image } from 'cloudinary-react';
 import Logo from '../../icons/Logo.png';
 import NotificationsWhite from '../../icons/NotificationsWhite.png';
@@ -10,7 +10,6 @@ import { useAuthContext } from '../../hooks/useAuthContext';
 const NavBar = (props) => {
 
     const { user } = useAuthContext();
-    const [path, setPath] = useState(window.location.pathname);
 
     return (
         <div className={styles.navbar}>
@@ -18,27 +17,47 @@ const NavBar = (props) => {
                 <img src={Logo} alt="" />
                 {user && 
                 <div className={styles.sections}>
-                    <Link to="/mymeetups" style={{ textDecoration: 'none', width: '100%'}} onClick={() => setPath("/mymeetups")}>
-                        <Section section={'My Meetups'} path={"/mymeetups" === path}/>
-                    </Link>
-                    <Link to="/search" style={{ textDecoration: 'none', width: '100%'}} onClick={() => setPath("/search")}>
-                        <Section section={'Search'} path={"/search" === path}/>
-                    </Link>
-                    <Link to="/mygroups" style={{ textDecoration: 'none', width: '100%'}} onClick={() => setPath("/mygroups")}>
-                        <Section section={'Groups'} path={"/mygroups" === path}/>
-                    </Link>
-                    <Link to="/meetups" style={{ textDecoration: 'none', width: '100%' }} onClick={() => setPath("/meetups")}>
-                        <Section section={'Meetups'} path={"/meetups" === path}/>
-                    </Link>
-                    <Link to="/discussions" style={{ textDecoration: 'none', width: '100%' }} onClick={() => setPath("/discussions")}>
-                        <Section section={'Discussions'} path={"/discussions" === path}/>
-                    </Link>
+                    <NavLink 
+                        className={({isActive}) => isActive ? styles.active : ''} 
+                        to="/mymeetups" 
+                        style={{ textDecoration: 'none', width: '100%', borderRadius: '5px'}}
+                    >
+                        <Section section={'My Meetups'}/>
+                    </NavLink>
+                    <NavLink 
+                        className={({isActive}) => isActive ? styles.active : ''} 
+                        to="/search" 
+                        style={{ textDecoration: 'none', width: '100%', borderRadius: '5px'}}
+                    >
+                        <Section section={'Search'}/>
+                    </NavLink>
+                    <NavLink 
+                        className={({isActive}) => isActive ? styles.active : ''} 
+                        to="/mygroups" 
+                        style={{ textDecoration: 'none', width: '100%', borderRadius: '5px'}}
+                    >
+                        <Section section={'Groups'}/>
+                    </NavLink>
+                    <NavLink 
+                        className={({isActive}) => isActive ? styles.active : ''} 
+                        to="/meetups" 
+                        style={{ textDecoration: 'none', width: '100%', borderRadius: '5px'}}
+                    >
+                        <Section section={'Meetups'}/>
+                    </NavLink>
+                    <NavLink 
+                        className={({isActive}) => isActive ? styles.active : ''} 
+                        to="/discussions" 
+                        style={{ textDecoration: 'none', width: '100%', borderRadius: '5px'}}
+                    >
+                        <Section section={'Discussions'}/>
+                    </NavLink>
                 </div>}
             </div>
             <div className={styles.bottom}>
                 { !user && 
                 <div className={styles.loggedout}>
-                    <Link to="/login" style={{ textDecoration: 'none' }} onClick={() => setPath("/login")}>
+                    <Link to="/login" style={{ textDecoration: 'none' }} >
                         <button type='button' className={styles.login}>
                             Login
                         </button>
@@ -51,34 +70,35 @@ const NavBar = (props) => {
                             Create a Discussion
                         </button>
                     </Link>
-                    <Link to="/newmeetup" style={{ textDecoration: 'none' }} onClick={() => setPath("/newmeetup")}>
+                    <Link to="/newmeetup" style={{ textDecoration: 'none' }} >
                         <button type='button' className={styles.createmeetup}>
                             Create a Meetup
                         </button>
                     </Link>
                     <div className={styles.container}>
                         <div className={styles.user} onClick={(e) => console.log(user.token)}>
-                            <Link 
-                            to={`/profile/${(user.username)}`} 
-                            style={{ textDecoration: 'none', color: '#fff' }} 
-                            onClick={() => setPath(`/profile/${(user.username)}`)}>
+                            <NavLink 
+                                className={({isActive}) => isActive ? styles.active : ''}
+                                to={`/profile/${(user.username)}`} 
+                                style={{ textDecoration: 'none', color: '#fff' }} 
+                            >
                                 <Image 
                                     cloudName={`${process.env.REACT_APP_IMAGECLOUD}`} 
                                     publicId={`${user.picture || "Member_qx5vfp"}`}>
                                 </Image>
                                 <p onClick={(e) => {console.log(user)}}>{user.username}</p>
-                            </Link>
+                            </NavLink>
                         </div>
                         <div className={styles.notifications}>
-                            <Link 
-                            to={`/notifications/${(user.username)}`} 
-                            style={{ textDecoration: 'none', color: '#fff' }}
-                            onClick={() => setPath(`/notifications/${(user.username)}`)}>
+                            <NavLink
+                                className={({isActive}) => isActive ? styles.active : ''}
+                                to={`/notifications/${(user.username)}`} 
+                                style={{ textDecoration: 'none', color: '#fff' }}
+                            >
                                     <img src={NotificationsWhite} alt="" />
-                            </Link>
+                            </NavLink>
                         </div>
                     </div>
-                    {/* <button onClick={(e) => console.log(user)}>idk</button> */}
                 </div>}
             </div>
         </div>
