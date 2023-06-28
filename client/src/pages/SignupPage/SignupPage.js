@@ -3,6 +3,7 @@ import styles from './SignupPage.module.css';
 import Success from "../../popups/Success";
 import { Link } from "react-router-dom";
 import { useSignup } from '../../hooks/useSignup';
+import Logo from '../../icons/Logo.png'
 
 const SignupPage = (props) => {
     const [username, setUsername] = useState('');
@@ -74,53 +75,50 @@ const SignupPage = (props) => {
     }
 
     return (
-        <div className={styles.login}>
+        <div className={styles.signup}>
             <div className={styles.container}>
+                <img src={Logo} alt=""/>
                 <h2>Sign Up</h2>
                 <form className={styles.signupform} onSubmit={handleSubmit}>
-                    <label htmlFor="">Username:</label>
+
                     <input
                         type="text"
                         placeholder="Username"
                         onChange={(e) => setUsername(e.target.value)}
                         value={username}
-                        style={  checkUsername() !== "" ? {
-                            border: '1px solid red'
-                        } : {}}
+                        className={checkUsername() !== '' ? styles.invalidInput : styles.input}
                     />
-                    <p className={styles.invalid}>{checkUsername(username)}</p>
-                    <label htmlFor="">Email:</label>
+                    <p className={styles.invalid}>{checkUsername()}</p>
+
                     <input
                         type="email"
                         placeholder="Email"
                         onChange={(e) => setEmail(e.target.value)}
                         value={email}
-                        style={  checkEmail() !== "" ? {
-                            border: '1px solid #ff8164',
-                            color: '#ff8164'
-                        } : {}}
+                        className={checkEmail() !== '' ? styles.invalidInput : styles.input}
                     />
-                    <p className={styles.invalid}>{checkEmail(email)}</p>
-                    <label htmlFor="">Password:</label>
+                    <p className={styles.invalid}>{checkEmail()}</p>
+
                     <input
                         type="password"
                         placeholder="Password"
                         onChange={(e) => setPassword(e.target.value)}
                         value={password}
-                        style={  checkPassword() !== "" ? {
-                            border: '1px solid red'
-                        } : {}}
+                        className={checkPassword() !== '' ? styles.invalidInput : styles.input}
                     />
-                    <p className={styles.invalid}>{checkPassword(password)}</p>
-                    <button disabled={disableButton() || isLoading} className={styles.signupButton}>Sign Up</button>
+                    <p className={styles.invalid}>{checkPassword()}</p>
+                    <button disabled={disableButton() || isLoading} id={styles.signupButton}>Sign Up</button>
                     {error && <div className={styles.error}>{error}</div>}
                 </form>
-                <p>Already Have an account?</p>
-                <Link to="/login" style={{ textDecoration: 'none' }}>
-                    <button type='button'>
-                        Log In
-                    </button>
-                </Link>
+
+                <div className={styles.login}>
+                    <p style={{marginRight: '8px'}}>
+                        Already have an account?
+                    </p>
+                    <Link to="/login" style={{ textDecoration: 'none', color: '#3b62be' }}>
+                        <p>Log In</p>
+                    </Link>
+                </div>
             </div>
         </div>
     )

@@ -2,7 +2,6 @@ import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import { useAuthContext } from './hooks/useAuthContext';
 
 import NavBar from "./components/NavBar/NavBar";
-import EmptyPage from './pages/EmptyPage/EmptyPage';
 import MeetupsPage from "./pages/MeetupsPage/MeetupsPage";
 import LoginPage from './pages/LoginPage/LoginPage';
 import SignupPage from './pages/SignupPage/SignupPage';
@@ -30,51 +29,51 @@ function App() {
   return (
     <div>
       <BrowserRouter>
-        <NavBar />
+        {user && <NavBar />}
         <Routes>
           <Route 
             path="/"
-            element={user ? <MyMeetupsPage /> : <EmptyPage />}
+            element={user ? <Navigate to="/meetups"/> : <Navigate to="/login"/>}
           />
 
           <Route 
             path="/meetups"
-            element={user ? <MeetupsPage /> : <EmptyPage />}
+            element={user ? <MeetupsPage /> : <Navigate to="/login"/>}
           />
 
           <Route 
             path="/discussions"
-            element={user ? <DiscussionsPage /> : <EmptyPage />}
+            element={user ? <DiscussionsPage /> : <Navigate to="/login"/>}
           />
 
           <Route 
             path="/newdiscussion"
-            element={user ? <NewDiscussionPage /> : <Navigate to="/"/>}
+            element={user ? <NewDiscussionPage /> : <Navigate to="/login"/>}
           />
 
           <Route 
             path="/meetups/:meetupId"
-            element={user ? <MeetupInfoPage /> : <Navigate to="/"/>}
+            element={user ? <MeetupInfoPage /> : <Navigate to="/login"/>}
           />
 
           <Route 
             path="/mymeetups"
-            element={user ? <MyMeetupsPage /> : <EmptyPage />}
+            element={user ? <MyMeetupsPage /> : <Navigate to="/login"/>}
           />
 
           <Route 
             path="/search"
-            element={user ? <SearchPage /> : <EmptyPage />}
+            element={user ? <SearchPage /> : <Navigate to="/login"/>}
           />
 
           <Route 
             path="/newmeetup/:groupId"
-            element={user ? <NewMeetupPage /> : <Navigate to="/"/>}
+            element={user ? <NewMeetupPage /> : <Navigate to="/login"/>}
           />
 
           <Route 
             path="/newmeetup"
-            element={user ? <NewMeetupPage /> : <Navigate to="/"/>}
+            element={user ? <NewMeetupPage /> : <Navigate to="/login"/>}
           />
 
           <Route 
@@ -89,42 +88,42 @@ function App() {
 
           <Route 
             path="/profile/:username"
-            element={user ? <ProfilePage /> : <Navigate to="/"/>}
+            element={user ? <ProfilePage /> : <Navigate to="/login"/>}
           />
 
           <Route 
             path="/edit/:username"
-            element={user ? <EditProfilePage /> : <Navigate to="/"/>}
+            element={user ? <EditProfilePage /> : <Navigate to="/login"/>}
           />
 
           <Route 
             path="/notifications/:username"
-            element={user ? <NotificationsPage /> : <Navigate to="/"/>}
+            element={user ? <NotificationsPage /> : <Navigate to="/login"/>}
           />
           
           <Route 
             path="/mygroups"
-            element={user ? <GroupsPage /> : <Navigate to="/"/>}
+            element={user ? <GroupsPage /> : <Navigate to="/login"/>}
           />
 
           <Route 
             path="/newgroup"
-            element={user ? <NewGroupPage /> : <Navigate to="/"/>}
+            element={user ? <NewGroupPage /> : <Navigate to="/login"/>}
           />
 
           <Route 
             path="/group/:id"
-            element={user ? <Group /> : <Navigate to="/"/>}
+            element={user ? <Group /> : <Navigate to="/login"/>}
           />
 
           <Route 
             path="/group/info/:id"
-            element={user ? <GroupInfoPage /> : <Navigate to="/"/>}
+            element={user ? <GroupInfoPage /> : <Navigate to="/login"/>}
           />
 
           <Route 
             path="/group/edit/:id"
-            element={user ? <EditGroupPage /> : <Navigate to="/"/>}
+            element={user ? <EditGroupPage /> : <Navigate to="/login"/>}
           />
 
           

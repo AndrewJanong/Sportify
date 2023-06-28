@@ -3,46 +3,67 @@
     color: #fff;
     height: 100vh;
     width: 100%;
-    padding-left: 20%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 .container {
-    width: 100%;
-    height: 100%;
+    width: 420px;
+    height: 540px;
+    border-radius: 20px;
+    background-color: #001C30;
 
-    padding: 1rem;
+    padding: 12px;
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: center; 
+}
+
+.container img {
+    width: 150px;
+    height: 150px;
 }
 
 .container h2 {
-    width: 320px;
-    margin-bottom: 16px;
-    border-bottom: 1px solid #fff;
+    width: 300px;
+    margin-bottom: 12px;
 }
 
 .loginform {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
     width: 300px;
-    height: 200px;
+    height: 240px;
 }
 
 .loginform input {
+    font-family: inherit;
     outline: none;
-    border: none;
+    border: 2px solid #3b62be;
+    box-shadow: 0 0 1pt 1pt #3b62be;
+    margin-bottom: 12px;
 
     width: 100%;
-    height: 1.6rem;
-    border-radius: 8px;
+    height: 40px;
+    border-radius: 6px;
     padding: none;
     margin: none;
 
     display: flex;
     align-items: center;
+}
+
+
+.loginform input::placeholder {
+    font-family: inherit;
+}
+
+.loginform input:focus {
+    box-shadow: 0 0 5pt 2pt #3b62be;
+}
+
+.loginform > a {
+    text-decoration: none;
+    color: #3b62be;
 }
 
 .container button {
@@ -60,6 +81,20 @@
     background-color: #ead7d0;
 }
 
+#loginButton {
+    width: 100%;
+    height: 40px;
+    border-radius: 4px;
+
+    font-weight: 600;
+    color: #fff;
+    background-color: #3b62be;
+}
+
+#loginButton:hover {
+    background-color: #3355a5;
+}
+
 .error {
     padding: 10px;
     background: #ffefef;
@@ -67,4 +102,10 @@
     color: #e7195a;
     border-radius: 4px;
     margin: 20px 0;
+}
+
+.signup {
+    display: flex;
+    justify-content: center;
+    width: 300px;
 }

@@ -3,6 +3,7 @@ import styles from './LoginPage.module.css';
 import Success from "../../popups/Success";
 import { Link } from "react-router-dom";
 import { useLogin } from "../../hooks/useLogin";
+import Logo from '../../icons/Logo.png'
 
 const LoginPage = (props) => {
     const [email, setEmail] = useState('');
@@ -24,29 +25,33 @@ const LoginPage = (props) => {
     return (
         <div className={styles.login}>
             <div className={styles.container}>
+                <img src={Logo} alt=""/>
                 <h2>Sign In</h2>
                 <form className={styles.loginform} onSubmit={handleSubmit}>
-                    <label htmlFor="">Email:</label>
                     <input
                         type="email"
+                        placeholder="Email"
                         onChange={(e) => setEmail(e.target.value)}
                         value={email}
                     />
-                    <label htmlFor="">Password:</label>
                     <input
                         type="password"
+                        placeholder="Password"
                         onChange={(e) => setPassword(e.target.value)}
                         value={password}
                     />
-                    <button disabled={isLoading}>Log In</button>
+                    <a href="https://getcssscan.com/css-box-shadow-examples">Forgot Password?</a>
+                    <button disabled={isLoading} id={styles.loginButton}>Log In</button>
                     {error && <div className={styles.error}>{error}</div>}
                 </form>
-                <p>Don't Have an account?</p>
-                <Link to="/signup" style={{ textDecoration: 'none' }}>
-                    <button type='button'>
-                        Sign Up
-                    </button>
-                </Link>
+                <div className={styles.signup}>
+                    <p style={{marginRight: '8px'}}>
+                        Don't have an account?
+                    </p>
+                    <Link to="/signup" style={{ textDecoration: 'none', color: '#3b62be' }}>
+                        <p>Sign Up</p>
+                    </Link>
+                </div>
             </div>
         </div>
     )
