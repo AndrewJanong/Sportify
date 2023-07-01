@@ -21,112 +21,112 @@ import EditGroupPage from './pages/EditGroupPage/EditGroupPage';
 import SearchPage from './pages/SearchPage/SearchPage';
 
 
-
-
 function App() {
   const { user } = useAuthContext();
 
   return (
     <div>
       <BrowserRouter>
-        {(user) && <NavBar />}
+        {(user && user.verified) && <NavBar />}
         <Routes>
           <Route 
             path="/"
-            element={user ? <Navigate to="/meetups"/> : <Navigate to="/login"/>}
+            element={(user && user.verified) ? <Navigate to="/meetups"/> : <Navigate to="/login"/>}
           />
 
           <Route 
             path="/meetups"
-            element={user ? <MeetupsPage /> : <Navigate to="/login"/>}
+            element={(user && user.verified) ? <MeetupsPage /> : <Navigate to="/login"/>}
           />
 
           <Route 
             path="/discussions"
-            element={user ? <DiscussionsPage /> : <Navigate to="/login"/>}
+            element={(user && user.verified) ? <DiscussionsPage /> : <Navigate to="/login"/>}
           />
 
           <Route 
             path="/newdiscussion"
-            element={user ? <NewDiscussionPage /> : <Navigate to="/login"/>}
+            element={(user && user.verified) ? <NewDiscussionPage /> : <Navigate to="/login"/>}
           />
 
           <Route 
             path="/meetups/:meetupId"
-            element={user ? <MeetupInfoPage /> : <Navigate to="/login"/>}
+            element={(user && user.verified) ? <MeetupInfoPage /> : <Navigate to="/login"/>}
           />
 
           <Route 
             path="/mymeetups"
-            element={user ? <MyMeetupsPage /> : <Navigate to="/login"/>}
+            element={(user && user.verified) ? <MyMeetupsPage /> : <Navigate to="/login"/>}
           />
 
           <Route 
             path="/search"
-            element={user ? <SearchPage /> : <Navigate to="/login"/>}
+            element={(user && user.verified) ? <SearchPage /> : <Navigate to="/login"/>}
           />
 
           <Route 
             path="/newmeetup/:groupId"
-            element={user ? <NewMeetupPage /> : <Navigate to="/login"/>}
+            element={(user && user.verified) ? <NewMeetupPage /> : <Navigate to="/login"/>}
           />
 
           <Route 
             path="/newmeetup"
-            element={user ? <NewMeetupPage /> : <Navigate to="/login"/>}
+            element={(user && user.verified) ? <NewMeetupPage /> : <Navigate to="/login"/>}
           />
 
           <Route 
             path="/login"
-            element={!user ? <LoginPage /> : <Navigate to="/"/>}
+            element={(!user || (user && !user.verified)) ? <LoginPage /> : <Navigate to="/"/>}
           />
 
           <Route 
             path="/signup"
-            element={(!user || (user && !user.verified))? <SignupPage /> : <Navigate to="/"/>}
+            element={(!user || (user && !user.verified)) ? <SignupPage /> : <Navigate to="/"/>}
           />
 
           <Route 
             path="/profile/:username"
-            element={user ? <ProfilePage /> : <Navigate to="/login"/>}
+            element={(user && user.verified) ? <ProfilePage /> : <Navigate to="/login"/>}
           />
 
           <Route 
             path="/edit/:username"
-            element={user ? <EditProfilePage /> : <Navigate to="/login"/>}
+            element={(user && user.verified) ? <EditProfilePage /> : <Navigate to="/login"/>}
           />
 
           <Route 
             path="/notifications/:username"
-            element={user ? <NotificationsPage /> : <Navigate to="/login"/>}
+            element={(user && user.verified) ? <NotificationsPage /> : <Navigate to="/login"/>}
           />
           
           <Route 
             path="/mygroups"
-            element={user ? <GroupsPage /> : <Navigate to="/login"/>}
+            element={(user && user.verified) ? <GroupsPage /> : <Navigate to="/login"/>}
           />
 
           <Route 
             path="/newgroup"
-            element={user ? <NewGroupPage /> : <Navigate to="/login"/>}
+            element={(user && user.verified) ? <NewGroupPage /> : <Navigate to="/login"/>}
           />
 
           <Route 
             path="/group/:id"
-            element={user ? <Group /> : <Navigate to="/login"/>}
+            element={(user && user.verified) ? <Group /> : <Navigate to="/login"/>}
           />
 
           <Route 
             path="/group/info/:id"
-            element={user ? <GroupInfoPage /> : <Navigate to="/login"/>}
+            element={(user && user.verified) ? <GroupInfoPage /> : <Navigate to="/login"/>}
           />
 
           <Route 
             path="/group/edit/:id"
-            element={user ? <EditGroupPage /> : <Navigate to="/login"/>}
+            element={(user && user.verified) ? <EditGroupPage /> : <Navigate to="/login"/>}
           />
-
-          
+          <Route 
+            path="*" 
+            element={(user && user.verified) ? <Navigate to="/"/> : <Navigate to="/login"/>} 
+          /> 
         </Routes>
       </BrowserRouter>
     </div>

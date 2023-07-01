@@ -18,11 +18,12 @@ const loginUser = async (req, res) => {
         const friends = user.friends;
         const userId = user._id;
         const picture = user.picture;
+        const verified = user.verified;
 
         //create token
         const token = createToken(user._id);
 
-        res.status(200).json({username, email, friends, picture, token, userId});
+        res.status(200).json({username, email, friends, picture, token, userId, verified});
     } catch (error) {
         res.status(400).json({error: error.message});
     }

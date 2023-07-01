@@ -65,6 +65,23 @@ const VerificationPage = (props) => {
             console.log('verified!!');
         }
     }
+
+    const resendOTP = async () => {
+        setIsLoading(true);
+        setError('');
+        const verification = await fetch(process.env.REACT_APP_BASEURL+'/api/user/resend-verification', {
+            method: 'POST',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify({username: props.username, email: props.email})
+        })
+
+        if (verification.ok) {
+            setIsLoading(false);
+        } else {
+            setError('Unable to resend OTP. Please try again');
+            setIsLoading(false);
+        }
+    }
     
     return (
         <div className={styles.verificationPage}>
@@ -117,6 +134,7 @@ const VerificationPage = (props) => {
                         tabIndex="4" maxLength="1" onKeyUp={e => inputfocus(e)}
                     />
                 </div>
+                <p style={{marginBottom: '12px'}}>Didn't recieve OTP? <span className={styles.resendOTP} onClick={resendOTP}>Resend OTP</span></p>
                 <button className={styles.verifyButton} disabled={isLoading}>Verify</button>
             </form>
             {error && <p className={styles.OTPerror}>{error}</p>}
