@@ -4,6 +4,7 @@ const bcrypt = require('bcrypt');
 const validator = require('validator');
 
 const jwt = require('jsonwebtoken');
+const nodemailer = require('nodemailer');
 
 const createToken = (_id) => {
     return jwt.sign({_id}, process.env.SECRET, { expiresIn: '3d' });
@@ -28,6 +29,85 @@ const loginUser = async (req, res) => {
         res.status(400).json({error: error.message});
     }
 
+}
+
+const sendResetPasswordLink = async (req, res) => {
+    const { email } = req.body;
+
+    try {
+        const user = await User.findOne({email, verified: true});
+        if (!user) {
+            throw Error("User with given email doesn't exist");
+        } else {
+            const secret = process.env.SECRET + user._id + user.password;
+            const payload = {
+                email: user.email,
+                id: user._id
+            }
+
+            const token = jwt.sign(payload, secret, {expiresIn: '15m'});
+            const link = process.env.CLIENT_URL + `/reset-password/${user._id}/${token}`;
+
+            let transporter = nodemailer.createTransport({
+                service: "gmail",
+                auth: {
+                    user: process.env.AUTH_EMAIL,
+                    pass: process.env.AUTH_PASS
+                }
+            })
+
+            const mailOptions = {
+                from: process.env.AUTH_EMAIL,
+                to: email,
+                subject: "Reset Sportify Account Password",
+                html: `<p>Click this <a href=${link}>here</a> to reset your password. Link will expire in 15 minutes.</p>`
+            }
+
+            transporter.sendMail(mailOptions, (error, info) => {
+                if (error) {
+                    throw Error("Unable to send reset password link");
+                }
+                console.log('Reset password link sent: %s', info.messageId);
+            });
+            
+            res.status(200).json(user);
+        }
+
+    } catch (error) {
+        res.status(400).json({error: error.message});
+    }
+}
+
+const resetPassword = async (req, res) => {
+    const { id, token } = req.params;
+    const { password } = req.body;
+
+    try {
+        const user = await User.findOne({_id: id});
+
+        if (!user) {
+            throw Error("Invalid Id");
+        }
+
+        const secret = process.env.SECRET + user._id + user.password;
+
+        const payload = jwt.verify(token, secret);
+
+        const salt = await bcrypt.genSalt(10);
+        const hash = await bcrypt.hash(password, salt);
+
+        const updatedUser = await User.findOneAndUpdate({_id: id}, {password: hash});
+        res.status(200).json(updatedUser);
+
+    } catch (error) {
+        if (error.message === 'invalid signature' || error.message === 'jwt expired') {
+            res.status(400).json({error: 'Link incorrect or has expired'});
+        } else {
+            res.status(400).json({error: error.message});
+        }
+        
+    }
+    
 }
 
 const signupUser = async (req, res) => {
@@ -115,6 +195,8 @@ const updateUserInfo = async (req, res) => {
 
 module.exports = {
     loginUser,
+    sendResetPasswordLink,
+    resetPassword,
     signupUser,
     sendOTPVerificationEmail,
     verifyEmail,

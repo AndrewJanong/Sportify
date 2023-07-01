@@ -12,6 +12,7 @@
     width: 420px;
     height: 540px;
     border-radius: 20px;
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
     background-color: #001C30;
 
     padding: 12px;
@@ -138,6 +139,7 @@
     height: 420px;
     padding: 64px;
     border-radius: 20px;
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
     background-color: #001C30;
 
     display: flex;

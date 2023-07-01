@@ -4,6 +4,7 @@ import { useAuthContext } from './hooks/useAuthContext';
 import NavBar from "./components/NavBar/NavBar";
 import MeetupsPage from "./pages/MeetupsPage/MeetupsPage";
 import LoginPage from './pages/LoginPage/LoginPage';
+import ResetPasswordPage from './pages/ResetPasswordPage/ResetPasswordPage';
 import SignupPage from './pages/SignupPage/SignupPage';
 import NewMeetupPage from './pages/NewMeetupPage/NewMeetupPage';
 import MyMeetupsPage from './pages/MyMeetupsPage/MyMeetupsPage';
@@ -82,6 +83,11 @@ function App() {
           <Route 
             path="/signup"
             element={(!user || (user && !user.verified)) ? <SignupPage /> : <Navigate to="/"/>}
+          />
+
+          <Route 
+            path="/reset-password/:id/:token"
+            element={(!user || (user && !user.verified)) ? <ResetPasswordPage /> : <Navigate to="/"/>}
           />
 
           <Route 
