@@ -29,7 +29,7 @@ function App() {
   return (
     <div>
       <BrowserRouter>
-        {user && <NavBar />}
+        {(user) && <NavBar />}
         <Routes>
           <Route 
             path="/"
@@ -83,7 +83,7 @@ function App() {
 
           <Route 
             path="/signup"
-            element={!user ? <SignupPage /> : <Navigate to="/"/>}
+            element={(!user || (user && !user.verified))? <SignupPage /> : <Navigate to="/"/>}
           />
 
           <Route 

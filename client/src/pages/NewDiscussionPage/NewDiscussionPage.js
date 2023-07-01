@@ -64,6 +64,7 @@ const NewDiscussionPage = () => {
             setTitle('');
             setSports('');
             setText('');
+            setDate(new Date());
             setLikes(["null"]);
             setCreator(user.username);
 
