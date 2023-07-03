@@ -25,7 +25,10 @@ const userSchema = new Schema ({
     friends: [{
         type: Schema.Types.ObjectId,
         ref: 'Friends'
-    }]
+    }],
+    verified: {
+        type: Boolean
+    }
 })
 
 userSchema.statics.signup = async function(username, email, password) {
@@ -44,19 +47,28 @@ userSchema.statics.signup = async function(username, email, password) {
     const existsEmail = await this.findOne({ email });
     const existsUsername = await this.findOne({ username });
 
-    if (existsEmail) {
+    if (existsEmail && existsEmail.verified) {
         throw Error('Email is already in use');
     }
 
-    if (existsUsername) {
+    if (existsUsername && existsUsername.verified) {
         throw Error('Username is already in use');
+    }
+
+    if (existsEmail && !existsEmail.verified) {
+        await this.deleteMany({email});
+    }
+
+    if (existsUsername && !existsUsername.verified) {
+        await this.deleteMany({username});
     }
 
     const salt = await bcrypt.genSalt(10);
     const hash = await bcrypt.hash(password, salt);
     const friends = [];
+    const verified = false;
 
-    const user = await this.create({ username, email, password: hash, friends});
+    const user = await this.create({ username, email, password: hash, friends, verified});
 
     return user;
 }
@@ -76,7 +88,11 @@ userSchema.statics.login = async function(email, password) {
     const match = await bcrypt.compare(password, user.password);
 
     if (!match) {
-        throw Error('Incorrect Password');
+        throw Error('Incorrect password');
+    }
+
+    if (user && !user.verified) {
+        throw Error('User is not verified. Sign up again')
     }
 
     return user;

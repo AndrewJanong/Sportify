@@ -25,6 +25,15 @@ export const useSignup = () => {
         } else {
             localStorage.setItem('user', JSON.stringify(json));
 
+            const verification = await fetch(process.env.REACT_APP_BASEURL+'/api/user/send-verification', {
+                method: 'POST',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify({username, email})
+            })
+    
+            const verification_json = await verification.json();
+            console.log(verification_json);
+
             // update the auth context
             dispatch({type: 'LOGIN', payload: json});
 

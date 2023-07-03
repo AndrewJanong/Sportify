@@ -1,44 +1,50 @@
-.login {
+.signup {
     background-color: #1E2A46;
     color: #fff;
     height: 100vh;
     width: 100%;
-    padding-left: 20%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 .container {
-    
-    width: 100%;
-    height: 100%;
+    width: 420px;
+    height: 540px;
+    border-radius: 20px;
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+    background-color: #001C30;
 
-    padding: 1rem;
+    padding: 12px;
     display: flex;
     flex-direction: column;
-    align-items: center;
-    justify-content: center; 
+    align-items: center; 
+}
+
+.container img {
+    width: 150px;
+    height: 150px;
 }
 
 .container h2 {
-    width: 320px;
-    margin-bottom: 16px;
-    border-bottom: 1px solid #fff;
+    width: 300px;
+    margin-bottom: 12px;
 }
 
 .signupform {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
     width: 300px;
-    height: 300px;
+    height: 280px;
 }
 
-
-.signupform input {
-    border: 1px solid #1E2A46;
-    box-sizing: border-box;
+.input {
+    font-family: inherit;
+    outline: none;
+    border: 2px solid #3b62be;
+    box-shadow: 0 0 1pt 1pt #3b62be;
+    margin-bottom: 12px;
 
     width: 100%;
-    height: 1.6rem;
+    height: 40px;
     border-radius: 6px;
     padding: none;
     margin: none;
@@ -47,33 +53,70 @@
     align-items: center;
 }
 
-.signupform input:focus {
-    border: 1px solid #001C30;
-    outline: none;
+
+.input::placeholder {
+    font-family: inherit;
 }
 
-.container button {
+.input:focus {
+    box-shadow: 0 0 5pt 2pt #3b62be;
+}
+
+.invalidInput {
+    font-family: inherit;
+    outline: none;
+    color: #ff8164;
+    border: 1px solid #ff8164;
+    box-shadow: 0 0 1pt 1pt #3b62be;
+    margin-bottom: 2px;
+
+    width: 100%;
+    height: 40px;
+    border-radius: 6px;
+    padding: none;
+    margin: none;
+
+    display: flex;
+    align-items: center;
+}
+
+.invalidInput::placeholder {
+    font-family: inherit;
+}
+
+.invalidInput:focus {
+    box-shadow: 0 0 3pt 1pt #ff8164;
+}
+
+#signupButton {
     outline: none;
     border: none;
+    
+    width: 100%;
+    height: 40px;
+    border-radius: 4px;
 
-    width: 6rem;
-    height: 1.6rem;
-    margin-top: 1em;
-    border-radius: 8px;
-    background-color: #FFEAE3;
+    font-weight: 600;
+    color: #fff;
+    background-color: #3b62be;
 }
 
-.signupButton:disabled:hover {
-    background-color: #FFEAE3;
+#signupButton:hover {
+    background-color: #3355a5;
 }
 
-.container button:hover {
-    background-color: #ead7d0;
+#signupButton:disabled {
+    background-color: #e4e4e4;
+}
+
+#signupButton:disabled:hover {
+    background-color: #e4e4e4;
 }
 
 .invalid {
     color: #ff8164;
     font-size: 12px;
+    margin-bottom: 6px;
 }
 
 .error {
@@ -83,4 +126,98 @@
     color: #e7195a;
     border-radius: 4px;
     margin: 20px 0;
+}
+
+.login {
+    display: flex;
+    justify-content: center;
+    width: 300px;
+}
+
+.verificationPage {
+    width: 640px;
+    height: 420px;
+    padding: 64px;
+    border-radius: 20px;
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+    background-color: #001C30;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.verificationPage form {
+    width: 100%;
+    height: 200px;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.otpContainer {
+    width: 240px;
+    height: 70px;
+    margin-bottom: 12px;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+}
+
+.inputOTP {
+    font-family: inherit;
+    font-size: 30px;
+    font-weight: bold;
+    color: #3b62be;
+    outline: none;
+    border: none;
+    background-color: #fff;
+
+    width: 48px;
+    height: 56px;
+    border-radius: 6px;
+    padding: none;
+    margin: none;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center; 
+}
+
+.resendOTP {
+    color: #3b62be;
+    cursor: pointer;
+}
+
+.verifyButton {
+    outline: none;
+    border: none;
+    
+    width: 400px;
+    height: 40px;
+    border-radius: 4px;
+    margin-bottom: 12px;
+
+    font-weight: 600;
+    color: #fff;
+    background-color: #3b62be;
+}
+
+.verifyButton:hover {
+    background-color: #3355a5;
+}
+
+.verifyButton:disabled {
+    background-color: #e4e4e4;
+}
+
+.OTPerror {
+    padding: 4px;
+    background: #ffefef;
+    border: 1px solid #e7195a;
+    color: #e7195a;
+    border-radius: 4px;
 }
