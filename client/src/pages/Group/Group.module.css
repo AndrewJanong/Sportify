@@ -60,6 +60,119 @@
     border-radius: 12px;
 
     display: flex;
+    flex-direction: column;
     align-items: center;
+}
+
+.chatContainer {
+    height: 90%;
+    width: 100%;
+    padding: 6px;
+    overflow-y: scroll;
+}
+
+.chatContainer::-webkit-scrollbar {
+    width: 4px;
+}
+
+/* Track */
+.chatContainer::-webkit-scrollbar-track {
+    -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3); 
+    -webkit-border-radius: 10px;
+    border-radius: 10px;
+}
+
+/* Handle */
+.chatContainer::-webkit-scrollbar-thumb {
+    -webkit-border-radius: 10px;
+    border-radius: 10px;
+    background: #3b62be; 
+    -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.5); 
+}
+
+.chatContainer::-webkit-scrollbar-thumb:window-inactive {
+    background: rgba(255,0,0,0.4); 
+}
+
+.message {
+    color: #fff;
+    margin-bottom: 1px;
+    padding: 0px 4px;
+    display: flex;
+    align-items: center;
+
+}
+
+.message img {
+    background-color: #dbdada;
+    aspect-ratio: 1/1;
+    height: 24px;
+    border-radius: 50%;
+    align-self: flex-start;
+}
+
+.invisible {
+    aspect-ratio: 1/1;
+    height: 24px;
+}
+
+.message .text {
+    background-color: #656869;
+    max-width: 60%;
+    padding: 4px;
+    border-radius: 6px;
+    margin: 0 4px;
+}
+
+.message .sender {
+    font-size: 0.6em;
+    font-weight: 600;
+    color: #1E2A46;
+    color: #95b5ff;
+}
+
+.chat form {
+    width: 100%;
+    height: 10%;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+}
+
+.chat input {
+    outline: none;
+    border: none;
+    font-family: inherit;
+    width: 93%;
+    height: 60%;
+    border-radius: 12px;
+    overflow: hidden;
+    resize: none;
+}
+
+.chat button {
+    outline: none;
+    border: none;
+    aspect-ratio: 1/1;
+    height: 70%;
+    border-radius: 50%;
+    background-color: #3b62be;
+
+    display: flex;
     justify-content: center;
+    align-items: center;
+}
+
+.chat button:hover {
+    background-color: #3355a5;
+}
+
+.chat button:disabled {
+    background-color: #e4e4e4;
+}
+
+.chat button img {
+    aspect-ratio: 1/1;
+    height: 50%;
 }
