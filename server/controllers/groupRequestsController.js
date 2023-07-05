@@ -8,17 +8,17 @@ const getRequests = async (req, res) => {
 }
 
 const getUserRequests = async (req, res) => {
-    const { username } = req.params;
-    const requests = await GroupReqeusts.find({target: username}).sort({createdAt: -1});
+    const { userId } = req.params;
+    const requests = await GroupReqeusts.find({target: userId}).sort({createdAt: -1});
     res.status(200).json(requests);
 }
 
 //post a single Request
 const postRequest = async (req, res) => {
-    const {group, groupId, target} = req.body;
+    const {group, target} = req.body;
 
     try {
-        const request = await GroupReqeusts.create({group, groupId, target});
+        const request = await GroupReqeusts.create({group, target});
         res.status(200).json(request);
     } catch (error) {
         res.status(400).json({error: error.message});
@@ -28,7 +28,7 @@ const postRequest = async (req, res) => {
 //deleting a Request
 const deleteRequest = async (req, res) => {
     const { groupId } = req.params;
-    const target = req.user.username;
+    const target = req.user._id;
 
     const request = await GroupReqeusts.findOneAndDelete({groupId, target});
 

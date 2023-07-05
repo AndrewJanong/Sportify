@@ -3,15 +3,15 @@ const mongoose = require('mongoose');
 
 // Get all notifications
 const getNotifications = async (req, res) => {
-    const notifications = await Notifications.find({});
+    const notifications = await Notifications.find({}).populate('target_user');
     res.status(200).json(notifications);
 }
 
 // Get user notifications
 const getUserNotifications = async (req, res) => {
-    const { username } = req.params;
+    const { userId } = req.params;
 
-    const notifications = await Notifications.find({target_user: username});
+    const notifications = await Notifications.find({target_user: username}).populate('target_user');
     res.status(200).json(notifications);
 }
 

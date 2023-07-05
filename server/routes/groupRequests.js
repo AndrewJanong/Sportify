@@ -12,7 +12,7 @@ router.use(requireAuth);
 router.get('/', getRequests);
 
 // GET user requests
-router.get('/:username', getUserRequests);
+router.get('/:userId', getUserRequests);
   
 // POST a new request
 router.post('/', postRequest);

@@ -51,7 +51,7 @@ const NewGroupPage = (props) => {
             name: groupName,
             picture,
             sports,
-            members: [user.username]
+            members: [user.userId]
         };
     
         const response = await fetch(process.env.REACT_APP_BASEURL+'/api/groups', {
@@ -88,8 +88,7 @@ const NewGroupPage = (props) => {
             const request = await fetch(process.env.REACT_APP_BASEURL+'/api/group-requests/', {
                 method: 'POST',
                 body: JSON.stringify({
-                    group: groupName,
-                    groupId: json._id,
+                    group: json._id,
                     target: member
                 }),
                 headers: {
@@ -163,7 +162,7 @@ const NewGroupPage = (props) => {
         
         if (invitedUser) {
             console.log(invitedUser);
-            setAddedMembers([...addedMembers, invitedUser.username]);
+            setAddedMembers([...addedMembers, invitedUser._id]);
             setError('');
         } else {
             setError('User Not Found');

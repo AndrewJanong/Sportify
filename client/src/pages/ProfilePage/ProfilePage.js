@@ -140,7 +140,7 @@ const ProfilePage = (props) => {
             method: 'POST',
             body: JSON.stringify({
                 type: "friend-request",
-                target_user: userB,
+                target_user: userInfo._id,
                 sender: userA,
                 message: `You got a friend request from ${userA}`
             }),

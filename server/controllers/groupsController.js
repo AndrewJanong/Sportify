@@ -1,4 +1,5 @@
 const Groups = require('../models/groupsModel');
+const User = require('../models/userModel');
 const mongoose = require('mongoose');
 
 // Get all groups
@@ -11,15 +12,15 @@ const getGroups = async (req, res) => {
 const getGroup = async (req, res) => {
     const { id } = req.params;
 
-    const group = await Groups.findOne({_id: id});
+    const group = await Groups.findOne({_id: id}).populate('members');
     res.status(200).json(group);
 }
 
 // Get user groups
 const getUserGroups = async (req, res) => {
-    const { username } = req.params;
+    const { userId } = req.params;
 
-    const groups = await Groups.find({members: username});
+    const groups = await Groups.find({members: userId}).populate('members');
     res.status(200).json(groups);
 }
 

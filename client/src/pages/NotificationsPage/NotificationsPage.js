@@ -14,7 +14,7 @@ const NotificationsPage = (props) => {
     // Fetch the user notifications
     useEffect(() => {
         const fetchNotifications = async () => {
-            const response = await fetch(process.env.REACT_APP_BASEURL+'/api/notifications/'+user.username, {
+            const response = await fetch(process.env.REACT_APP_BASEURL+'/api/notifications/'+user.userId, {
                 headers: {
                     'Authorization': `Bearer ${user.token}`
                 }
