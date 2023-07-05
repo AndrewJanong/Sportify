@@ -9,7 +9,13 @@ const io = require("socket.io")(8900, {
 let users = [];
 
 const addUser = (username, socketId) => {
-    !users.some((user) => user.username === username) &&
+    // !users.some((user) => user.username === username) &&
+    // users.push({ username, socketId });
+
+    if (users.some((user) => user.username === username)) {
+        users = users.filter((user) => user.username !== username);
+    }
+
     users.push({ username, socketId });
 };
 
@@ -24,7 +30,6 @@ const getUser = (username) => {
 io.on("connection", (socket) => {
     //when ceonnect
     console.log("a user connected.");
-    io.emit("welcome", "hello this is socket server");
 
     //take userId and socketId from user
     socket.on("addUser", (username) => {

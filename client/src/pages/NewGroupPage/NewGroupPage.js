@@ -70,6 +70,20 @@ const NewGroupPage = (props) => {
             return;
         }
 
+        const groupChat = await fetch(process.env.REACT_APP_BASEURL+'/api/group-chat/'+json._id, {
+            method: 'POST',
+            headers: {
+                'Authorization': `Bearer ${user.token}`
+            }
+        })
+
+        const groupchat_json = await groupChat.json();
+
+        if (!groupChat.ok) {
+            setError(groupchat_json.error);
+            return;
+        }
+
         addedMembers.forEach(async (member) => {
             const request = await fetch(process.env.REACT_APP_BASEURL+'/api/group-requests/', {
                 method: 'POST',

@@ -23,13 +23,13 @@ const Group = (props) => {
     useEffect(() => {
         socket.current = io(process.env.REACT_APP_SOCKET);
         socket.current.on("getMessage", (message) => {
-            message.sender !== user.userId && setCurrentChat((prev) => {
+            params.id === message.chat.group && setCurrentChat((prev) => {
                 const messages = [...prev.messages, message];
                 return ({...prev, messages: messages});
             })
         });
         
-    }, [user.userId]);
+    }, [user, currentChat._id, params.id]);
 
     useEffect(() => {
         socket.current.emit("addUser", user.username);
@@ -37,12 +37,6 @@ const Group = (props) => {
             console.log(users);
         })
     }, [user]);
-
-    useEffect(() => {
-        socket.current.on("welcome", msg => {
-            console.log(msg);
-        })
-    }, [socket])
 
     useEffect(() => {
         const getGroupInfo = async () => {
@@ -107,11 +101,6 @@ const Group = (props) => {
         const message_json = await message.json();
         
         if (message.ok) {
-            setCurrentChat((prev) => {
-                const messages = [...prev.messages, message_json];
-                return ({...prev, messages: messages});
-            })
-
             socket.current.emit("sendMessage", {
                 message: message_json,
                 groupMembers: groupInfo.members

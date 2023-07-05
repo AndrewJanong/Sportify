@@ -66,10 +66,10 @@ const postMessage = async (req, res) => {
             text
         });
 
-        message = await message.populate("sender");
+        const newMessage = await GroupMessages.findOne({_id: message._id}).populate("sender").populate("chat");
 
         const chat = await GroupChat.findOneAndUpdate({_id: chatId}, { $push: {messages: message._id}});
-        res.status(200).json(message);
+        res.status(200).json(newMessage);
     } catch (error) {
         res.status(400).json({error: error.message});
     }
