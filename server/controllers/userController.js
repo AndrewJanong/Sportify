@@ -16,7 +16,6 @@ const loginUser = async (req, res) => {
     try {
         const user = await User.login(email, password);
         const username = user.username;
-        const friends = user.friends;
         const userId = user._id;
         const picture = user.picture;
         const verified = user.verified;
@@ -24,7 +23,7 @@ const loginUser = async (req, res) => {
         //create token
         const token = createToken(user._id);
 
-        res.status(200).json({username, email, friends, picture, token, userId, verified});
+        res.status(200).json({username, email, picture, token, userId, verified});
     } catch (error) {
         res.status(400).json({error: error.message});
     }
@@ -115,14 +114,13 @@ const signupUser = async (req, res) => {
 
     try {
         const user = await User.signup(username, email, password);
-        const friends = user.friends;
         const userId = user._id;
         const verified = false;
 
         //create token
         const token = createToken(user._id);
 
-        res.status(200).json({username, email, friends, token, userId, verified});
+        res.status(200).json({username, email, token, userId, verified});
     } catch (error) {
         res.status(400).json({error: error.message});
     }
@@ -173,8 +171,19 @@ const getUsers = async (req, res) => {
 }
 
 const getUserInfo = async (req, res) => {
+    const { userId } = req.params;
+    const user = await User.findOne({_id: userId});
+
+    if (!user) {
+        res.status(400).json({error: 'User not found'});
+        return;
+    }
+    res.status(200).json(user);
+}
+
+const getUserInfoFromUsername = async (req, res) => {
     const { username } = req.params;
-    const user = await User.findOne({username});
+    const user = await User.findOne({username: username});
 
     if (!user) {
         res.status(400).json({error: 'User not found'});
@@ -184,8 +193,8 @@ const getUserInfo = async (req, res) => {
 }
 
 const updateUserInfo = async (req, res) => {
-    const { username } = req.params;
-    const user = await User.findOneAndUpdate({username}, {...req.body});
+    const { userId } = req.params;
+    const user = await User.findOneAndUpdate({_id: userId}, {...req.body});
     if (!user) {
         res.status(400).json({error: 'User not found'})
         return;
@@ -203,5 +212,6 @@ module.exports = {
     resendOTPVerificationEmail,
     getUsers,
     getUserInfo,
+    getUserInfoFromUsername,
     updateUserInfo
 }

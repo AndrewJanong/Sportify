@@ -91,17 +91,17 @@ function App() {
           />
 
           <Route 
-            path="/profile/:username"
+            path="/profile/:userId"
             element={(user && user.verified) ? <ProfilePage /> : <Navigate to="/login"/>}
           />
 
           <Route 
-            path="/edit/:username"
+            path="/edit/:userId"
             element={(user && user.verified) ? <EditProfilePage /> : <Navigate to="/login"/>}
           />
 
           <Route 
-            path="/notifications/:username"
+            path="/notifications/:userId"
             element={(user && user.verified) ? <NotificationsPage /> : <Navigate to="/login"/>}
           />
           

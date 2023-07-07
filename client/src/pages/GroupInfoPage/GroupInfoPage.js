@@ -45,12 +45,12 @@ const GroupInfoPage = (props) => {
         return <LoadingPage />;
     }
 
-    const addMember = async (member) => {
+    const addMember = async (memberId) => {
         const request = await fetch(process.env.REACT_APP_BASEURL+'/api/group-requests/', {
             method: 'POST',
             body: JSON.stringify({
                 group: groupInfo._id,
-                target: member
+                target: memberId
             }),
             headers: {
                 'Content-Type': 'application/json',
@@ -58,11 +58,11 @@ const GroupInfoPage = (props) => {
             }
         })
 
-        const notification = await fetch(process.env.REACT_APP_BASEURL+'/api/notifications/', {
+        const notification = await fetch(process.env.REACT_APP_BASEURL+'/api/group-notifications/', {
             method: 'POST',
             body: JSON.stringify({
                 type: "group-request",
-                target_user: member,
+                target_user: memberId,
                 sender: groupInfo._id,
                 message: `You have been invited to join ${groupInfo.name}`
             }),
@@ -89,7 +89,7 @@ const GroupInfoPage = (props) => {
             confirmButtonText: 'Look up',
             showLoaderOnConfirm: true,
             preConfirm: (username) => {
-              return fetch(process.env.REACT_APP_BASEURL+'/api/user/'+username)
+              return fetch(process.env.REACT_APP_BASEURL+'/api/user/username/'+username)
                 .then(response => {
                   if (!response.ok) {
                     console.log(response.json());
@@ -155,7 +155,7 @@ const GroupInfoPage = (props) => {
                 </div>
                 <div className={styles.membersContainer}>
                     {groupInfo.members &&
-                        groupInfo.members.map((member) => <UserCard username={member.username} pictureOnly={false} key={member}/>)
+                        groupInfo.members.map((member) => <UserCard user={member} pictureOnly={false} key={member._id}/>)
                     }
                 </div>
             </div>

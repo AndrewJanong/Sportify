@@ -30,7 +30,7 @@ const deleteRequest = async (req, res) => {
     const { groupId } = req.params;
     const target = req.user._id;
 
-    const request = await GroupReqeusts.findOneAndDelete({groupId, target});
+    const request = await GroupReqeusts.findOneAndDelete({group: groupId, target});
 
     if (!request) {
         return res.status(400).json({error: "No such meetup"});

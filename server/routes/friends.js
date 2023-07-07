@@ -1,7 +1,8 @@
 const express = require('express');
 const 
 { 
-    getFriends, 
+    getFriends,
+    getFriendshipStatus,
     getUserFriends, 
     getUserRequested, 
     getUserPending, 
@@ -10,16 +11,21 @@ const
     rejectFriendRequest, 
     removeFriend
 } = require('../controllers/friendsController');
+const requireAuth = require('../middleware/requireAuth');
 
 const router = express.Router();
 
+router.use(requireAuth);
+
 router.get('/', getFriends);
 
-router.get('/accepted/:username', getUserFriends);
+router.get('/:userId', getFriendshipStatus);
 
-router.get('/requested/:username', getUserRequested);
+router.get('/accepted/:userId', getUserFriends);
 
-router.get('/pending/:username', getUserPending);
+router.get('/requested/:userId', getUserRequested);
+
+router.get('/pending/:userId', getUserPending);
 
 router.post('/request', sendFriendRequest);
 

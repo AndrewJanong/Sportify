@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import styles from './NotificationCard.module.css';
 import { useAuthContext } from "../../hooks/useAuthContext";
 import ProfilePicture from "../../components/ProfilePicture/ProfilePicture";
@@ -6,41 +6,6 @@ import ProfilePicture from "../../components/ProfilePicture/ProfilePicture";
 const NotificationCard = (props) => {
 
     const { user } = useAuthContext();
-    const [senderInfo, setSenderInfo] = useState({});
-
-    useEffect(() => {
-        const getGroupInfo = async () => {
-            const response = await fetch(process.env.REACT_APP_BASEURL+'/api/groups/'+props.notification.sender, {
-                headers: {
-                    'Authorization': `Bearer ${user.token}`
-                }
-            });
-            const json = await response.json();
-
-            if (response.ok) {
-                setSenderInfo(json);
-            }
-        }
-
-        const getUserInfo = async () => {
-            const response = await fetch(process.env.REACT_APP_BASEURL+'/api/user/'+props.notification.sender, {
-                headers: {
-                    'Authorization': `Bearer ${user.token}`
-                }
-            });
-            const json = await response.json();
-
-            if (response.ok) {
-                setSenderInfo(json);
-            }
-        }
-
-        if (user ) {
-            if (props.notification.type === 'group-request') getGroupInfo();
-            if (props.notification.type === 'friend-request') getUserInfo();
-        }
-    }, [user, props.notification.sender, props.notification.type])
-
     const notification = props.notification;
 
     // Accepting a friend request
@@ -49,31 +14,34 @@ const NotificationCard = (props) => {
 
         const response = await fetch(process.env.REACT_APP_BASEURL+'/api/friends/accept', {
             method: 'PATCH',
-            body: JSON.stringify({requester: user.username, recipient: notification.sender}),
+            body: JSON.stringify({requester: user.userId, recipient: notification.sender._id}),
             headers: {
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${user.token}`
             }
         })
 
-        const deleted = await fetch(process.env.REACT_APP_BASEURL+'/api/notifications/'+notification._id, {
+        const deleted = await fetch(process.env.REACT_APP_BASEURL+'/api/user-notifications/'+notification._id, {
             method: 'DELETE',
             headers: {
                 'Authorization': `Bearer ${user.token}`
             }
         })
 
-        const notification_response = await fetch(process.env.REACT_APP_BASEURL+'/api/notifications/', {
+        const notification_response = await fetch(process.env.REACT_APP_BASEURL+'/api/user-notifications/', {
             method: 'POST',
             body: JSON.stringify({
-                type: "message",
-                target_user: notification.sender,
-                sender: user.username,
+                type: 'message',
+                target_user: notification.sender._id,
+                sender: user.userId,
                 message: `${user.username} has accepted your friend request!`
             }),
             headers: {
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${user.token}`
             }
         })
+            
 
         const json = await response.json();
         const deleted_json = await deleted.json();
@@ -92,31 +60,34 @@ const NotificationCard = (props) => {
 
         const response = await fetch(process.env.REACT_APP_BASEURL+'/api/friends/reject', {
             method: 'PATCH',
-            body: JSON.stringify({requester: user.username, recipient: notification.sender}),
+            body: JSON.stringify({requester: user.userId, recipient: notification.sender._id}),
             headers: {
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${user.token}`
             }
         })
 
-        const deleted = await fetch(process.env.REACT_APP_BASEURL+'/api/notifications/'+notification._id, {
+        const deleted = await fetch(process.env.REACT_APP_BASEURL+'/api/user-notifications/'+notification._id, {
             method: 'DELETE',
             headers: {
                 'Authorization': `Bearer ${user.token}`
             }
         })
 
-        const notification_response = await fetch(process.env.REACT_APP_BASEURL+'/api/notifications/', {
+        const notification_response = await fetch(process.env.REACT_APP_BASEURL+'/api/user-notifications/', {
             method: 'POST',
             body: JSON.stringify({
-                type: "message",
-                target_user: notification.sender,
-                sender: user.username,
+                type: 'message',
+                target_user: notification.sender._id,
+                sender: user.userId,
                 message: `${user.username} has rejected your friend request!`
             }),
             headers: {
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${user.token}`
             }
         })
+            
 
         const json = await response.json();
         const deleted_json = await deleted.json();
@@ -132,24 +103,24 @@ const NotificationCard = (props) => {
 
     // Accepting a Group request
     const handleAcceptGroup = async (e) => {
-        const deleted = await fetch(process.env.REACT_APP_BASEURL+'/api/notifications/'+notification._id, {
+        const deleted = await fetch(process.env.REACT_APP_BASEURL+'/api/group-notifications/'+notification._id, {
             method: 'DELETE',
             headers: {
                 'Authorization': `Bearer ${user.token}`
             }
         })
 
-        const group = await fetch(process.env.REACT_APP_BASEURL+'/api/groups/add_member/'+notification.sender, {
+        const group = await fetch(process.env.REACT_APP_BASEURL+'/api/groups/add_member/'+notification.sender._id, {
             method: 'PATCH',
             body: JSON.stringify({
-                member: notification.target_user
+                member: notification.target_user._id
             }),
             headers: {
                 'Content-Type': 'application/json'
             }
         })
 
-        const request = await fetch(process.env.REACT_APP_BASEURL+'/api/group-requests/'+notification.sender, {
+        const request = await fetch(process.env.REACT_APP_BASEURL+'/api/group-requests/'+notification.sender._id, {
             method: 'DELETE',
             headers: {
                 'Authorization': `Bearer ${user.token}`
@@ -170,24 +141,14 @@ const NotificationCard = (props) => {
 
     // Rejecting a Group request
     const handleRejectGroup = async (e) => {
-        const deleted = await fetch(process.env.REACT_APP_BASEURL+'/api/notifications/'+notification._id, {
+        const deleted = await fetch(process.env.REACT_APP_BASEURL+'/api/group-notifications/'+notification._id, {
             method: 'DELETE',
             headers: {
                 'Authorization': `Bearer ${user.token}`
             }
         })
 
-        const group = await fetch(process.env.REACT_APP_BASEURL+'/api/groups/remove_member/'+notification.sender, {
-            method: 'PATCH',
-            body: JSON.stringify({
-                member: notification.target_user
-            }),
-            headers: {
-                'Content-Type': 'application/json'
-            }
-        })
-
-        const request = await fetch(process.env.REACT_APP_BASEURL+'/api/group-requests/'+notification.sender, {
+        const request = await fetch(process.env.REACT_APP_BASEURL+'/api/group-requests/'+notification.sender._id, {
             method: 'DELETE',
             headers: {
                 'Authorization': `Bearer ${user.token}`
@@ -195,30 +156,22 @@ const NotificationCard = (props) => {
         })
 
         const deleted_json = await deleted.json();
-        const group_json = group.json();
         const request_json = request.json();
         
         console.log(deleted_json);
-        console.log(group_json);
         console.log(request_json);
 
         props.refreshPage();
     }
 
-
-
     // Confirming a message
     const handleConfirmMessage = async (e) => {
-        const deleted = await fetch(process.env.REACT_APP_BASEURL+'/api/notifications/'+notification._id, {
+        await fetch(process.env.REACT_APP_BASEURL+'/api/user-notifications/'+notification._id, {
             method: 'DELETE',
             headers: {
                 'Authorization': `Bearer ${user.token}`
             }
         })
-
-        const deleted_json = await deleted.json();
-
-        console.log(deleted_json);
 
         props.refreshPage();
     }
@@ -228,15 +181,15 @@ const NotificationCard = (props) => {
             <div className={styles.senderPicture}>
                 {(notification.type === 'friend-request' || notification.type === 'message') && 
                     <ProfilePicture 
-                        picture={senderInfo.picture} 
+                        picture={notification.sender.picture} 
                         size={72} 
                         type={'user'}
-                        user={notification.sender}
+                        user={notification.sender.username}
                     />
                 }
                 {(notification.type === 'group-request') && 
                     <ProfilePicture 
-                        picture={senderInfo.picture} 
+                        picture={notification.sender.picture} 
                         size={72}
                         type={'group'}
                         group={notification.sender}

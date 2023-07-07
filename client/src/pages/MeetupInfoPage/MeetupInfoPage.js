@@ -20,12 +20,11 @@ const MeetupInfoPage = (props) => {
     const { user } = useAuthContext();
 
     const meetupId = params.meetupId;
-    const meetup = meetups.filter(x => x._id === meetupId)[0];
-    const usernames = meetup.members; 
+    const meetup = meetups.filter(meetup => meetup._id === meetupId)[0];
+    const usernames = meetup.members.map(member => member.username); 
 
     const handleUpdate = (e) => {
         e.preventDefault();
-
         Swal.fire('Feature coming soon...')
     }
     
@@ -42,9 +41,19 @@ const MeetupInfoPage = (props) => {
             return;
         }
 
-        const response = await fetch(process.env.REACT_APP_BASEURL+'/api/meetups/' + meetupId, {
+        // const response = await fetch(process.env.REACT_APP_BASEURL+'/api/meetups/' + meetupId, {
+        //     method: 'PATCH',
+        //     body: JSON.stringify({members: [meetup.members.map(())]}),
+        //     headers: {
+        //         'Content-Type': 'application/json',
+        //         'Authorization': `Bearer ${user.token}`
+        //     },
+
+        // });
+
+        const response = await fetch(process.env.REACT_APP_BASEURL+'/api/meetups/add-member/' + meetupId, {
             method: 'PATCH',
-            body: JSON.stringify({members: [...usernames, user.username]}),
+            body: JSON.stringify({memberId: user.userId}),
             headers: {
                 'Content-Type': 'application/json',
                 'Authorization': `Bearer ${user.token}`
@@ -60,8 +69,6 @@ const MeetupInfoPage = (props) => {
                 return meetup;
             } 
         })
-
-        console.log(newMeetups);
 
         if (response.ok) {
             dispatch({
@@ -146,9 +153,9 @@ const MeetupInfoPage = (props) => {
                     'success'
                 )
 
-                const response = await fetch(process.env.REACT_APP_BASEURL+'/api/meetups/' + meetupId, {
+                const response = await fetch(process.env.REACT_APP_BASEURL+'/api/meetups/remove-member/' + meetupId, {
                     method: 'PATCH',
-                    body: JSON.stringify({members: usernames.filter((u) => u !== user.username)}),
+                    body: JSON.stringify({memberId: user.userId}),
                     headers: {
                         'Content-Type': 'application/json',
                         'Authorization': `Bearer ${user.token}`
@@ -184,8 +191,8 @@ const MeetupInfoPage = (props) => {
         <div className={styles.meetup}>
             <div className={styles.header}>
                 <p>{meetup.title}</p>
-                {user.username === meetup.members[0] && <button className={styles.edit} onClick={handleUpdate}>Edit</button>}
-                {user.username === meetup.members[0] && <button className={styles.delete} onClick={handleDelete}>Delete</button>}
+                {user.username === meetup.creator.username && <button className={styles.edit} onClick={handleUpdate}>Edit</button>}
+                {user.username === meetup.creator.username && <button className={styles.delete} onClick={handleDelete}>Delete</button>}
             </div>
             <div className={styles.info}>
                 <div className={styles.container}>
@@ -210,16 +217,9 @@ const MeetupInfoPage = (props) => {
             <div className={styles.members}>
                 <h2>In The Meetup</h2>
                 <div>
-                    {/* {usernames.map((username) => {
+                    {meetup.members.map((member) => {
                         return (
-                            <div key={username}>
-                                <p>{username}</p>
-                            </div>
-                        )
-                    })} */}
-                    {usernames.map((username) => {
-                        return (
-                            <UserCard username={username} key={username}/>
+                            <UserCard user={member} key={member._id}/>
                         )
                     })}
                 </div>
@@ -233,7 +233,7 @@ const MeetupInfoPage = (props) => {
             </button>
             }
             { 
-            usernames.includes(user.username) && user.username !== meetup.members[0] && <button 
+            usernames.includes(user.username) && user.username !== meetup.creator.username && <button 
                 className={styles.leave} 
                 onClick={handleLeave}
             >
