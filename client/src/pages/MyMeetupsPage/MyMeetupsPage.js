@@ -81,7 +81,7 @@ const MyMeetupsPage = (props) => {
                     if (!created) {
                         return true;
                     } else {
-                        return meetup.members[0] === user.username;
+                        return meetup.creator.username === user.username;
                     }
                 })
                 .map((meetup) => {

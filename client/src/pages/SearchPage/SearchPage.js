@@ -54,7 +54,7 @@ const SearchPage = (props) => {
             <div className={styles.users}>
                 {users.map((user) => {
                     return (
-                        <div key={user.username} className={styles.user} onClick={(e) => navigate("/profile/"+user.username)}>
+                        <div key={user.username} className={styles.user} onClick={(e) => navigate("/profile/"+user._id)}>
                             <Image
                                 cloudName={`${process.env.REACT_APP_IMAGECLOUD}`}
                                 publicId={`${user.picture || "Member_qx5vfp"}`}>

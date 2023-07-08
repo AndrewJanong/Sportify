@@ -1,12 +1,12 @@
 const express = require('express');
-const Notifications = require('../models/notificationsModel');
+const GroupNotifications = require('../models/groupNotificationsModel');
 const 
 {
     getNotifications, 
     getUserNotifications,
     deleteNotification,
     createNotification
-} = require('../controllers/notificationsController');
+} = require('../controllers/groupNotificationsController');
 
 //const requireAuth = require('../middleware/requireAuth');
 

@@ -63,13 +63,13 @@ const NewMeetupPage = (props) => {
             return;
         }
         
-        let members = [user.username];
+        let members = [user.userId];
         
 
-        let meetup = {title, sports, date, location, members, vacancy, description};
+        let meetup = {title, sports, date, location, members, vacancy, description, creator: user.userId};
 
         if (params.groupId) {
-            members = [user.username, ...groupInfo.members.filter((member) => member !== user.username)];
+            members = [user.userId, ...groupInfo.members.filter(member => member._id !== user.userId)];
             meetup.vacancy = members.length;
             meetup.members = members;
         }
@@ -99,7 +99,6 @@ const NewMeetupPage = (props) => {
               payload: json
             })
     
-            console.log('New meetup added!');
             Success.fire({
                 icon: 'success',
                 title: 'Meetup created'
@@ -117,8 +116,6 @@ const NewMeetupPage = (props) => {
         let year = Number(tomorrow.getFullYear());
 
         const inputDate = date.split('T')[0].split('-').map((x) => Number(x));
-        console.log(inputDate);
-        console.log(year, month, day);
         if (inputDate[0] < year) {
             return false;
         } else if (inputDate[0] === year) {

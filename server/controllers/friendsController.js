@@ -2,33 +2,47 @@ const Friends = require('../models/friendsModel');
 const User = require('../models/userModel');
 const mongoose = require('mongoose');
 
+
 // Getting all friends
 const getFriends = async (req, res) => {
     const friends = await Friends.find({});
     res.status(200).json(friends);
 }
 
+// Getting the frienship status with another user
+const getFriendshipStatus = async (req, res) => {
+    const userA = req.user._id.toString();
+    const userB = req.params.userId;
+
+    const friendshipStatus = await Friends.findOne({requester: userA, recipient: userB})
+                                          .populate('requester')
+                                          .populate('recipient');
+    res.status(200).json(friendshipStatus);
+}
+
 // Getting all accepted friends of a user
 const getUserFriends = async (req, res) => {
-    const { username } = req.params;
+    const { userId } = req.params;
 
-    const friends = await Friends.find({requester: username, status: 3});
+    const friends = await Friends.find({requester: userId, status: 3})
+                                 .populate('requester')
+                                 .populate('recipient');
     res.status(200).json(friends);
 }
 
 // Getting all requested friends of a user
 const getUserRequested = async (req, res) => {
-    const { username } = req.params;
+    const { userId } = req.params;
 
-    const friends = await Friends.find({requester: username, status: 1});
+    const friends = await Friends.find({requester: userId, status: 1});
     res.status(200).json(friends);
 }
 
 // Getting all pending friends of a user
 const getUserPending = async (req, res) => {
-    const { username } = req.params;
+    const { userId } = req.params;
 
-    const friends = await Friends.find({requester: username, status: 2});
+    const friends = await Friends.find({requester: userId, status: 2});
     res.status(200).json(friends);
 }
 
@@ -48,17 +62,6 @@ const sendFriendRequest = async (req, res) => {
             recipient: requester,
             status: 2
         })
-
-        const updateUserA = await User.findOneAndUpdate(
-            { username: requester },
-            { $push: { friends: docA._id }}
-        )
-
-        const updateUserB = await User.findOneAndUpdate(
-            { username: recipient },
-            { $push: { friends: docB._id }}
-        )
-
         res.status(200).json(docA);
     } catch (err) {
         res.status(400).json({error: err.message});
@@ -97,15 +100,6 @@ const rejectFriendRequest = async (req, res) => {
         const docB = await Friends.findOneAndRemove(
             { requester: recipient, recipient: requester }
         )
-        const updateUserA = await User.findOneAndUpdate(
-            { username: requester },
-            { $pull: { friends: docA._id }}
-        )
-        const updateUserB = await User.findOneAndUpdate(
-            { username: recipient },
-            { $pull: { friends: docB._id }}
-        )
-
         res.status(200).json(docA);
     } catch (err) {
         res.status(400).json({error: err.message});
@@ -123,15 +117,6 @@ const removeFriend = async (req, res) => {
         const docB = await Friends.findOneAndRemove(
             { requester: recipient, recipient: requester }
         )
-
-        const updateUserA = await User.findOneAndUpdate(
-            { username: requester },
-            { $pull: { friends: docA._id }}
-        )
-        const updateUserB = await User.findOneAndUpdate(
-            { username: recipient },
-            { $pull: { friends: docB._id }}
-        )
         res.status(200).json(docA);
     } catch (err) {
         res.status(400).json({error: err.message});
@@ -140,6 +125,7 @@ const removeFriend = async (req, res) => {
 
 module.exports = {
     getFriends,
+    getFriendshipStatus,
     getUserFriends,
     getUserRequested,
     getUserPending,

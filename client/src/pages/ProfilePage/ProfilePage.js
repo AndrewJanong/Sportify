@@ -11,6 +11,7 @@ import { useLogout } from '../../hooks/useLogout';
 import { useAuthContext } from "../../hooks/useAuthContext";
 import { useMeetupsContext } from "../../hooks/useMeetupsContext";
 import { useDiscussionsContext } from "../../hooks/useDiscussionsContext";
+import LoadingPage from "../LoadingPage/LoadingPage";
 
 const ProfilePage = (props) => {
     const params = useParams();
@@ -27,33 +28,48 @@ const ProfilePage = (props) => {
     const [display, setDisplay] = useState('friends');
     const [friends, setFriends] = useState([]);
     const [userInfo, setUserInfo] = useState({});
-    const [notifications, setNotifications] = useState([]);
+    const [userNotifications, setUserNotifications] = useState([]);
+    const [loading, setLoading] = useState(true);
 
     const handleEditProfile = (e) => {
         e.preventDefault();
-
-        navigate(`/edit/${params.username}`);
+        navigate(`/edit/${params.userId}`);
     }
 
-    const userA = user.username;
-    const userB = params.username;
+    const userA = user.userId;
+    const userB = params.userId;
 
     useEffect(() => {
+        setLoading(true);
+        
         const getFriendshipStatus = async () => {
-            const response = await fetch(process.env.REACT_APP_BASEURL+'/api/friends/');
+            const response = await fetch(process.env.REACT_APP_BASEURL+'/api/friends/'+userB, {
+                headers: {
+                    'Authorization': `Bearer ${user.token}`
+                }
+            });
             const json = await response.json();
+            console.log(json);
             
             if (response.ok) {
-                const friendship = json.filter(x => (x.requester === userA && x.recipient === userB));
-                setFriends(json.filter(x => (x.requester === userB && x.status === 3)).map(x => x.recipient));
                 setDisplay('friends');
-                
-                if (friendship.length > 0) {
-                    const status = friendship[0].status;
-                    setStatus(status);
-                } else {
-                    setStatus(0);
+                if (json) setStatus(json.status);
+                if (!json) setStatus(0);
+            }
+        }
+
+        const getFriends = async () => {
+            const response = await fetch(process.env.REACT_APP_BASEURL+'/api/friends/accepted/'+userB, {
+                headers: {
+                    'Authorization': `Bearer ${user.token}`
                 }
+            });
+            const json = await response.json();
+            console.log(json);
+            
+            if (response.ok) {
+                setFriends(json.map((friendship) => friendship.recipient));
+                setDisplay('friends');
             }
         }
 
@@ -102,8 +118,8 @@ const ProfilePage = (props) => {
             }
         }
 
-        const fetchNotifications = async () => {
-            const response = await fetch(process.env.REACT_APP_BASEURL+'/api/notifications/'+user.username, {
+        const fetchUserNotifications = async () => {
+            const response = await fetch(process.env.REACT_APP_BASEURL+'/api/user-notifications/'+userA, {
                 headers: {
                     'Authorization': `Bearer ${user.token}`
                 }
@@ -111,19 +127,27 @@ const ProfilePage = (props) => {
             const json = await response.json();
 
             if (response.ok) {
-                setNotifications(json);
+                setUserNotifications(json);
                 console.log(json);
             }
         }
 
-        if (user) {
-            getFriendshipStatus();
-            fetchMeetups();
-            fetchDiscussions();
-            getUserInfo();
-            fetchNotifications();
+        const fetchData = async () => {
+            if (userA !== userB) await getFriendshipStatus();
+            await getFriends();
+            await fetchMeetups();
+            await fetchDiscussions();
+            await getUserInfo();
+            await fetchUserNotifications();
+            setLoading(false);
         }
+
+        if (user) fetchData();
+
     }, [meetupsDispatch, discussionsDispatch, status, user, userA, userB])
+
+    console.log('user notifications');
+    console.log(userNotifications);
 
     const handleAddFriend = async (e) => {
         e.preventDefault();
@@ -132,20 +156,22 @@ const ProfilePage = (props) => {
             method: 'POST',
             body: JSON.stringify({requester: userA, recipient: userB}),
             headers: {
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${user.token}`
             }
         })
 
-        const notification = await fetch(process.env.REACT_APP_BASEURL+'/api/notifications/', {
+        const notification = await fetch(process.env.REACT_APP_BASEURL+'/api/user-notifications/', {
             method: 'POST',
             body: JSON.stringify({
-                type: "friend-request",
+                type: 'friend-request',
                 target_user: userB,
                 sender: userA,
-                message: `You got a friend request from ${userA}`
+                message: `You got a friend request from ${user.username}`
             }),
             headers: {
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${user.token}`
             }
         })
 
@@ -163,31 +189,33 @@ const ProfilePage = (props) => {
             method: 'PATCH',
             body: JSON.stringify({requester: userA, recipient: userB}),
             headers: {
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${user.token}`
             }
         })
 
-        const notif_id = notifications
-            .filter((notification) => notification.sender === userB && 
-                                      notification.type === 'friend-request')[0]._id;
+        const notif_id = userNotifications
+            .filter((notification) => notification.sender._id === userB && 
+                                      notification.target_user._id === userA)[0]._id;
 
-        const deleted = await fetch(process.env.REACT_APP_BASEURL+'/api/notifications/'+notif_id, {
+        const deleted = await fetch(process.env.REACT_APP_BASEURL+'/api/user-notifications/'+notif_id, {
             method: 'DELETE',
             headers: {
                 'Authorization': `Bearer ${user.token}`
             }
         })
 
-        const notification_response = await fetch(process.env.REACT_APP_BASEURL+'/api/notifications/', {
+        const notification_response = await fetch(process.env.REACT_APP_BASEURL+'/api/user-notifications/', {
             method: 'POST',
             body: JSON.stringify({
-                type: "message",
+                type: 'message',
                 target_user: userB,
-                sender: user.username,
+                sender: userA,
                 message: `${user.username} has accepted your friend request!`
             }),
             headers: {
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${user.token}`
             }
         })
             
@@ -209,32 +237,36 @@ const ProfilePage = (props) => {
             method: 'PATCH',
             body: JSON.stringify({requester: userA, recipient: userB}),
             headers: {
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${user.token}`
             }
         })
 
-        const notif_id = notifications
-            .filter((notification) => notification.sender === userB && 
-                                      notification.type === 'friend-request')[0]._id;
+        console.log(userNotifications);
+
+        const notif_id = userNotifications
+            .filter((notification) => notification.sender._id === userB && 
+                                      notification.target_user._id === userA)[0]._id;
 
 
-        const deleted = await fetch(process.env.REACT_APP_BASEURL+'/api/notifications/'+notif_id, {
+        const deleted = await fetch(process.env.REACT_APP_BASEURL+'/api/user-notifications/'+notif_id, {
             method: 'DELETE',
             headers: {
                 'Authorization': `Bearer ${user.token}`
             }
         })
 
-        const notification_response = await fetch(process.env.REACT_APP_BASEURL+'/api/notifications/', {
+        const notification_response = await fetch(process.env.REACT_APP_BASEURL+'/api/user-notifications/', {
             method: 'POST',
             body: JSON.stringify({
-                type: "message",
+                type: 'message',
                 target_user: userB,
-                sender: user.username,
+                sender: userA,
                 message: `${user.username} has rejected your friend request!`
             }),
             headers: {
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${user.token}`
             }
         })
             
@@ -256,7 +288,8 @@ const ProfilePage = (props) => {
             method: 'PATCH',
             body: JSON.stringify({requester: userA, recipient: userB}),
             headers: {
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${user.token}`
             }
         })
 
@@ -269,11 +302,12 @@ const ProfilePage = (props) => {
         logout();
     }
 
+    if (loading) return <LoadingPage />;
+
     return (
         <div className={styles.profilePage}>
             <div className={styles.header}>
                 <div className={styles.profilePicture}>
-                    {/* <img src={Member} alt="" /> */}
                     <Image 
                         cloudName={`${process.env.REACT_APP_IMAGECLOUD}`} 
                         publicId={`${userInfo.picture || "Member_qx5vfp"}`}>
@@ -281,8 +315,8 @@ const ProfilePage = (props) => {
                 </div>
                 <div className={styles.profile}>
                     <div className={styles.username}>
-                        <p>{params.username}</p>
-                        { user.username === params.username &&
+                        <p>{userInfo.username}</p>
+                        { user.userId === params.userId &&
                         <div className={styles.userFunctions}>
                             <button className={styles.edit} onClick={handleEditProfile}>Edit</button>
                             <button className={styles.logout} onClick={handleLogout}>Log Out</button>
@@ -346,9 +380,9 @@ const ProfilePage = (props) => {
                 }
                 { display === "friends" &&
                     <div id={styles.friends}>
-                        {friends.map((username) => {
+                        {friends.map((user) => {
                             return (
-                                <UserCard username={username} key={username}/>
+                                <UserCard user={user} key={user._id}/>
                             )
                         })}
                     </div>

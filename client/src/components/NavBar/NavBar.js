@@ -79,7 +79,7 @@ const NavBar = (props) => {
                         <div className={styles.user} onClick={(e) => console.log(user.token)}>
                             <NavLink 
                                 className={({isActive}) => isActive ? styles.active : ''}
-                                to={`/profile/${(user.username)}`} 
+                                to={`/profile/${(user.userId)}`} 
                                 style={{ textDecoration: 'none', color: '#fff' }} 
                             >
                                 <Image 
@@ -92,7 +92,7 @@ const NavBar = (props) => {
                         <div className={styles.notifications}>
                             <NavLink
                                 className={({isActive}) => isActive ? styles.active : ''}
-                                to={`/notifications/${(user.username)}`} 
+                                to={`/notifications/${(user.userId)}`} 
                                 style={{ textDecoration: 'none', color: '#fff' }}
                             >
                                     <img src={NotificationsWhite} alt="" />

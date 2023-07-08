@@ -22,10 +22,6 @@ const userSchema = new Schema ({
     picture: {
         type: String
     },
-    friends: [{
-        type: Schema.Types.ObjectId,
-        ref: 'Friends'
-    }],
     verified: {
         type: Boolean
     }
@@ -65,10 +61,9 @@ userSchema.statics.signup = async function(username, email, password) {
 
     const salt = await bcrypt.genSalt(10);
     const hash = await bcrypt.hash(password, salt);
-    const friends = [];
     const verified = false;
 
-    const user = await this.create({ username, email, password: hash, friends, verified});
+    const user = await this.create({ username, email, password: hash, verified});
 
     return user;
 }

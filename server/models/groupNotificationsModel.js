@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 
 const Schema = mongoose.Schema;
 
-const notificationSchema = new Schema({
+const GroupNotificationSchema = new Schema({
     type: {
         type: String,
         required: true
@@ -13,7 +13,8 @@ const notificationSchema = new Schema({
         required: true
     },
     sender: {
-        type: String,
+        type: Schema.Types.ObjectId,
+        ref: 'Groups',
         required: true
     },
     message: {
@@ -22,4 +23,4 @@ const notificationSchema = new Schema({
     }
 }, {timestamps: true});
 
-module.exports = mongoose.model('Notifications', notificationSchema);
+module.exports = mongoose.model('GroupNotifications', GroupNotificationSchema);

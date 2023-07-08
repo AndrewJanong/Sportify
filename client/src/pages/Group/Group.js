@@ -103,7 +103,7 @@ const Group = (props) => {
         if (message.ok) {
             socket.current.emit("sendMessage", {
                 message: message_json,
-                groupMembers: groupInfo.members
+                groupMembers: groupInfo.members.map(member => member.username)
             });
         }
     }

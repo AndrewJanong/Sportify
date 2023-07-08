@@ -22,7 +22,7 @@ router.get('/', getGroups);
 router.get('/:id', getGroup);
 
 // GET user groups
-router.get('/user/:username', getUserGroups);
+router.get('/user/:userId', getUserGroups);
   
 // POST a new group
 router.post('/', createGroup);

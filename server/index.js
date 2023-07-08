@@ -7,6 +7,8 @@ const discussionRoutes = require('./routes/discussion');
 const userRoutes = require('./routes/user');
 const friendsRoutes = require('./routes/friends');
 const notificationsRoutes = require('./routes/notifications');
+const userNotificationsRoutes = require('./routes/userNotifications');
+const groupNotificationsRoutes = require('./routes/groupNotifications');
 const groupsRoutes = require('./routes/groups');
 const groupRequestsRoutes = require('./routes/groupRequests');
 const groupChatRoutes = require('./routes/groupChat');
@@ -31,6 +33,8 @@ app.use('/api/discussions', discussionRoutes)
 app.use('/api/user', userRoutes);
 app.use('/api/friends', friendsRoutes);
 app.use('/api/notifications', notificationsRoutes);
+app.use('/api/user-notifications', userNotificationsRoutes);
+app.use('/api/group-notifications', groupNotificationsRoutes);
 app.use('/api/groups', groupsRoutes);
 app.use('/api/group-requests', groupRequestsRoutes);
 app.use('/api/group-chat', groupChatRoutes);

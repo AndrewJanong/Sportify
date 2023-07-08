@@ -14,7 +14,7 @@ const GroupsPage = (props) => {
 
     useEffect(() => {
         const fetchUserGroups = async () => {
-            const response = await fetch(process.env.REACT_APP_BASEURL+'/api/groups/user/'+user.username, {
+            const response = await fetch(process.env.REACT_APP_BASEURL+'/api/groups/user/'+user.userId, {
                 headers: {
                     'Authorization': `Bearer ${user.token}`
                 }
@@ -55,7 +55,7 @@ const GroupsPage = (props) => {
                 {
                     userGroups.map((group) => {
                         return (
-                            <GroupCard group={group} key={group.name}/>
+                            <GroupCard group={group} key={group._id}/>
                         )
                     })
                 }
