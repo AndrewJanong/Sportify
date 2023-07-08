@@ -11,6 +11,7 @@ import { useLogout } from '../../hooks/useLogout';
 import { useAuthContext } from "../../hooks/useAuthContext";
 import { useMeetupsContext } from "../../hooks/useMeetupsContext";
 import { useDiscussionsContext } from "../../hooks/useDiscussionsContext";
+import LoadingPage from "../LoadingPage/LoadingPage";
 
 const ProfilePage = (props) => {
     const params = useParams();
@@ -28,6 +29,7 @@ const ProfilePage = (props) => {
     const [friends, setFriends] = useState([]);
     const [userInfo, setUserInfo] = useState({});
     const [userNotifications, setUserNotifications] = useState([]);
+    const [loading, setLoading] = useState(true);
 
     const handleEditProfile = (e) => {
         e.preventDefault();
@@ -38,6 +40,8 @@ const ProfilePage = (props) => {
     const userB = params.userId;
 
     useEffect(() => {
+        setLoading(true);
+        
         const getFriendshipStatus = async () => {
             const response = await fetch(process.env.REACT_APP_BASEURL+'/api/friends/'+userB, {
                 headers: {
@@ -128,14 +132,18 @@ const ProfilePage = (props) => {
             }
         }
 
-        if (user) {
-            if (userA !== userB) getFriendshipStatus();
-            getFriends();
-            fetchMeetups();
-            fetchDiscussions();
-            getUserInfo();
-            fetchUserNotifications();
+        const fetchData = async () => {
+            if (userA !== userB) await getFriendshipStatus();
+            await getFriends();
+            await fetchMeetups();
+            await fetchDiscussions();
+            await getUserInfo();
+            await fetchUserNotifications();
+            setLoading(false);
         }
+
+        if (user) fetchData();
+
     }, [meetupsDispatch, discussionsDispatch, status, user, userA, userB])
 
     console.log('user notifications');
@@ -293,6 +301,8 @@ const ProfilePage = (props) => {
     const handleLogout = () => {
         logout();
     }
+
+    if (loading) return <LoadingPage />;
 
     return (
         <div className={styles.profilePage}>
