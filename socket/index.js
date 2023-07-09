@@ -1,10 +1,24 @@
 require('dotenv').config();
 
-const io = require("socket.io")(8900, {
+const express = require('express');
+const cors = require('cors');
+const app = express();
+const http = require("http").Server(app)
+const io = require("socket.io")(http, {
     cors: {
         origin: process.env.CLIENT_URL
     }
 })
+
+const port = process.env.PORT || 8900;
+
+app.use(cors());
+
+// const io = require("socket.io")(8900, {
+//     cors: {
+//         origin: process.env.CLIENT_URL
+//     }
+// })
 
 let users = [];
 
@@ -55,3 +69,7 @@ io.on("connection", (socket) => {
         io.emit("getUsers", users);
     });
 });
+
+http.listen(port, () => {
+    console.log(`App listening on port ${port}`)
+})
