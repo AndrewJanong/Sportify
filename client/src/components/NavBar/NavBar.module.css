@@ -1,7 +1,7 @@
 .navbar {
     height: 100vh;
     width: 20%;
-    z-index: 1;
+    z-index: 2;
     position: fixed;
     background-color: #541521;
     background-color: #001C30;
@@ -47,21 +47,14 @@
     justify-content: flex-end;
 }
 
-.createmeetup {
+.createButton {
     width: 144px;
     height: 32px;
     border: none;
     border-radius: 8px;
-    background-color: #FFEAE3;
-}
-
-.creatediscussion {
-    width: 144px;
-    height: 32px;
-    border: none;
-    border-radius: 8px;
-    background-color: #FFEAE3;
-    margin-bottom: 20px;
+    background-color: var(--blue-button);
+    color: #fff;
+    font-weight: 600;
 }
 
 button {
@@ -78,12 +71,8 @@ button {
     background-color: #005c22;
 }
 
-.createmeetup:hover {
-    background-color: #ead7d0;
-}
-
-.creatediscussion:hover {
-    background-color: #ead7d0;
+.createButton:hover {
+    background-color: var(--blue-button-hovered);
 }
 
 .login:hover {
@@ -165,4 +154,28 @@ button {
 .notifications img {
     width: 36px;
     height: 36px;
+}
+
+
+@media (992px <= width) {
+    
+}
+
+@media (width <= 992px) {
+    .navbar {
+        width: 0;
+        background-color: transparent;
+        box-shadow: none;
+        transition: width 200ms ease, display 200ms ease;
+    }
+
+    .navbar[show='hide'] * {
+        display: none;
+    }
+
+    .navbar[show='show'] {
+        width: 240px;
+        background-color: #001C30;
+        box-shadow: 0 0 1pt 1pt #001C30;
+    }
 }

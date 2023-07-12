@@ -29,3 +29,15 @@
 .section p {
     font-size: 1.2rem;
 }
+
+@media (992px <= width) {
+    
+}
+
+@media (576px <= width <= 992px) {
+
+}
+
+@media (width <= 576px) {
+    
+}

@@ -188,11 +188,13 @@ const MeetupInfoPage = (props) => {
     }
 
     return (
-        <div className={styles.meetup}>
+        <div className={styles.page}>
             <div className={styles.header}>
                 <p>{meetup.title}</p>
-                {user.username === meetup.creator.username && <button className={styles.edit} onClick={handleUpdate}>Edit</button>}
-                {user.username === meetup.creator.username && <button className={styles.delete} onClick={handleDelete}>Delete</button>}
+                <div className={styles.headerButtons}>
+                    {user.username === meetup.creator.username && <button className={styles.edit} onClick={handleUpdate}>Edit</button>}
+                    {user.username === meetup.creator.username && <button className={styles.delete} onClick={handleDelete}>Delete</button>}
+                </div>
             </div>
             <div className={styles.info}>
                 <div className={styles.container}>

@@ -18,9 +18,9 @@ const MeetupCard = (props) => {
         <div className={styles.meetupcard}>
             <div className={styles.header}>
                 <h1>{props.meetup.title}</h1>
-                <p>Created by {props.meetup.members[0].username}</p>
+                {/* <p>Created by {props.meetup.members[0].username}</p> */}
             </div>
-            <p>{props.meetup.sports}</p>
+            <p className={styles.sport}>{props.meetup.sports}</p>
             <div className={styles.info}>
                 <div className={styles.date}>
                     <img src={Date} alt="" />

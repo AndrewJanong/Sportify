@@ -146,7 +146,7 @@ const NewMeetupPage = (props) => {
                 <form action="" className={styles.form} onSubmit={handleSubmit}>
                     <label htmlFor="">Title</label>
                     <input
-                        maxLength={50}
+                        maxLength={40}
                         type="text"
                         onChange={(e) => setTitle(e.target.value)}
                         value={title}
@@ -177,6 +177,7 @@ const NewMeetupPage = (props) => {
                         type="text"
                         onChange={(e) => setLocation(e.target.value)}
                         value={location}
+                        maxLength={40}
                     />
                     {!params.groupId && <label htmlFor="">Vacancy</label>}
                     {!params.groupId && 
@@ -185,6 +186,7 @@ const NewMeetupPage = (props) => {
                         onChange={(e) => setVacancy(e.target.value)}
                         value={vacancy}
                         min="1"
+                        max="30"
                     />}
                     <label htmlFor="">Description</label>
                     <textarea 

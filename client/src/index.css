@@ -4,10 +4,13 @@
 * {
   box-sizing: border-box;
   margin: 0;
+  --blue-button: #3b62be;
+  --blue-button-hovered: #3355a5;
 }
 
 html {
   font-family: "Montserrat", sans-serif;
+  font-size: 16px;
   background: #1E2A46;
 }
 
@@ -18,4 +21,18 @@ body {
 html, body {
   max-width: 100%;
   overflow-x: hidden;
+}
+
+@media (992px <= width) {
+
+}
+
+@media (576px <= width <= 992px) {
+
+}
+
+@media (width <= 576px) {
+    html {
+      font-size: 12px;
+    }
 }

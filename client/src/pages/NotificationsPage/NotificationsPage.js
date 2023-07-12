@@ -12,26 +12,9 @@ const NotificationsPage = (props) => {
     const [refresh, setRefresh] = useState(1);
     const [loading, setLoading] = useState(true);
 
-    // Fetch the user notifications
+    // Fetch notifications
     useEffect(() => {
         const fetchNotifications = async () => {
-            // const response = await fetch(process.env.REACT_APP_BASEURL+'/api/notifications/'+user.userId, {
-            //     headers: {
-            //         'Authorization': `Bearer ${user.token}`
-            //     }
-            // });
-            // const json = await response.json();
-
-            // if (json.length > 0 && json[0].test) {
-            //     setNotifications(json);
-            //     setLoading(false);
-            // }
-
-            // if (response.ok) {
-            //     setNotifications(json);
-            //     setLoading(false);
-            // }
-
             const userNotifications = await fetch(process.env.REACT_APP_BASEURL+'/api/user-notifications/'+user.userId, {
                 headers: {
                     'Authorization': `Bearer ${user.token}`

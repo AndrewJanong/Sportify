@@ -1,47 +1,53 @@
 .card {
     width: 800px;
-    height: 100px;
+    height: 6rem;
     display: flex;
 }
 
 .senderPicture {
-    width: 200px;
-    height: 100px;
+    width: 8rem;
+    height: 6rem;
     display: flex;
     align-items: center;
-    justify-content: center;
+    justify-content: flex-start;
+
+    border: 1px solid white;
 }
 
 .message {
     width: 400px;
-    height: 100px;
+    height: 6rem;
     display: flex;
+    border: 1px solid white;
 }
 
 .message > p {
     width: 400px;
-    height: 100px;
+    height: 6rem;
     padding: 6px;
-    font-size: 16px;
+    font-size: 1rem;
 
     display: flex;
     align-items: center;
 }
 
 .buttons {
-    width: 400px;
-    height: 100px;
+    width: 25rem;
+    height: 6rem;
 
     display: flex;
     align-items: center;
     justify-content: space-around;
+
+    border: 1px solid white;
 }
 
 .buttons > button {
-    width: 90px;
-    height: 32px;
+    width: 6rem;
+    height: 2rem;
     border: none;
     border-radius: 8px;
+    font-size: 1rem;
     color: #fff;
 }
 
@@ -69,3 +75,36 @@
     background-color: #3355a5;
 }
 
+
+@media (992px <= width) {
+
+}
+
+@media (576px <= width <= 992px) {
+    .page {
+        padding: 3rem 1rem;
+    }
+
+    .card {
+        width: 100%;
+    }
+
+    .message {
+        width: 40%;
+    }
+    
+}
+
+@media (width <= 576px) {
+    .page {
+        padding: 3rem 1rem;
+    }
+
+    .card {
+        width: 100%;
+    }
+
+    .message {
+        width: 40%;
+    }
+}

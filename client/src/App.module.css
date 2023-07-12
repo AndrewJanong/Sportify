@@ -1,0 +1,47 @@
+@media (992px <= width) {
+    .screen {
+        padding-left: 20%;
+    }
+
+    .sidebarButton {
+        display: none;
+    }
+}
+
+@media (width <= 992px) {
+    .screen {
+        padding-left: 0;
+    }
+
+    .sidebarButton {
+        border: none;
+        outline: none;
+        background-color: #001C30;
+
+        position: fixed;
+        z-index: 3;
+        top: 8px;
+        left: 8px;
+        height: 36px;
+        width: 36px;
+        border-radius: 4px;
+
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .sidebarButton img {
+        width: 30px;
+        height: 30px;
+    }
+
+    .blurScreen {
+        position: fixed;
+        z-index: 1;
+        width: 100vw;
+        height: 100vh;
+        background-color: #001C30;
+        opacity: 0.5;
+    }
+}
