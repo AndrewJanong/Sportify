@@ -128,10 +128,11 @@ const NavBar = (props) => {
                                 <p onClick={(e) => {console.log(user)}}>{user.username}</p>
                             </NavLink>
                         </div>
+
                         <div className={styles.notifications}>
                             <NavLink
                                 className={({isActive}) => isActive ? styles.active : ''}
-                                to={`/notifications/${(user.userId)}`} 
+                                to={`/notifications/${(user.userId)}`}
                                 style={{ textDecoration: 'none', color: '#fff' }}
                                 onClick={props.hideSidebar}
                             >

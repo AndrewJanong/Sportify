@@ -305,7 +305,7 @@ const ProfilePage = (props) => {
     if (loading) return <LoadingPage />;
 
     return (
-        <div className={styles.profilePage}>
+        <div className={styles.page}>
             <div className={styles.header}>
                 <div className={styles.profilePicture}>
                     <Image 
@@ -344,9 +344,38 @@ const ProfilePage = (props) => {
                         </div>}
                     </div>
                     <div className={styles.bio}>
-
+                        <p>{userInfo.name}</p>
+                        <p>{userInfo.bio}</p>
                     </div>
                 </div>
+            </div>
+            <div className={styles.mobileButtons}>
+                { user.userId === params.userId &&
+                    <div className={styles.userFunctionsMobile}>
+                        <button className={styles.edit} onClick={handleEditProfile}>Edit</button>
+                        <button className={styles.logout} onClick={handleLogout}>Log Out</button>
+                    </div>}
+                { userA !== userB &&
+                    <div className={styles.friendshipMobile}>
+                        { status === -1 &&
+                            <button className={styles.loading}><img src={Loading} alt="" /></button>
+                        }
+                        { status === 0 &&
+                            <button className={styles.addFriend} onClick={handleAddFriend}>Add Friend</button>
+                        }
+                        { status === 1 &&
+                            <button className={styles.requestedFriend}>Requested</button>
+                        }
+                        { status === 2 &&
+                            <button className={styles.pendingFriend} onClick={handleAcceptFriend}>Accept</button>
+                        }
+                        { status === 2 &&
+                            <button className={styles.rejectFriend} onClick={handleRejectFriend}>Reject</button>
+                        }
+                        { status === 3 &&
+                            <button className={styles.removeFriend} onClick={handleRemoveFriend}>Remove Friend</button>
+                        }
+                    </div>}
             </div>
             <div className={styles.navigation}>
                 <p onClick={(e) => setDisplay("meetups")} className={display === 'meetups' ? styles['nav-current'] : ''}>Meetups</p>
@@ -358,7 +387,7 @@ const ProfilePage = (props) => {
                     <div id={styles.meetups}>
                         {meetups &&
                         meetups
-                        .filter((meetup) => meetup.members.includes(userB))
+                        .filter((meetup) => meetup.members.find((member) => member._id === userB))
                         .map((meetup) => {
                             return (
                                 <MeetupCard key={meetup._id} meetup={meetup}/>

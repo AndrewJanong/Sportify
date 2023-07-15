@@ -131,14 +131,13 @@ button {
 .user img {
     width: 36px;
     height: 36px;
-    background-color: #dbdada;;
-    border: 1px solid rgb(255, 255, 255, 0.1);
+    background-color: var(--picture-background);
     border-radius: 50%;
 }
 
 .notifications, .notifications > *{
-    width: 48px;
-    height: 48px;
+    width: 3rem;
+    height: 3rem;
     border-radius: 50%;
 
     display: flex;
@@ -152,8 +151,8 @@ button {
 }
 
 .notifications img {
-    width: 36px;
-    height: 36px;
+    width: 2.25rem;
+    height: 2.25rem;
 }
 
 

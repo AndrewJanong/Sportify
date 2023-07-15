@@ -163,7 +163,7 @@ const NewGroupPage = (props) => {
         
         if (invitedUser) {
             console.log(invitedUser);
-            setAddedMembers([...addedMembers, invitedUser]);
+            if (!addedMembers.find((member) => member.username === invitedUser.username)) setAddedMembers([...addedMembers, invitedUser]);
             setError('');
         } else {
             setError('User Not Found');

@@ -21,9 +21,9 @@
 }
 
 .container h2 {
-    width: 320px;
-    margin-bottom: 16px;
-    border-bottom: 1px solid #fff;
+    width: 25rem;
+    margin-bottom: 1rem;
+    font-size: 2rem;
 }
 
 .group {
@@ -34,7 +34,7 @@
     display: flex;
     flex-direction: column;
     justify-content: center;
-    width: 320px;
+    width: 25rem;
     height: 480px;
 }
 
@@ -79,18 +79,19 @@
     outline: none;
     border: none;
 
-    width: 6rem;
-    height: 1.6rem;
+    width: 7rem;
+    height: 2rem;
     margin-top: 1em;
-    border-radius: 8px;
-    background-color: #FFEAE3;;
+    border-radius: 0.5rem;
+    color: #fff;
+    background-color: var(--blue-button);
 }
 
 .container button:hover {
-    background-color: #ead7d0;
+    background-color: var(--blue-button-hovered);
 }
 
-.container button:disabled:hover {
+.container button:disabled:hover, .container button:disabled {
     background-color: #FFEAE3;
 }
 
