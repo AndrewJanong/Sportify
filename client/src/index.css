@@ -6,6 +6,8 @@
   margin: 0;
   --blue-button: #3b62be;
   --blue-button-hovered: #3355a5;
+  --red-button: #ff0000;
+  --red-button-hovered: #db0000;
   --picture-background: rgb(191, 191, 191, 0.5);
 }
 

@@ -16,9 +16,9 @@ const MeetupCard = (props) => {
 
     return (
         <div className={styles.meetupcard}>
+            <p className={styles.creator}>created by {props.meetup.creator.username}</p>
             <div className={styles.header}>
                 <h1>{props.meetup.title}</h1>
-                {/* <p>Created by {props.meetup.members[0].username}</p> */}
             </div>
             <p className={styles.sport}>{props.meetup.sports}</p>
             <div className={styles.info}>

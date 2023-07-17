@@ -1,6 +1,6 @@
 .navbar {
     height: 100vh;
-    width: 20%;
+    width: 240px;
     z-index: 2;
     position: fixed;
     background-color: #541521;
@@ -54,7 +54,6 @@
     border-radius: 8px;
     background-color: var(--blue-button);
     color: #fff;
-    font-weight: 600;
 }
 
 button {

@@ -11,6 +11,7 @@ import LoginPage from './pages/LoginPage/LoginPage';
 import ResetPasswordPage from './pages/ResetPasswordPage/ResetPasswordPage';
 import SignupPage from './pages/SignupPage/SignupPage';
 import NewMeetupPage from './pages/NewMeetupPage/NewMeetupPage';
+import EditMeetupPage from './pages/EditMeetupPage/EditMeetupPage';
 import MyMeetupsPage from './pages/MyMeetupsPage/MyMeetupsPage';
 import MeetupInfoPage from './pages/MeetupInfoPage/MeetupInfoPage';
 import DiscussionsPage from './pages/DiscussionsPage/DiscussionsPage';
@@ -82,6 +83,10 @@ function App() {
             <Route
               path="/newmeetup"
               element={(user && user.verified) ? <NewMeetupPage /> : <Navigate to="/login"/>}
+            />
+            <Route
+              path="/editmeetup/:meetupId"
+              element={(user && user.verified) ? <EditMeetupPage /> : <Navigate to="/login"/>}
             />
             <Route
               path="/login"

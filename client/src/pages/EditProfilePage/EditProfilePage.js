@@ -4,6 +4,7 @@ import { Image } from 'cloudinary-react';
 import { useAuthContext } from "../../hooks/useAuthContext";
 import { useParams } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
+import LoadingPage from "../LoadingPage/LoadingPage";
 
 const EditProfilePage = (props) => {
     const params = useParams();
@@ -48,23 +49,6 @@ const EditProfilePage = (props) => {
             );
 
             if (parsed) setPicture(parsed.public_id);
-    
-            // const response = await fetch(process.env.REACT_APP_BASEURL+'/api/user/'+user.username, {
-            //     method: 'PATCH',
-            //     body: JSON.stringify({picture: parsed.public_id}),
-            //     headers: {
-            //         'Content-Type': 'application/json',
-            //         'Authorization': `Bearer ${user.token}`
-            //     },
-            // })
-    
-            // const json = await response.json();
-            // console.log(json);
-    
-            //  dispatch({
-            //      type: 'EDIT',
-            //      payload: {picture: parsed.public_id}
-            // })
         }
 
         if (user && !fetched) {
@@ -75,39 +59,6 @@ const EditProfilePage = (props) => {
             uploadImage();
         }
     }, [user, params.userId, imageSelected, fetched])
-
-    // const uploadImage = async () => {
-    //     const url = `https://api.cloudinary.com/v1_1/dpjocjbpp/image/upload`;
-    //     const data = new FormData();
-    //     data.append('file', imageSelected);
-    //     data.append('upload_preset', process.env.REACT_APP_PRESET);
-
-    //     const fetched = await fetch(url, {
-    //         method: "post",
-    //         body: data,
-    //     });
-    //     const parsed = await fetched.json();
-    //     console.log(
-    //         parsed.public_id // 200, success!
-    //     );
-
-    //     const response = await fetch(process.env.REACT_APP_BASEURL+'/api/user/'+user.username, {
-    //         method: 'PATCH',
-    //         body: JSON.stringify({picture: parsed.public_id}),
-    //         headers: {
-    //             'Content-Type': 'application/json',
-    //             'Authorization': `Bearer ${user.token}`
-    //         },
-    //     })
-
-    //     const json = await response.json();
-    //     console.log(json);
-
-    //      dispatch({
-    //          type: 'EDIT',
-    //          payload: {picture: parsed.public_id}
-    //     })
-    // }
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -127,6 +78,10 @@ const EditProfilePage = (props) => {
         })
 
         navigate('/profile/'+params.userId);
+    }
+
+    if (!fetched) {
+        return <LoadingPage />;
     }
 
     return (

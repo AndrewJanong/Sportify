@@ -22,10 +22,6 @@
     font-size: 2rem;
 }
 
-.group {
-    margin-bottom: 12px;
-}
-
 .form {
     display: flex;
     flex-direction: column;
@@ -83,12 +79,28 @@
     background-color: var(--blue-button);
 }
 
+.buttons {
+    display: flex;
+}
+
 .container button:hover {
     background-color: var(--blue-button-hovered);
 }
 
-.container button:disabled:hover, .container button:disabled {
+#createButton {
+    margin-right: 1rem;
+}
+
+#createButton:disabled:hover, #createButton:disabled {
     background-color: #FFEAE3;
+}
+
+#cancelButton {
+    background-color: var(--red-button);
+}
+
+#cancelButton:hover {
+    background-color: var(--red-button-hovered);
 }
 
 .error {

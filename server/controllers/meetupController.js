@@ -41,9 +41,12 @@ const postMeetup = async (req, res) => {
         return res.status(400).json({error: 'Please fill in all fields'});
     }
 
+    const expirationDate = new Date(date.split('T')[0])
+    expirationDate.setDate(expirationDate.getDate() + 1);
+
     try {
         const user_id = req.user._id;
-        const meetup = await Meetups.create({title, sports, date, location, members, vacancy, description, user_id, creator});
+        const meetup = await Meetups.create({title, sports, date, location, members, vacancy, description, user_id, creator, expirationDate});
         res.status(200).json(meetup);
     } catch (error) {
         res.status(400).json({error: error.message});
@@ -94,13 +97,16 @@ const updateMeetup = async (req, res) => {
         return res.status(400).json({error: "No such meetup"});
     }
 
-    const meetup = await Meetups.findOneAndUpdate({_id: id}, {...req.body});
+    const expirationDate = new Date(req.body.date.split('T')[0])
+    expirationDate.setDate(expirationDate.getDate() + 1);
 
-    if (!meetup) {
+    const updatedMeetup = await Meetups.findOneAndUpdate({_id: id}, {...req.body, expirationDate}, {new: true}).populate('members').populate('creator');
+
+    if (!updateMeetup) {
         return res.status(400).json({error: "No such meetup"});
     }
 
-    res.status(200).json(meetup);
+    res.status(200).json(updatedMeetup);
 }
 
 module.exports = {getMeetups, getUserMeetups, getMeetup, postMeetup, addMember, removeMember, deleteMeetup, updateMeetup};

@@ -96,6 +96,7 @@
 }
 
 .description p {
+    font-size: 1rem;
     height: 144px;
     width: 100%;
     overflow: hidden;
@@ -186,6 +187,10 @@
         flex-direction: column;
         justify-content: space-between;
         height: 27rem;
+    }
+
+    .container {
+        width: 100%;
     }
 
     .description {
