@@ -1,7 +1,7 @@
 .meetupcard {
     width: 80%;
-    height: 200px;
-    padding: 24px;
+    height: 250px;
+    padding: 20px;
     border-radius: 1rem;
     margin-top: 1rem;
     background-color: white;
@@ -10,7 +10,14 @@
 
     display: flex;
     flex-direction: column;
-    justify-content: space-around;
+}
+
+.creator {
+    font-size: 10px;
+    height: 10px;
+    width: 100%;
+    margin-top: -4px;
+    text-align: end;
 }
 
 .header {
@@ -18,16 +25,26 @@
     justify-content: space-between;
 }
 
+.header h1 {
+    height: 5.8rem;
+    font-size: 2rem;
+    margin-bottom: 0.4rem;
+}
+
 .header p {
-    font-size: 12px;
+    font-size: 0.8rem;
+}
+
+.sport {
+    margin-bottom: 0.4rem;
 }
 
 .meetupcard > button {
     outline: none;
     border: none;
     
-    height: 28px;
-    width: 72px;
+    height: 1.8rem;
+    width: 5rem;
     border-radius: 5px;
 }
 
@@ -36,8 +53,10 @@
 }
 
 .info {
+    height: 4.2rem;
     display: flex;
     justify-content: space-between;
+    margin-bottom: 0.4rem;
 }
 
 .info img {
@@ -46,8 +65,63 @@
 }
 
 .info > * {
-    width: 25%;
+    width: 30%;
     display: flex;
     flex-direction: flex-start;
     align-items: center;
+}
+
+.location {
+    width: 40%;
+}
+
+.members {
+    width: 20%;
+}
+
+@media (992px <= width) {
+
+}
+
+@media (576px <= width <= 992px) {
+    .meetupcard {
+        height: 20rem;
+    }
+
+    .header h1 {
+        height: 5.8rem;
+        font-size: 1.8rem;
+        margin-bottom: 0.4rem;
+    }
+
+    .info {
+        flex-direction: column;
+        justify-content: flex-start;
+        height: 8rem;
+    }
+
+    .info > * {
+        width: 100%;
+        margin-bottom: 1rem;
+    }
+}
+
+@media (width <= 576px) {
+    .header h1 {
+        font-size: 1.5rem;
+    }
+    .meetupcard {
+        height: 24rem;
+    }
+
+    .info {
+        flex-direction: column;
+        justify-content: flex-start;
+        height: 10rem;
+    }
+
+    .info > * {
+        width: 100%;
+        margin-bottom: 1rem;
+    }
 }

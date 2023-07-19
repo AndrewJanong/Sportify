@@ -115,7 +115,7 @@ const EditGroupPage = (props) => {
                 </div>
                 <label htmlFor="">Group Name</label>
                 <input
-                    maxLength={50}
+                    maxLength={40}
                     type="text"
                     onChange={(e) => setGroupName(e.target.value)}
                     value={groupName}

@@ -49,7 +49,7 @@ const GroupsPage = (props) => {
         <div className={styles.page}>
             <div className={styles.header}>
                 <h1>My Groups</h1>
-                <button className={styles.createButton} onClick={handleCreateGroup}>Create Group</button>
+                <button className={styles.createButton} onClick={handleCreateGroup}>Create</button>
             </div>
             <div className={styles.groups}>
                 {

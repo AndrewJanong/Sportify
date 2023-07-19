@@ -151,7 +151,7 @@ const GroupInfoPage = (props) => {
                 <div className={styles.memberHeader}>
                     <h2>Members</h2>
                     {groupInfo.members && groupInfo.members.map(member => member.username).includes(user.username) &&
-                    <button id={styles.addMemberButton} onClick={handleAddMember}>Add Member</button>}
+                    <button id={styles.addMemberButton} onClick={handleAddMember}>Add</button>}
                 </div>
                 <div className={styles.membersContainer}>
                     {groupInfo.members &&

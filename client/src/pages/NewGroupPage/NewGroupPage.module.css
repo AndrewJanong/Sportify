@@ -4,29 +4,32 @@
     height: 100vh;
     width: 100%;
     padding: 36px 60px;
-    padding-left: calc(20% + 60px);
+    padding-left: 60px;
+}
+
+.header h1 {
+    font-size: 2.5rem;
 }
 
 .form {
     display: flex;
     flex-direction: column;
-    justify-content: center;
     width: 600px;
-    height: 540px;
+    height: 38rem;
 }
 
 .form label {
-    margin-top: 8px;
+    margin-top: 0.5rem;
 }
 
 .form input, .form select {
     outline: none;
     border: none;
-    font-family: "Montserrat", sans-serif;
+    font-family: inherit;
 
-    width: 320px;
+    width: 20rem;
     height: 1.6rem;
-    border-radius: 8px;
+    border-radius: 0.5rem;
     padding: none;
     margin: none;
 
@@ -35,28 +38,34 @@
 }
 
 .groupPicture {
-    height: 210px;
+    height: 16rem;
     display: flex;
     align-items: center;
 }
 
 .groupPicture > img {
-    height: 200px;
-    width: 200px;
+    height: 12rem;
+    width: 12rem;
 
     border-radius: 50%;
-    margin-right: 24px;
+    margin-right: 1.5rem;
+    margin-bottom: 1rem;
     background-color: rgb(255, 255, 255, 0.2);
 }
 
 .groupPicture > div * {
-    font-family: "Montserrat", sans-serif;
+    font-family: inherit;
+}
+
+.groupPicture input {
+    border-radius: 0.5rem;
+    height: 2rem;
 }
 
 .groupPicture input::file-selector-button {
     outline: none;
     border: none;
-    font-family: "Montserrat", sans-serif;
+    font-family: inherit;
 
     border-radius: 5px;
     height: 24px;
@@ -71,42 +80,46 @@
 
 .invite {
     display: flex;
+    align-items: center;
 }
 
 .form button {
     outline: none;
     border: none;
 
-    width: 100px;
-    height: 24px;
-    border-radius: 8px;
-    font-family: "Montserrat", sans-serif;
+    width: 8rem;
+    height: 2rem;
+    border-radius: 0.5rem;
+    font-size: 1rem;
+    font-family: inherit;
     color: #fff;
-    background-color: #3b62be;
+    background-color: var(--blue-button);
 }
 
 .form button:hover {
-    background-color: #3355a5;
+    background-color: var(--blue-button-hovered);
+    cursor: pointer;
 }
 
 #addButton {
-    margin-left: 12px;
+    width: 4.5rem;
+    margin-left: 0.75rem;
 }
 
 .addedMembers {
-    width: 500px;
+    width: 32rem;
     margin-top: 12px;
     display: flex;
     flex-wrap: wrap;
 }
 
 .members {
-    height: 30px;
+    height: 2rem;
     color: #000;
-    padding: 10px;
+    padding: 0.5rem;
     margin-right: 4px;
-    margin-bottom: 8px;
-    border-radius: 8px;
+    margin-bottom: 0.5rem;
+    border-radius: 0.5rem;
 
     background-color: #bef3ff;
     display: flex;
@@ -115,15 +128,15 @@
 }
 
 .members img {
-    width: 12px;
-    height: 12px;
+    width: 0.75rem;
+    height: 0.75rem;
     cursor: pointer;
 
     margin-left: 8px;
 }
 
 #createButton {
-    margin-top: 24px;
+    margin-top: 1.5rem;
 }
 
 .error {
@@ -133,4 +146,34 @@
     color: #e7195a;
     border-radius: 4px;
     margin: 20px 0;
+}
+
+
+@media (992px <= width) {
+
+}
+
+@media (576px <= width <= 992px) {
+    .page {
+        padding: 3rem 1rem;
+    }
+}
+
+@media (width <= 576px) {
+    .page {
+        padding: 4rem 1rem;
+    }
+
+    .groupPicture {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .form {
+        width: 100%;
+    }
+
+    .addedMembers {
+        width: 100%;
+    }
 }

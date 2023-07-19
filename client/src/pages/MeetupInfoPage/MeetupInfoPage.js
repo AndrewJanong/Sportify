@@ -23,12 +23,6 @@ const MeetupInfoPage = (props) => {
     const meetup = meetups.filter(meetup => meetup._id === meetupId)[0];
     const usernames = meetup.members.map(member => member.username); 
 
-    const handleUpdate = (e) => {
-        e.preventDefault();
-        Swal.fire('Feature coming soon...')
-    }
-    
-
     const handleJoin = async (e) => {
         e.preventDefault();
 
@@ -40,16 +34,6 @@ const MeetupInfoPage = (props) => {
             Swal.fire('Meetup is full!');
             return;
         }
-
-        // const response = await fetch(process.env.REACT_APP_BASEURL+'/api/meetups/' + meetupId, {
-        //     method: 'PATCH',
-        //     body: JSON.stringify({members: [meetup.members.map(())]}),
-        //     headers: {
-        //         'Content-Type': 'application/json',
-        //         'Authorization': `Bearer ${user.token}`
-        //     },
-
-        // });
 
         const response = await fetch(process.env.REACT_APP_BASEURL+'/api/meetups/add-member/' + meetupId, {
             method: 'PATCH',
@@ -188,11 +172,13 @@ const MeetupInfoPage = (props) => {
     }
 
     return (
-        <div className={styles.meetup}>
+        <div className={styles.page}>
             <div className={styles.header}>
                 <p>{meetup.title}</p>
-                {user.username === meetup.creator.username && <button className={styles.edit} onClick={handleUpdate}>Edit</button>}
-                {user.username === meetup.creator.username && <button className={styles.delete} onClick={handleDelete}>Delete</button>}
+                <div className={styles.headerButtons}>
+                    {user.username === meetup.creator.username && <button className={styles.edit} onClick={(e) => navigate('/editmeetup/'+ meetupId)}>Edit</button>}
+                    {user.username === meetup.creator.username && <button className={styles.delete} onClick={handleDelete}>Delete</button>}
+                </div>
             </div>
             <div className={styles.info}>
                 <div className={styles.container}>

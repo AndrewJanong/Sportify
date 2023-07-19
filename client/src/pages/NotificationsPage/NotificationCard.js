@@ -182,17 +182,17 @@ const NotificationCard = (props) => {
                 {(notification.type === 'friend-request' || notification.type === 'message') && 
                     <ProfilePicture 
                         picture={notification.sender.picture} 
-                        size={72} 
+                        size={4} 
                         type={'user'}
-                        user={notification.sender.username}
+                        user={notification.sender._id}
                     />
                 }
                 {(notification.type === 'group-request') && 
                     <ProfilePicture 
                         picture={notification.sender.picture} 
-                        size={72}
+                        size={4}
                         type={'group'}
-                        group={notification.sender}
+                        group={notification.sender._id}
                     />
                 }       
 

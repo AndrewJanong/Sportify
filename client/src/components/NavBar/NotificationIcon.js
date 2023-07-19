@@ -1,18 +1,14 @@
 import React, { useEffect, useState } from "react";
-import styles from './NotificationsPage.module.css';
-import NotificationCard from "./NotificationCard";
+import styles from './NotificationIcon.module.css';
 import { useAuthContext } from "../../hooks/useAuthContext";
-import LoadingPage from "../LoadingPage/LoadingPage";
 
-const NotificationsPage = (props) => {
 
+
+const NotificationIcon = (props) => {
     const { user } = useAuthContext();
     const [userNotifications, setUserNotifications] = useState([]);
     const [groupNotifications, setGroupNotifications] = useState([]);
-    const [refresh, setRefresh] = useState(1);
-    const [loading, setLoading] = useState(true);
 
-    // Fetch notifications
     useEffect(() => {
         const fetchNotifications = async () => {
             const userNotifications = await fetch(process.env.REACT_APP_BASEURL+'/api/user-notifications/'+user.userId, {
@@ -37,41 +33,23 @@ const NotificationsPage = (props) => {
 
             if (groupNotifications.ok) {
                 setGroupNotifications(group_json);
-                setLoading(false);
             }
         }
 
         if (user) {
             fetchNotifications();
         }
-    }, [user, refresh])
+    }, [user])
 
-    console.log(userNotifications);
-
-    const refreshPage = () => {
-        setRefresh((refresh + 1) % 2);
-    }
-
-    if (loading) {
-        return <LoadingPage />
-    }
 
     return (
-        <div className={styles.page}>
-            <h1>Notifications</h1>
-            <div className={styles.notifications}>
-                {userNotifications.map((notification) => {
-                    return <NotificationCard notification={notification} refreshPage={refreshPage} key={notification._id} />
-                })}
-
-                {groupNotifications.map((notification) => {
-                    return <NotificationCard notification={notification} refreshPage={refreshPage} key={notification._id} />
-                })}
-
-                {userNotifications.length + groupNotifications.length === 0 && <p>You have no notifications</p>}
-            </div>
+        <div className={styles.notification}>
+            {userNotifications && groupNotifications && (userNotifications.length + groupNotifications.length > 0) &&
+                <div className={styles.number}>{userNotifications.length + groupNotifications.length}</div>
+            }
+            {props.children}
         </div>
     )
 }
 
-export default NotificationsPage;
+export default NotificationIcon;

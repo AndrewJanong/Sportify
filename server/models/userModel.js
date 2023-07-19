@@ -22,6 +22,12 @@ const userSchema = new Schema ({
     picture: {
         type: String
     },
+    name: {
+        type: String
+    },
+    bio: {
+        type: String
+    },
     verified: {
         type: Boolean
     }

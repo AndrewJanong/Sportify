@@ -40,6 +40,11 @@ const meetupSchema = new Schema({
         type: Schema.Types.ObjectId,
         ref: 'User',
         required: true
+    },
+    expirationDate: {
+        type: Date,
+        required: true,
+        index: {expires: '0s'}
     }
 }, {timestamps: true});
 
