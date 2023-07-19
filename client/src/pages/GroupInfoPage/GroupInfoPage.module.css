@@ -70,10 +70,18 @@
 }
 
 .members .membersContainer {
+    height: 16rem;
     width: 100%;
     margin-bottom: 12px;
     display: flex;
+    overflow-y: scroll;
+    padding-top: 0.5rem;
 }
+
+.members .membersContainer::-webkit-scrollbar {
+    display: none;
+}
+
 
 .membersContainer > div {
     margin-right: 16px;

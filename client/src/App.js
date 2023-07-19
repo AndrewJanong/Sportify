@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import jwt_decode from 'jwt-decode';
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import { useAuthContext } from './hooks/useAuthContext';
 import styles from './App.module.css';
@@ -28,7 +29,20 @@ import SearchPage from './pages/SearchPage/SearchPage';
 
 
 function App() {
-  const { user } = useAuthContext();
+  const { user, dispatch } = useAuthContext();
+
+  
+
+  if (user) {
+    const decodedToken = jwt_decode(user.token);
+    const expirationTime = decodedToken.exp;
+    const currentTime = Math.floor(Date.now() / 1000);
+
+    if (expirationTime < currentTime) {
+      dispatch({type: 'LOGOUT'});
+    }
+  }
+  
 
   const [showSidebar, setShowSidebar] = useState(false);
 

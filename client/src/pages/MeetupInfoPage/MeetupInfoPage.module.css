@@ -115,9 +115,15 @@
 }
 
 .members > div {
+    height: 16rem;
     width: 100%;
     display: flex; 
     flex-wrap: wrap;
+    overflow-y: scroll;
+}
+
+.members > div::-webkit-scrollbar {
+    display: none;
 }
 
 .members > div > div {
