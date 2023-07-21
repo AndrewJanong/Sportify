@@ -4,7 +4,7 @@ import { useAuthContext } from "../../hooks/useAuthContext";
 import { useParams } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import { Image } from "cloudinary-react";
-import { io } from "socket.io-client";
+import Pusher from "pusher-js";
 import LoadingPage from "../LoadingPage/LoadingPage";
 import SendMessage from "../../icons/SendMessage.png";
 
@@ -18,25 +18,27 @@ const Group = (props) => {
     const [text, setText] = useState('');
     const [currentChat, setCurrentChat] = useState({});
     const scrollRef = useRef();
-    const socket = useRef();
 
     useEffect(() => {
-        socket.current = io(process.env.REACT_APP_SOCKET);
-        socket.current.on("getMessage", (message) => {
-            params.id === message.chat.group && setCurrentChat((prev) => {
+        const pusher = new Pusher('4a38210c30f8213a34a9', {
+            cluster: 'ap1'
+        });
+
+        const event = `chat-event-${params.id}`;
+        const channel = pusher.subscribe("sportify-chat");
+
+        channel.bind(event, (message) => {
+            setCurrentChat((prev) => {
                 const messages = [...prev.messages, message];
                 return ({...prev, messages: messages});
             })
+            console.log(message);
         });
-        
-    }, [user, currentChat._id, params.id]);
 
-    useEffect(() => {
-        socket.current.emit("addUser", user.username);
-        socket.current.on("getUsers", users => {
-            console.log(users);
-        })
-    }, [user]);
+        return () => {
+            pusher.unsubscribe("sportify-chat");
+        }
+    }, [user, params.id])
 
     useEffect(() => {
         const getGroupInfo = async () => {
@@ -99,12 +101,18 @@ const Group = (props) => {
         })
 
         const message_json = await message.json();
-        
+
         if (message.ok) {
-            socket.current.emit("sendMessage", {
-                message: message_json,
-                groupMembers: groupInfo.members.map(member => member.username)
-            });
+            await fetch(process.env.REACT_APP_BASEURL+'/pusher/chat/'+params.id, {
+                method: 'POST',
+                body: JSON.stringify({
+                    message: message_json
+                }),
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${user.token}`
+                }
+            })
         }
     }
 
