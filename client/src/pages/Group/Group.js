@@ -123,13 +123,17 @@ const Group = (props) => {
     return (
         <div className={styles.page}>
             <div className={styles.header}>
-                <Image
-                    cloudName={`${process.env.REACT_APP_IMAGECLOUD}`}
-                    publicId={`${groupInfo.picture || "ezpvrwy02j9wt9uzn20s"}`}>
-                </Image>
-                <h1>{groupInfo.name}</h1>
-                <button id={styles.info} onClick={() => navigate('/group/info/'+params.id)}>Group Info</button>
-                <button id={styles.createMeetup} onClick={() => navigate('/newmeetup/'+params.id)}>Create Meetup</button>
+                <div className={styles.groupName}>
+                    <Image
+                        cloudName={`${process.env.REACT_APP_IMAGECLOUD}`}
+                        publicId={`${groupInfo.picture || "ezpvrwy02j9wt9uzn20s"}`}>
+                    </Image>
+                    <h1>{groupInfo.name}</h1>
+                </div>
+                <div className={styles.groupOptions}>
+                    <button id={styles.info} onClick={() => navigate('/group/info/'+params.id)}>Group Info</button>
+                    <button id={styles.createMeetup} onClick={() => navigate('/newmeetup/'+params.id)}>Create Meetup</button>
+                </div>
             </div>
             <div className={styles.chat}>
                 <div className={styles.chatContainer}>
@@ -167,7 +171,7 @@ const Group = (props) => {
                                     {containPicture && user.username !== message.sender.username && 
                                         <p className={styles.sender}>{message.sender.username}</p>
                                     }
-                                    <p>{message.text}</p>
+                                    <p className={styles.content}>{message.text}</p>
                                 </div>
                                 {(containPicture && user.username === message.sender.username) ?
                                     <Image

@@ -52,6 +52,7 @@ const GroupsPage = (props) => {
                 <button className={styles.createButton} onClick={handleCreateGroup}>Create</button>
             </div>
             <div className={styles.groups}>
+                {userGroups.length === 0 && <p style={{marginTop: '12px'}}>You currently have no groups</p>}
                 {
                     userGroups.map((group) => {
                         return (

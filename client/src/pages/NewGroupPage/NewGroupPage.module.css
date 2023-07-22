@@ -15,7 +15,7 @@
     display: flex;
     flex-direction: column;
     width: 600px;
-    height: 38rem;
+    height: 36rem;
 }
 
 .form label {
@@ -136,7 +136,7 @@
 }
 
 #createButton {
-    margin-top: 1.5rem;
+    margin-top: 0.5rem;
 }
 
 .error {
@@ -145,7 +145,7 @@
     border: 1px solid #e7195a;
     color: #e7195a;
     border-radius: 4px;
-    margin: 20px 0;
+    margin:  0;
 }
 
 
