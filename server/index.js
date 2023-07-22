@@ -12,6 +12,7 @@ const groupNotificationsRoutes = require('./routes/groupNotifications');
 const groupsRoutes = require('./routes/groups');
 const groupRequestsRoutes = require('./routes/groupRequests');
 const groupChatRoutes = require('./routes/groupChat');
+const meetupChatRoutes = require('./routes/meetupChat');
 const cors = require('cors');
 const Pusher = require('pusher');
 
@@ -39,6 +40,7 @@ app.use('/api/group-notifications', groupNotificationsRoutes);
 app.use('/api/groups', groupsRoutes);
 app.use('/api/group-requests', groupRequestsRoutes);
 app.use('/api/group-chat', groupChatRoutes);
+app.use('/api/meetup-chat', meetupChatRoutes);
 
 
 const pusher = new Pusher({
@@ -56,6 +58,12 @@ pusher.trigger("sportify-chat", "connect", {
 app.post('/pusher/chat/:groupId', (req, res) => {
     const {groupId} = req.params;
     const event = `chat-event-${groupId}`;
+    pusher.trigger("sportify-chat", event, req.body.message)
+})
+
+app.post('/pusher/meetup-chat/:meetupId', (req, res) => {
+    const {meetupId} = req.params;
+    const event = `meetup-chat-event-${meetupId}`;
     pusher.trigger("sportify-chat", event, req.body.message)
 })
 

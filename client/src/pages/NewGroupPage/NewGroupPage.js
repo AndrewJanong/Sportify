@@ -51,7 +51,8 @@ const NewGroupPage = (props) => {
             name: groupName,
             picture,
             sports,
-            members: [user.userId]
+            members: [user.userId],
+            captain: user.userId
         };
     
         const response = await fetch(process.env.REACT_APP_BASEURL+'/api/groups', {

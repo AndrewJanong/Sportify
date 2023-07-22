@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect, useRef } from "react";
 import styles from './MeetupInfoPage.module.css';
 import Swal from 'sweetalert2';
 import Success from "../../popups/Success";
@@ -6,11 +6,156 @@ import { useNavigate } from "react-router-dom";
 import DateWhite from '../../icons/DateWhite.png';
 import LocationWhite from '../../icons/LocationWhite.png';
 import MemberWhite from '../../icons/MemberWhite.png';
+import SendMessage from "../../icons/SendMessage.png";
 import { useParams } from "react-router-dom";
 import { useMeetupsContext } from "../../hooks/useMeetupsContext";
 import { useAuthContext } from "../../hooks/useAuthContext";
 import UserCard from "../../components/UserCard/UserCard";
+import { Image } from "cloudinary-react";
+import Pusher from "pusher-js";
+import PuffLoader from "react-spinners/PuffLoader";
 
+
+const MeetupChat = (props) => {
+
+    const params = useParams();
+    const { user } = useAuthContext();
+    const [text, setText] = useState('');
+    const scrollRef = useRef();
+
+    useEffect(() => {
+        const pusher = new Pusher('4a38210c30f8213a34a9', {
+            cluster: 'ap1'
+        });
+
+        const event = `meetup-chat-event-${params.meetupId}`;
+        const channel = pusher.subscribe("sportify-chat");
+
+        channel.bind(event, (message) => {
+            props.setCurrentChat((prev) => {
+                const messages = [...prev.messages, message];
+                return ({...prev, messages: messages});
+            })
+            console.log(message);
+        });
+
+        return () => {
+            pusher.unsubscribe("sportify-chat");
+        }
+    }, [user, params.meetupId, props])
+
+    useEffect(() => {
+        scrollRef.current?.scrollIntoView({behavior: 'smooth'});
+    }, [props.currentChat])
+
+
+    let currentChat = props.currentChat;
+
+    const handleSendMessage = async (e) => {
+        e.preventDefault();
+        setText('');
+
+        const message = await fetch(process.env.REACT_APP_BASEURL+'/api/meetup-chat/'+currentChat._id, {
+            method: 'PATCH',
+            body: JSON.stringify({
+                sender: user.userId,
+                text
+            }),
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${user.token}`
+            }
+        })
+
+        const message_json = await message.json();
+
+        if (message.ok) {
+            await fetch(process.env.REACT_APP_BASEURL+'/pusher/meetup-chat/'+params.meetupId, {
+                method: 'POST',
+                body: JSON.stringify({
+                    message: message_json
+                }),
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${user.token}`
+                }
+            })
+        }
+    }
+
+    if (props.fetchingChat) {
+        return (
+            <div className={styles.chat}>
+                <PuffLoader
+                    color={'#3b62be'}
+                    loading={true}
+                    size={144}
+                    aria-label="Loading Spinner"
+                    data-testid="loader"
+                />
+            </div>
+        )
+    }
+
+    return (
+        <div className={styles.chat}>
+            <div className={styles.chatContainer}>
+                {currentChat && currentChat.messages && currentChat.messages.map(message => {
+                    const index = currentChat.messages.findIndex((m) => m._id === message._id);
+                    let containPicture = true;
+                    if (index !== 0 && currentChat.messages[index-1].sender.username === message.sender.username) {
+                        containPicture = false;
+                    }
+                    let normalMargin = true;
+                    if (index < currentChat.messages.length - 1 && currentChat.messages[index+1].sender.username === message.sender.username) {
+                        normalMargin = false;
+                    }
+
+                    return (
+                        <div 
+                            key={message._id} 
+                            className={styles.message}
+                            ref={scrollRef}
+                            style={{
+                                justifyContent: user.username === message.sender.username ? 'end' : 'start',
+                                marginBottom: normalMargin ? '10px' : '2px'
+                            }}
+                        >
+                            {(containPicture && user.username !== message.sender.username) ?
+                                <Image
+                                    cloudName={`${process.env.REACT_APP_IMAGECLOUD}`}
+                                    publicId={`${message.sender.picture || "Member_qx5vfp"}`}>
+                                </Image> :
+                                <div className={styles.invisible}></div>
+                            }
+                            <div className={styles.text} style={{
+                                backgroundColor: user.username === message.sender.username ? '#3b62be' : '#656869'
+                            }}>
+                                {containPicture && user.username !== message.sender.username && 
+                                    <p className={styles.sender}>{message.sender.username}</p>
+                                }
+                                <p className={styles.content}>{message.text}</p>
+                            </div>
+                            {(containPicture && user.username === message.sender.username) ?
+                                <Image
+                                    cloudName={`${process.env.REACT_APP_IMAGECLOUD}`}
+                                    publicId={`${message.sender.picture || "Member_qx5vfp"}`}>
+                                </Image> :
+                                <div className={styles.invisible}></div>
+                            }
+                        </div>
+                    )
+                })}
+            </div>
+            <form action="" onSubmit={handleSendMessage}>
+                <input value={text} onChange={(e) => setText(e.target.value)}/>
+                <button disabled={!text.trim()}>
+                    <img src={SendMessage} alt="" />
+                </button>
+            </form>
+        </div>
+    )
+}
 
 
 const MeetupInfoPage = (props) => {
@@ -18,6 +163,29 @@ const MeetupInfoPage = (props) => {
     const params = useParams();
     const { meetups, dispatch } = useMeetupsContext();
     const { user } = useAuthContext();
+    const [section, setSection] = useState('members');
+    const [currentChat, setCurrentChat] = useState({});
+    const [fetchingChat, setFetchingChat] = useState(true);
+
+    useEffect(() => {
+        const getMeetupChat = async () => {
+            const chat = await fetch(process.env.REACT_APP_BASEURL+'/api/meetup-chat/'+params.meetupId, {
+                headers: {
+                    'Authorization': `Bearer ${user.token}`
+                }
+            })
+            const chat_json = await chat.json();
+
+            if (chat.ok) {
+                setCurrentChat(chat_json);
+                setFetchingChat(false);
+            }
+        }
+
+        if (user && meetups.filter((meetup) => meetup.members.find((member) => member.username === user.username))) {
+            getMeetupChat();
+        }
+    }, [user, params.meetupId, meetups])
 
     const meetupId = params.meetupId;
     const meetup = meetups.filter(meetup => meetup._id === meetupId)[0];
@@ -88,7 +256,7 @@ const MeetupInfoPage = (props) => {
             if (result.isConfirmed) {
                 Swal.fire(
                     'Deleted!',
-                    'Your file has been deleted.',
+                    'Your meetup has been deleted.',
                     'success'
                 )
 
@@ -200,8 +368,22 @@ const MeetupInfoPage = (props) => {
                     <p>{meetup.description}</p>
                 </div>
             </div>
+            <div className={styles.sections}>
+                <p 
+                    onClick={() => setSection('members')} 
+                    className={section === 'members' ? styles.currentSection : ''}
+                    style={!usernames.find(username => user.username === username) ? {
+                        borderBottom: 'none',
+                        textAlign: 'start',
+                        width: '100%'} : {}}>
+                        Members
+                </p>
+                {usernames.find(username => user.username === username) && 
+                    <p onClick={() => setSection('chat')} className={section === 'chat' ? styles.currentSection : ''}>Chat</p>
+                }
+            </div>
+            {section === 'members' &&
             <div className={styles.members}>
-                <h2>In The Meetup</h2>
                 <div>
                     {meetup.members.map((member) => {
                         return (
@@ -209,7 +391,8 @@ const MeetupInfoPage = (props) => {
                         )
                     })}
                 </div>
-            </div>
+            </div>}
+            {section === 'chat' && <MeetupChat currentChat={currentChat} setCurrentChat={setCurrentChat} fetchingChat={fetchingChat}/>}
             {
             !usernames.includes(user.username) && <button 
                 className={styles.join} 
