@@ -4,25 +4,36 @@
     height: 100vh;
     width: 100%;
     padding: 36px 60px;
-    padding-left: calc(20% + 60px);
 }
 
 .header {
-    height: 240px;
     width: 100%;
-    margin-bottom: 24px;
+    margin-bottom: 1.5rem;
 }
 
 .header img {
-    height: 160px;
-    width: 160px;
+    height: 10rem;
+    width: 10rem;
     border-radius: 50%;
-    background-color: rgb(255, 255, 255, 0.2);
+    background-color: var(--picture-background);
     
 }
 
 .header h1 {
-    margin-right: 12px;
+    font-size: 2.5rem;
+    margin-right: 0.75rem;
+}
+
+.groupOptions {
+    display: flex;
+}
+
+.groupOptionsMobile {
+    display: none;
+}
+
+.groupOptions button, .groupOptionsMobile button {
+    margin: 0 0.25rem;
 }
 
 .members {
@@ -31,51 +42,70 @@
 
 .memberHeader {
     width: 100%;
-    height: 48px;
+    height: 3rem;
     display: flex;
     align-items: center;
-    margin-bottom: 12px;
 }
 
 .memberHeader h2 {
-    margin-right: 24px;
+    margin-right: 1.5rem;
+    font-size: 2rem;
 }
 
 
 .page button {
-    width: 90px;
-    height: 32px;
+    width: 5rem;
+    height: 2rem;
+    font-size: 1rem;
     border: none;
     border-radius: 8px;
     color: #fff;
 }
 
 
-#editButton {
-    background-color: #3b62be;
+#editButton, #addMemberButton {
+    background-color: var(--blue-button);
 }
 
-#editButton:hover {
-    background-color: #3355a5;
+#editButton:hover, #addMemberButton:hover {
+    background-color: var(--blue-button-hovered);
 }
 
-#addMemberButton {
-    background-color: #3b62be;
+#deleteButton, #leaveButton {
+    background-color: var(--red-button);
 }
 
-#addMemberButton:hover {
-    background-color: #3355a5;
+#deleteButton:hover, #leaveButton:hover {
+    background-color: var(--red-button-hovered);
 }
 
 .members .membersContainer {
-    height: 280px;
+    height: 18rem;
     width: 100%;
     margin-bottom: 12px;
     display: flex;
+    align-content: flex-start;
+    flex-wrap: wrap;
+    overflow-y: scroll;
+    padding-top: 1rem;
 }
 
+.members .membersContainer::-webkit-scrollbar {
+    display: none;
+}
+
+
 .membersContainer > div {
-    margin-right: 16px;
+    margin: 4px 0.25rem;
+}
+
+.captain {
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: #bef3ff;
+    text-align: center;
+    height: 1rem;
+    margin-top: -1rem;
 }
 
 #chatButton {
@@ -85,3 +115,27 @@
 #chatButton:hover {
     background-color: #3355a5;
 }
+
+@media (width <= 768px) {
+    .groupOptions {
+        display: none;
+    }
+
+    .groupOptionsMobile {
+        display: flex;
+        margin-top: 0.5rem;
+    }
+}
+
+@media (576px <= width <= 992px) {
+    .page {
+        padding: 3rem 1rem;
+    }
+}
+
+@media (width <= 576px) {
+    .page {
+        padding: 4rem 1rem;
+    }
+}
+

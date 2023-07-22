@@ -7,27 +7,36 @@ import LoadingPage from "../LoadingPage/LoadingPage";
 const NotificationsPage = (props) => {
 
     const { user } = useAuthContext();
-    const [notifications, setNotifications] = useState([]);
+    const [userNotifications, setUserNotifications] = useState([]);
+    const [groupNotifications, setGroupNotifications] = useState([]);
     const [refresh, setRefresh] = useState(1);
     const [loading, setLoading] = useState(true);
 
-    // Fetch the user notifications
+    // Fetch notifications
     useEffect(() => {
         const fetchNotifications = async () => {
-            const response = await fetch(process.env.REACT_APP_BASEURL+'/api/notifications/'+user.username, {
+            const userNotifications = await fetch(process.env.REACT_APP_BASEURL+'/api/user-notifications/'+user.userId, {
                 headers: {
                     'Authorization': `Bearer ${user.token}`
                 }
             });
-            const json = await response.json();
 
-            if (json.length > 0 && json[0].test) {
-                setNotifications(json);
-                setLoading(false);
+            const user_json = await userNotifications.json();
+
+            if (userNotifications.ok) {
+                setUserNotifications(user_json);
             }
 
-            if (response.ok) {
-                setNotifications(json);
+            const groupNotifications = await fetch(process.env.REACT_APP_BASEURL+'/api/group-notifications/'+user.userId, {
+                headers: {
+                    'Authorization': `Bearer ${user.token}`
+                }
+            });
+
+            const group_json = await groupNotifications.json();
+
+            if (groupNotifications.ok) {
+                setGroupNotifications(group_json);
                 setLoading(false);
             }
         }
@@ -36,6 +45,8 @@ const NotificationsPage = (props) => {
             fetchNotifications();
         }
     }, [user, refresh])
+
+    console.log(userNotifications);
 
     const refreshPage = () => {
         setRefresh((refresh + 1) % 2);
@@ -49,18 +60,15 @@ const NotificationsPage = (props) => {
         <div className={styles.page}>
             <h1>Notifications</h1>
             <div className={styles.notifications}>
-                {notifications.map((notification) => {
-                    return (
-                        <NotificationCard 
-                            key={notification._id} 
-                            notification={notification} 
-                            refreshPage={refreshPage}
-                        />
-                    )
-                }) }
-                {notifications.length === 0 &&
-                    <p>No notifications</p>
-                }
+                {userNotifications.map((notification) => {
+                    return <NotificationCard notification={notification} refreshPage={refreshPage} key={notification._id} />
+                })}
+
+                {groupNotifications.map((notification) => {
+                    return <NotificationCard notification={notification} refreshPage={refreshPage} key={notification._id} />
+                })}
+
+                {userNotifications.length + groupNotifications.length === 0 && <p>You have no notifications</p>}
             </div>
         </div>
     )

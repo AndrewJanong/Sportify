@@ -18,7 +18,7 @@ const router = express.Router();
 router.get('/', getNotifications);
 
 // GET user notifications
-router.get('/:username', getUserNotifications);
+router.get('/:userId', getUserNotifications);
 
 // POST a notification
 router.post('/', createNotification)

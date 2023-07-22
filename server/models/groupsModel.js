@@ -16,7 +16,13 @@ const groupSchema = new Schema({
         required: true
     },
     members: {
-        type: [Schema.Types.Mixed],
+        type: [Schema.Types.ObjectId],
+        ref: 'User',
+        required: true
+    },
+    captain: {
+        type: Schema.Types.ObjectId,
+        ref: 'User',
         required: true
     }
 }, {timestamps: true});

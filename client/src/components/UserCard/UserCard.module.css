@@ -1,6 +1,6 @@
 .card {
-    height: 100px;
-    width: 100px;
+    height: 6.5rem;
+    width: 6.5rem;
     border-radius: 5px;
 
     display: flex;
@@ -21,14 +21,16 @@
 }
 
 .profilePicture, .profilePicture > img {
-    height: 72px;
-    width: 72px;
+    height: 4rem;
+    width: 4rem;
 
     border-radius: 50%;
-    border: 0.1px solid white;
-    background-color: #dbdada;
+    background-color: var(--picture-background);
 }
 
 .username {
-    font-size: 24px;
+    width: 6.5rem;
+    height: 2.5rem;
+    font-size: 1rem;
+    text-align: center;
 }

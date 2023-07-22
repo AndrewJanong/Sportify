@@ -45,13 +45,12 @@ const GroupInfoPage = (props) => {
         return <LoadingPage />;
     }
 
-    const addMember = async (member) => {
+    const addMember = async (memberId) => {
         const request = await fetch(process.env.REACT_APP_BASEURL+'/api/group-requests/', {
             method: 'POST',
             body: JSON.stringify({
-                group: groupInfo.name,
-                groupId: groupInfo._id,
-                target: member
+                group: groupInfo._id,
+                target: memberId
             }),
             headers: {
                 'Content-Type': 'application/json',
@@ -59,11 +58,11 @@ const GroupInfoPage = (props) => {
             }
         })
 
-        const notification = await fetch(process.env.REACT_APP_BASEURL+'/api/notifications/', {
+        const notification = await fetch(process.env.REACT_APP_BASEURL+'/api/group-notifications/', {
             method: 'POST',
             body: JSON.stringify({
                 type: "group-request",
-                target_user: member,
+                target_user: memberId,
                 sender: groupInfo._id,
                 message: `You have been invited to join ${groupInfo.name}`
             }),
@@ -90,7 +89,7 @@ const GroupInfoPage = (props) => {
             confirmButtonText: 'Look up',
             showLoaderOnConfirm: true,
             preConfirm: (username) => {
-              return fetch(process.env.REACT_APP_BASEURL+'/api/user/'+username)
+              return fetch(process.env.REACT_APP_BASEURL+'/api/user/username/'+username)
                 .then(response => {
                   if (!response.ok) {
                     console.log(response.json());
@@ -107,7 +106,7 @@ const GroupInfoPage = (props) => {
             allowOutsideClick: () => !Swal.isLoading()
           }).then((result) => {
             if (result.isConfirmed) {
-                if (groupInfo.members.includes(result.value.username)) {
+                if (groupInfo.members.map(member => member.username).includes(result.value.username)) {
                     Swal.fire({
                         title: `${result.value.username} is already in the group`,
                     })
@@ -120,7 +119,7 @@ const GroupInfoPage = (props) => {
                         confirmButtonText: 'Invite'
                     }).then((res) => {
                         if (res.isConfirmed) {
-                            addMember(result.value.username);
+                            addMember(result.value._id);
                             Swal.fire(
                                 'Invitation sent!',
                                 `An invitation has been sent to ${result.value.username}`,
@@ -133,6 +132,81 @@ const GroupInfoPage = (props) => {
           })
     }
 
+    const handleDelete = async (e) => {
+        e.preventDefault();
+
+        if (!user) {
+            return;
+        }
+
+        Swal.fire({
+            title: 'Are you sure?',
+            text: "You won't be able to revert this!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Yes, delete it!'
+        }).then(async (result) => {
+            if (result.isConfirmed) {
+                await fetch(process.env.REACT_APP_BASEURL+'/api/groups/' + params.id, {
+                    method: 'DELETE',
+                    headers: {
+                        'Authorization': `Bearer ${user.token}`
+                    }
+                })
+
+                Swal.fire(
+                    'Deleted!',
+                    'Your group has been deleted.',
+                    'success'
+                )
+
+                navigate('/mygroups');
+        
+            }
+        })
+        
+    }
+
+    const handleLeave = (e) => {
+        e.preventDefault();
+
+        if (!user) {
+            return;
+        }
+
+        Swal.fire({
+            title: 'Are you sure?',
+            text: "Others might replace you!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Yes, leave!'
+        }).then(async (result) => {
+            if (result.isConfirmed) {
+                await fetch(process.env.REACT_APP_BASEURL+'/api/groups/remove_member/' + params.id, {
+                    method: 'PATCH',
+                    body: JSON.stringify({member: user.userId}),
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${user.token}`
+                    },
+        
+                });
+
+                Swal.fire(
+                    'Left!',
+                    'You have left the group',
+                    'success'
+                )
+
+                navigate('/mygroups');
+            }
+        })
+    }
+
     return (
         <div className={styles.page}>
             <div className={styles.header}>
@@ -142,25 +216,49 @@ const GroupInfoPage = (props) => {
                 </Image>
                 <div style={{display: 'flex', alignItems: 'center'}} >
                     <h1>{groupInfo.name}</h1>
-                    {groupInfo.members && groupInfo.members.includes(user.username) &&
-                    <button id={styles.editButton} onClick={() => navigate("/group/edit/"+params.id)}>Edit</button>}
+                    <div className={styles.groupOptions}>
+                        {groupInfo.captain && groupInfo.captain.username === user.username &&
+                        <button id={styles.editButton} onClick={() => navigate("/group/edit/"+params.id)}>Edit</button>}
+
+                        {groupInfo.captain && groupInfo.captain.username === user.username &&
+                        <button id={styles.deleteButton} onClick={handleDelete}>Delete</button>}
+
+                        {groupInfo.captain && groupInfo.captain.username !== user.username &&
+                        groupInfo.members && groupInfo.members.map(member => member.username).includes(user.username) && 
+                        <button id={styles.leaveButton} onClick={handleLeave}>Leave</button>}
+                    </div>
                 </div>
                 <p>Sports: {groupInfo.sports}</p>
+                <div className={styles.groupOptionsMobile}>
+                    {groupInfo.captain && groupInfo.captain.username === user.username &&
+                    <button id={styles.editButton} onClick={() => navigate("/group/edit/"+params.id)}>Edit</button>}
+                    
+                    {groupInfo.captain && groupInfo.captain.username === user.username &&
+                    <button id={styles.deleteButton} onClick={handleDelete}>Delete</button>}
+
+                    {groupInfo.captain && groupInfo.captain.username !== user.username &&
+                    groupInfo.members && groupInfo.members.map(member => member.username).includes(user.username) && 
+                    <button id={styles.leaveButton} onClick={handleLeave}>Leave</button>}
+                </div>
                 
             </div>
             <div className={styles.members}>
                 <div className={styles.memberHeader}>
                     <h2>Members</h2>
-                    {groupInfo.members && groupInfo.members.includes(user.username) &&
-                    <button id={styles.addMemberButton} onClick={handleAddMember}>Add Member</button>}
+                    {groupInfo.members && groupInfo.members.map(member => member.username).includes(user.username) &&
+                    <button id={styles.addMemberButton} onClick={handleAddMember}>Add</button>}
                 </div>
                 <div className={styles.membersContainer}>
                     {groupInfo.members &&
-                        groupInfo.members.map((member) => <UserCard username={member} pictureOnly={false} key={member}/>)
+                        groupInfo.members.map((member) => 
+                        <div>
+                            {member.username === groupInfo.captain.username && <p className={styles.captain}>captain</p>}
+                            <UserCard user={member} pictureOnly={false} key={member._id}/>
+                        </div>)
                     }
                 </div>
             </div>
-            {groupInfo.members && groupInfo.members.includes(user.username) &&
+            {groupInfo.members && groupInfo.members.map(member => member.username).includes(user.username) &&
             <button id={styles.chatButton} onClick={() => navigate('/group/'+params.id)}>Chat</button>}
         </div>
     )

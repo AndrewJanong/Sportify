@@ -1,6 +1,6 @@
 .card {
     width: 600px;
-    height: 64px;
+    height: 4rem;
     background-color: transparent;
     border-radius: 10px;
     margin-top: 16px;
@@ -19,8 +19,32 @@
 }
 
 .groupPicture > img {
-    height: 56px;
-    width: 56px;
+    height: 3rem;
+    width: 3rem;
     border-radius: 50%;
     background-color: rgb(255, 255, 255, 0.2);
+}
+
+.group h2 {
+    font-size: 2rem;
+}
+
+.group p {
+    font-size: 1rem;
+}
+
+@media (992px <= width) {
+
+}
+
+@media (576px <= width <= 992px) {
+    .page {
+        padding: 3rem 1rem;
+    }
+}
+
+@media (width <= 576px) {
+    .card {
+        width: 100%;
+    }
 }

@@ -20,7 +20,8 @@ const meetupSchema = new Schema({
         required: true
     },
     members: {
-        type: [String],
+        type: [Schema.Types.ObjectId],
+        ref: 'User',
         required: true
     },
     vacancy: {
@@ -34,6 +35,16 @@ const meetupSchema = new Schema({
     user_id: {
         type: String,
         require: true
+    },
+    creator: {
+        type: Schema.Types.ObjectId,
+        ref: 'User',
+        required: true
+    },
+    expirationDate: {
+        type: Date,
+        required: true,
+        index: {expires: '0s'}
     }
 }, {timestamps: true});
 

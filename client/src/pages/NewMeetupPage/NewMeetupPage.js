@@ -28,6 +28,7 @@ const NewMeetupPage = (props) => {
     const [description, setDescription] = useState('');
     const [groupInfo, setGroupInfo] = useState({});
     const [error, setError] = useState('');
+    const [submitting, setSubmitting] = useState(false);
 
     const { user } = useAuthContext();
     const navigate = useNavigate();
@@ -58,18 +59,19 @@ const NewMeetupPage = (props) => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+        setSubmitting(true);
         if (!user) {
             setError('You Must Be Logged In');
             return;
         }
         
-        let members = [user.username];
+        let members = [user.userId];
         
 
-        let meetup = {title, sports, date, location, members, vacancy, description};
+        let meetup = {title, sports, date, location, members, vacancy, description, creator: user.userId};
 
         if (params.groupId) {
-            members = [user.username, ...groupInfo.members.filter((member) => member !== user.username)];
+            members = [user.userId, ...groupInfo.members.filter(member => member._id !== user.userId)];
             meetup.vacancy = members.length;
             meetup.members = members;
         }
@@ -87,6 +89,7 @@ const NewMeetupPage = (props) => {
     
         if (!response.ok) {
             setError(json.error);
+            setSubmitting(false);
         } else {
             setTitle('');
             setSports('');
@@ -94,17 +97,25 @@ const NewMeetupPage = (props) => {
             setLocation('');
             setVacancy(1);
             setDescription('');
+
+            await fetch(process.env.REACT_APP_BASEURL+'/api/meetup-chat/'+json._id, {
+                method: 'POST',
+                headers: {
+                    'Authorization': `Bearer ${user.token}`
+                }
+            })
+
             dispatch({
               type: 'CREATE_MEETUP',
               payload: json
             })
     
-            console.log('New meetup added!');
             Success.fire({
                 icon: 'success',
                 title: 'Meetup created'
             })
             navigate("/");
+            setSubmitting(true);
         }
     }
 
@@ -117,8 +128,6 @@ const NewMeetupPage = (props) => {
         let year = Number(tomorrow.getFullYear());
 
         const inputDate = date.split('T')[0].split('-').map((x) => Number(x));
-        console.log(inputDate);
-        console.log(year, month, day);
         if (inputDate[0] < year) {
             return false;
         } else if (inputDate[0] === year) {
@@ -149,7 +158,7 @@ const NewMeetupPage = (props) => {
                 <form action="" className={styles.form} onSubmit={handleSubmit}>
                     <label htmlFor="">Title</label>
                     <input
-                        maxLength={50}
+                        maxLength={40}
                         type="text"
                         onChange={(e) => setTitle(e.target.value)}
                         value={title}
@@ -180,6 +189,7 @@ const NewMeetupPage = (props) => {
                         type="text"
                         onChange={(e) => setLocation(e.target.value)}
                         value={location}
+                        maxLength={40}
                     />
                     {!params.groupId && <label htmlFor="">Vacancy</label>}
                     {!params.groupId && 
@@ -188,6 +198,7 @@ const NewMeetupPage = (props) => {
                         onChange={(e) => setVacancy(e.target.value)}
                         value={vacancy}
                         min="1"
+                        max="30"
                     />}
                     <label htmlFor="">Description</label>
                     <textarea 
@@ -197,7 +208,7 @@ const NewMeetupPage = (props) => {
                         onChange={(e) => setDescription(e.target.value)}
                         value={description}
                     ></textarea>
-                    <button disabled={!dateValid()}>Create</button>
+                    <button disabled={submitting || !dateValid()}>Create</button>
                 </form>
                 {error && <div className={styles.error}>{error}</div>}
             </div>

@@ -22,8 +22,8 @@ const ProfilePicture = (props) => {
             style={{
                 cursor: "pointer",
                 backgroundColor: "rgb(255, 255, 255, 0.1)",
-                width: `${props.size}px`,
-                height: `${props.size}px`,
+                width: `${props.size}rem`,
+                height: `${props.size}rem`,
                 borderRadius: '50%',
                 display: 'flex',
                 overflow: 'hidden'
@@ -32,8 +32,7 @@ const ProfilePicture = (props) => {
             <Image
                 cloudName={`${process.env.REACT_APP_IMAGECLOUD}`}
                 publicId={`${props.picture || "Member_qx5vfp"}`}
-                width= {`${props.size}px`}
-                length= {`${props.size}px`}>
+            >
             </Image>
         </div>
     )

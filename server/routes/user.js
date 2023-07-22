@@ -1,6 +1,6 @@
 const express = require('express');
 
-const {loginUser, sendResetPasswordLink, resetPassword, signupUser, sendOTPVerificationEmail, verifyEmail, resendOTPVerificationEmail, getUsers, getUserInfo, updateUserInfo} = require('../controllers/userController');
+const {loginUser, sendResetPasswordLink, resetPassword, signupUser, sendOTPVerificationEmail, verifyEmail, resendOTPVerificationEmail, getUsers, getUserInfo, getUserInfoFromUsername, updateUserInfo} = require('../controllers/userController');
 
 const router = express.Router();
 
@@ -20,8 +20,10 @@ router.post('/resend-verification', resendOTPVerificationEmail);
 
 router.get('/', getUsers);
 
-router.get('/:username', getUserInfo);
+router.get('/:userId', getUserInfo);
 
-router.patch('/:username', updateUserInfo);
+router.get('/username/:username', getUserInfoFromUsername);
+
+router.patch('/:userId', updateUserInfo);
 
 module.exports = router;

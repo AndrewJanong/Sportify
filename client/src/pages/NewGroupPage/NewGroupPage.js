@@ -51,7 +51,8 @@ const NewGroupPage = (props) => {
             name: groupName,
             picture,
             sports,
-            members: [user.username]
+            members: [user.userId],
+            captain: user.userId
         };
     
         const response = await fetch(process.env.REACT_APP_BASEURL+'/api/groups', {
@@ -70,13 +71,26 @@ const NewGroupPage = (props) => {
             return;
         }
 
+        const groupChat = await fetch(process.env.REACT_APP_BASEURL+'/api/group-chat/'+json._id, {
+            method: 'POST',
+            headers: {
+                'Authorization': `Bearer ${user.token}`
+            }
+        })
+
+        const groupchat_json = await groupChat.json();
+
+        if (!groupChat.ok) {
+            setError(groupchat_json.error);
+            return;
+        }
+
         addedMembers.forEach(async (member) => {
             const request = await fetch(process.env.REACT_APP_BASEURL+'/api/group-requests/', {
                 method: 'POST',
                 body: JSON.stringify({
-                    group: groupName,
-                    groupId: json._id,
-                    target: member
+                    group: json._id,
+                    target: member._id
                 }),
                 headers: {
                     'Content-Type': 'application/json',
@@ -84,16 +98,17 @@ const NewGroupPage = (props) => {
                 }
             })
 
-            const notification = await fetch(process.env.REACT_APP_BASEURL+'/api/notifications/', {
+            const notification = await fetch(process.env.REACT_APP_BASEURL+'/api/group-notifications/', {
                 method: 'POST',
                 body: JSON.stringify({
                     type: "group-request",
-                    target_user: member,
+                    target_user: member._id,
                     sender: json._id,
                     message: `You have been invited to join ${groupName}`
                 }),
                 headers: {
-                    'Content-Type': 'application/json'
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${user.token}`
                 }
             })
 
@@ -127,7 +142,7 @@ const NewGroupPage = (props) => {
         e.preventDefault();
 
         const getUserInfo = async () => {
-            const response = await fetch(process.env.REACT_APP_BASEURL+'/api/user/'+member, {
+            const response = await fetch(process.env.REACT_APP_BASEURL+'/api/user/username/'+member, {
                 headers: {
                     'Authorization': `Bearer ${user.token}`
                 }
@@ -149,7 +164,7 @@ const NewGroupPage = (props) => {
         
         if (invitedUser) {
             console.log(invitedUser);
-            setAddedMembers([...addedMembers, invitedUser.username]);
+            if (!addedMembers.find((member) => member.username === invitedUser.username)) setAddedMembers([...addedMembers, invitedUser]);
             setError('');
         } else {
             setError('User Not Found');
@@ -205,16 +220,16 @@ const NewGroupPage = (props) => {
                     <button onClick={addMember} id={styles.addButton}>Add</button>
                 </div>
                 <div className={styles.addedMembers}>
-                    {[user.username, ...addedMembers].map((member) => {
+                    {[user, ...addedMembers].map((member) => {
                         return (
-                            <div className={styles.members} key={member}>
-                                <p>{member}</p>
-                                {member !== user.username && 
+                            <div className={styles.members} key={member._id}>
+                                <p>{member.username}</p>
+                                {member.username !== user.username && 
                                     <img 
                                     src={Cross} 
                                     alt=""
                                     onClick={() => {
-                                        setAddedMembers((prev) => prev.filter((x) => x !== member));
+                                        setAddedMembers((prev) => prev.filter((x) => x._id !== member._id));
                                     }}/>}
                             </div>   
                         )

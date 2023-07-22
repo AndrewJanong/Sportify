@@ -10,7 +10,9 @@ const MyMeetupsPage = (props) => {
     const { user } = useAuthContext();
     const [sports, setSports] = useState('Any');
     const [created, setCreated] = useState(false);
+    const [date, setDate] = useState('');
     const [loading, setLoading] = useState(true);
+    const [filter, setFilter] = useState('sport');
 
     const ListOfSports = ['Any', 'Basketball', 'Soccer', 'Voleyball', 'Badminton', 'Table Tennis', 'Tennis'];
 
@@ -41,17 +43,49 @@ const MyMeetupsPage = (props) => {
         return <LoadingPage />;
     }
 
+    const filteredMeetups = meetups
+    .filter((meetup) => {
+        if (sports === 'Any') {
+            return true;
+        } else {
+            return sports === meetup.sports;
+        }
+    })
+    .filter((meetup) => {
+        if (!date) {
+            return true;
+        } else {
+            return date === meetup.date.split('T')[0];
+        }
+    })
+    .filter((meetup) => {
+        if (!created) {
+            return true;
+        } else {
+            return meetup.creator.username === user.username;
+        }
+    });
+
     return (
         <div className={styles.meetupspage}>
-            <div className={styles.filter}>
-                <div className={styles.sportsFilter}>
+             <div className={styles.filter}>
+                <div className={styles.chooseFilter}>
+                    <p>Filter:</p>
+                    <select name="" id="" value={filter} onChange={(e) => setFilter(e.target.value)}>
+                        <option value="sport">Sport</option>
+                        <option value="date">Date</option>
+                        <option value="created">Created</option>
+                    </select>
+                </div>
+                <div className={`${filter === 'sport' ? styles.show : styles.hide} ${styles.sportsFilter} `}>
                     <p>Sports:</p>
-                    <select name="" id="" value={sports} onChange={(e) => setSports(e.target.value)}>
+                    <select name="" id="" value={sports} onChange={(e) => setSports(e.target.value)} data-testid="select">
                         {
                             ListOfSports.map(sport =>
                                 <option
                                     key={sport}
                                     value={sport}
+                                    data-testid="select-option"
                                 >
                                         {sport}
                                 </option>
@@ -59,36 +93,26 @@ const MyMeetupsPage = (props) => {
                         }
                     </select>
                 </div>
-                <div className={styles.upcomingFilter}>
+                <div className={`${filter === 'date' ? styles.show : styles.hide} ${styles.dateFilter} `}>
+                    <p>Date:</p>
+                    <input type="date" name="" id=""  onChange={(e) => setDate(e.target.value)}/>
+                </div>
+                <div className={`${filter === 'created' ? styles.show : styles.hide} ${styles.createdFilter} `}>
                     <input
                     type="checkbox"
                     defaultChecked={created}
                     onChange={(e) => setCreated(!created)}/>
-                    <label>Only Created By Me</label>
+                    <label>Created</label>
                 </div>
             </div>
             <div className={styles.meetups}>
-                {meetups && 
-                meetups
-                .filter((meetup) => {
-                    if (sports === 'Any') {
-                        return true;
-                    } else {
-                        return sports === meetup.sports;
-                    }
-                })
-                .filter((meetup) => {
-                    if (!created) {
-                        return true;
-                    } else {
-                        return meetup.members[0] === user.username;
-                    }
-                })
-                .map((meetup) => {
+                {filteredMeetups.length > 0 ?
+                filteredMeetups.map((meetup) => {
                     return (
                         <MeetupCard key={meetup._id} meetup={meetup}/>
                     )
-                })}
+                }) : <p>No Meetups</p>
+                } 
             </div>
         </div>
     )

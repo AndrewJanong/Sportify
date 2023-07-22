@@ -1,16 +1,17 @@
-.profilePage {
+.page {
     background-color: #1E2A46;
     color: #fff;
     height: 100vh;
     width: 100%;
     padding: 36px 60px;
-    padding-left: calc(20% + 60px);
+    font-size: 1rem;
 }
 
 .header {
     display: flex;
-    height: 200px;
+    height: 10rem;
     width: 100%;
+
 }
 
 .profile {
@@ -20,21 +21,23 @@
     flex-direction: column;
     justify-content: space-around;
     align-items: flex-start;
+
 }
 
 .username {
-    width: 600px;
+    width: 100%;
     height: 64px;
     display: flex;
+
 }
 
 .username > p {
-    width: 288px;
-    height: 64px;
-    font-size: 24px;
+    width: 13rem;
+    height: 4rem;
+    font-size: 1.2rem;
 
     display: flex;
-    justify-content: center;
+    justify-content: flex-start;
     align-items: center;
 }
 
@@ -48,15 +51,15 @@
 }
 
 .profilePicture, .profilePicture > img {
-    height: 200px;
-    width: 200px;
+    height: 10rem;
+    width: 10rem;
 
     border-radius: 50%;
-    border: 0.1px solid rgb(255, 255, 255, 0.1);
+    background-color: var(--picture-background);
 }
 
 .profilePicture {
-    margin-right: 24px;
+    margin-right: 2rem;
 }
 
 .logout, .edit {
@@ -83,6 +86,10 @@
 .bio {
     height: 64px;
     width: 100%;
+}
+
+.bio p {
+    font-size: 0.75rem;
 }
 
 .friendship {
@@ -139,6 +146,25 @@
     background-color: #db0000;
 }
 
+.mobileButtons {
+    width: 100%;
+    margin-top: 2rem;
+    display: none;
+}
+
+.userFunctionsMobile {
+    width: 100%;
+    display: flex;
+    justify-content: space-around;
+}
+
+.friendshipMobile {
+    width: 100%;
+}
+
+.mobileButtons button {
+    width: 40%;
+}
 
 .navigation {
     height: 36px;
@@ -169,11 +195,48 @@
     margin-top: 24px;
 }
 
+#meetups {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
 #friends {
     display: flex;
     flex-wrap: wrap;
 }
 
 #friends > div {
-    margin: 0 12px;
+    margin: 4px 0.25rem;
 }
+
+@media (992px <= width) {
+
+}
+
+@media (576px <= width <= 992px) {
+    .page {
+        padding: 3rem 1rem;
+    }
+}
+
+@media (width <= 576px) {
+    .page {
+        padding: 4rem 1rem;
+    }
+}
+
+@media (width <= 768px) {
+    .userFunctions {
+        display: none;
+    }
+
+    .friendship {
+        display: none;
+    }
+
+    .mobileButtons {
+        display: flex;
+    }
+}
+

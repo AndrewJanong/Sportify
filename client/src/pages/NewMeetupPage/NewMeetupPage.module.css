@@ -1,13 +1,8 @@
-@import url("https://fonts.googleapis.com/css2?family=Montserrat&display=swap");
-@import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@700&display=swap");
-
-
 .newmeetup {
     background-color: #1E2A46;
     color: #fff;
     height: 100vh;
     width: 100%;
-    padding-left: 20%;
 }
 
 .container {
@@ -22,9 +17,9 @@
 }
 
 .container h2 {
-    width: 320px;
-    margin-bottom: 16px;
-    border-bottom: 1px solid #fff;
+    width: 25rem;
+    margin-bottom: 1rem;
+    font-size: 2rem;
 }
 
 .group {
@@ -35,14 +30,14 @@
     display: flex;
     flex-direction: column;
     justify-content: center;
-    width: 320px;
+    width: 25rem;
     height: 480px;
 }
 
 .form input, .form select {
     outline: none;
     border: none;
-    font-family: "Montserrat", sans-serif;
+    font-family: inherit;
 
     width: 100%;
     height: 1.6rem;
@@ -67,7 +62,7 @@
 .form textarea {
     outline: none;
     border: none;
-    font-family: "Montserrat", sans-serif;
+    font-family: inherit;
 
     width: 100%;
     border-radius: 8px;
@@ -80,18 +75,19 @@
     outline: none;
     border: none;
 
-    width: 6rem;
-    height: 1.6rem;
+    width: 7rem;
+    height: 2rem;
     margin-top: 1em;
-    border-radius: 8px;
-    background-color: #FFEAE3;;
+    border-radius: 0.5rem;
+    color: #fff;
+    background-color: var(--blue-button);
 }
 
 .container button:hover {
-    background-color: #ead7d0;
+    background-color: var(--blue-button-hovered);
 }
 
-.container button:disabled:hover {
+.container button:disabled:hover, .container button:disabled {
     background-color: #FFEAE3;
 }
 

@@ -14,7 +14,7 @@ const GroupsPage = (props) => {
 
     useEffect(() => {
         const fetchUserGroups = async () => {
-            const response = await fetch(process.env.REACT_APP_BASEURL+'/api/groups/user/'+user.username, {
+            const response = await fetch(process.env.REACT_APP_BASEURL+'/api/groups/user/'+user.userId, {
                 headers: {
                     'Authorization': `Bearer ${user.token}`
                 }
@@ -49,13 +49,14 @@ const GroupsPage = (props) => {
         <div className={styles.page}>
             <div className={styles.header}>
                 <h1>My Groups</h1>
-                <button className={styles.createButton} onClick={handleCreateGroup}>Create Group</button>
+                <button className={styles.createButton} onClick={handleCreateGroup}>Create</button>
             </div>
             <div className={styles.groups}>
+                {userGroups.length === 0 && <p style={{marginTop: '12px'}}>You currently have no groups</p>}
                 {
                     userGroups.map((group) => {
                         return (
-                            <GroupCard group={group} key={group.name}/>
+                            <GroupCard group={group} key={group._id}/>
                         )
                     })
                 }
