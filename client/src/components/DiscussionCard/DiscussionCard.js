@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import styles from './DiscussionCard.module.css';
 import Swal from 'sweetalert2';
 import { Image } from 'cloudinary-react';
@@ -6,6 +6,7 @@ import { useNavigate } from "react-router-dom";
 import { useAuthContext } from "../../hooks/useAuthContext";
 import { useDiscussionsContext } from "../../hooks/useDiscussionsContext";
 import Likes from '../../icons/Likes.png';
+import CommentCard from "../CommentCard/CommentCard";
 
 
 const DiscussionCard = (props) => {
@@ -13,23 +14,40 @@ const DiscussionCard = (props) => {
     const auth = useAuthContext();
     const user = auth.user;
     const id = props.discussion._id;
+    const [error, setError] = useState('');
     
     const { discussions, dispatch } = useDiscussionsContext();
-    const discussion = props.discussion;
+    const [discussion, setDiscussion] = useState(props.discussion);
+
+
+    // const pauser = () => {
+    //     while (!discussion) {
+    //     }
+    //     return "OK";
+    // }
+
+    // pauser();
+
 
     const [likesList, setLikesList] = useState(discussion.likes);
     
     const [commentForm, setCommentForm] = useState('');
     const [commentsList, setCommentsList] = useState(discussion.comments);
+    const [commentsObject, setCommentsObject] = useState(discussion.comments);
     const [show, setShow] = useState(false);
+
+    const name = discussion.creator.username;
+
+    //console.log(discussion);
+    //console.log(commentsList);
 
     const likeHandler = async (e) => {
         e.preventDefault();
 
-        if (!likesList.includes(user.username)) { 
+        if (!likesList.includes(user.userId)) { 
             const response = await fetch(process.env.REACT_APP_BASEURL+'/api/discussions/' + id, {
                 method: 'PATCH',
-                body: JSON.stringify({likes: [...likesList, user.username]}),
+                body: JSON.stringify({likes: [...likesList, user.userId]}),
                 headers: {
                     'Content-Type': 'application/json',
                     'Authorization': `Bearer ${user.token}`
@@ -52,14 +70,14 @@ const DiscussionCard = (props) => {
                     payload: newDiscussions
                 })
   
-                setLikesList([...likesList, user.username]);
+                setLikesList([...likesList, user.userId]);
             } else {
                 console.log('error update');
             }
         } else {
             const response = await fetch(process.env.REACT_APP_BASEURL+'/api/discussions/' + id, {
                 method: 'PATCH',
-                body: JSON.stringify({likes: likesList.filter((u) => u!== user.username)}),
+                body: JSON.stringify({likes: likesList.filter((u) => u!== user.userId)}),
                 headers: {
                     'Content-Type': 'application/json',
                     'Authorization': `Bearer ${user.token}`
@@ -81,7 +99,7 @@ const DiscussionCard = (props) => {
                     type: 'SET_DISCUSSIONS',
                     payload: newDiscussions
                 })
-                setLikesList(likesList.filter((u) => u!== user.username));
+                setLikesList(likesList.filter((u) => u!== user.userId));
             } else {
                 console.log('error update');
             }
@@ -133,16 +151,44 @@ const DiscussionCard = (props) => {
         })
     }
 
-    const handleClick = async (e) => {
+    const handleClick = async (e) => { //comment click
         e.preventDefault();
 
         if (!commentForm) {
             return;
         }
 
-        const response = await fetch(process.env.REACT_APP_BASEURL+'/api/discussions/' + id, {
+        //Adding comment to DB
+        const comment = {text: commentForm, replies:[], creator: user.userId}; //RECHECK THIS
+
+        const response1 = await fetch(process.env.REACT_APP_BASEURL+'/api/comments', {
+            method: 'POST',
+            body: JSON.stringify(comment),
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${user.token}`
+            }
+        });
+
+        const json1 = await response1.json();
+
+        if (!response1.ok) {
+            console.log("comment not posted!")
+            setError(json1.error);
+        } else {
+            dispatch({
+                type: 'CREATE_COMMENT',
+                payload: json1
+            })
+            console.log('New comment added!');
+        }
+
+        const commentId = json1._id;
+
+        //patch discussion
+        const response2 = await fetch(process.env.REACT_APP_BASEURL+'/api/discussions/' + id, {
             method: 'PATCH',
-            body: JSON.stringify({comments: [...commentsList, {uName: user.username, comment: commentForm}]}),
+            body: JSON.stringify({comments: [...commentsList, commentId]}),
             headers: {
                 'Content-Type': 'application/json',
                 'Authorization': `Bearer ${user.token}`
@@ -150,21 +196,22 @@ const DiscussionCard = (props) => {
 
         });
 
-        const json = await response.json();
+        const json2 = await response2.json();
         const newDiscussions = discussions.map((discussion) => {
             if (discussion._id === id) {
-                return json;
+                return json2;
             } else {
                 return discussion;
             } 
         })
 
-        if (response.ok) {
+        if (response2.ok) {
             dispatch({
                 type: 'SET_DISCUSSIONS',
                 payload: newDiscussions
             })
-            setCommentsList([...commentsList, {uName: user.username, comment: commentForm}]);
+            setCommentsList([...commentsList, commentId]);
+            setCommentsObject([...commentsObject, {_id: commentId, text: commentForm, replies:[], creator: user}])
             setCommentForm('');
             setShow(true);
         } else {
@@ -183,18 +230,18 @@ const DiscussionCard = (props) => {
     return (
         <div className={styles.discussioncard}>
             <div className={styles.header}>
-                <h1>{props.discussion.title}</h1>
-                <p>Created by {props.discussion.creator} <br></br> {props.discussion.date.split('T')[0]}</p>
+                <h1>{discussion.title}</h1>
+                <p>Created by {name} <br></br> {props.discussion.date.split('T')[0]}</p>
             </div>
-            <p className={styles.sports}>{props.discussion.sports}</p>
+            <p className={styles.sports}>{discussion.sports}</p>
             {discussion.picture && <Image className={styles.picture}cloudName={`${process.env.REACT_APP_IMAGECLOUD}`} publicId={`${discussion.picture}`}></Image>}
-            <p className={styles.text}>{props.discussion.text}</p>
+            <p className={styles.text}>{discussion.text}</p>
             <div className={styles.info}>
-                <button className={likesList.includes(user.username) ? styles.likesafter : styles.likes} onClick={likeHandler} data-testid="likestest" >
+                <button className={likesList.includes(user.userId) ? styles.likesafter : styles.likes} onClick={likeHandler} data-testid="likestest" >
                     <img src={Likes} alt="" />
-                    <p>{likesList.length-1}</p>
+                    <p>{likesList.length}</p>
                 </button>
-                {user.username === discussion.creator && <button className={styles.delete} onClick={handleDelete}>Delete
+                {user.username === name && <button className={styles.delete} onClick={handleDelete}>Delete
                 </button>}
             </div>
 
@@ -212,16 +259,14 @@ const DiscussionCard = (props) => {
             </div>
 
             <div className={styles.comments}>
-                {commentsList.length !== 1
-                ? commentsList
-                    .filter((comment) => show ? true : comment === commentsList[1])
-                    .filter((comment) => comment !== commentsList[0])
+                {commentsObject.length !== 0
+                ? commentsObject
+                    .filter((comment) => show ? true : comment === commentsObject[0])
+                    // .filter((comment) => comment !== commentsObject[0])
                     .map((comment) => {
+                        console.log(comment);
                     return (
-                        <div className={styles.indComment} key={comment}>
-                            <p>{comment.uName}</p> 
-                            {comment.comment}
-                        </div>
+                        comment && <CommentCard comment={comment} discussion={props.discussion} />
                     )
                 })
                 : <div className={styles.indComment}>No Comment</div>}

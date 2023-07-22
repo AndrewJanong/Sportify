@@ -1,0 +1,87 @@
+.indComment {
+    margin-top: 0.6rem;
+    background-color: rgb(211, 211, 211);
+    
+    padding: 7px;
+    border-radius: 0.5rem;
+}
+
+.indComment p {
+    font-weight: 520;
+    margin-bottom: 1px;
+}
+ 
+ .indComment  > .replies > .reply {
+    margin-top: 0.6rem;
+    background-color: rgb(180, 178, 178);
+    
+    padding: 7px;
+    border-radius: 0.5rem;
+ }
+
+ .indComment  > .replies > .reply > .uName {
+    font-weight: 520;
+    margin-bottom: 1px;
+ }
+
+ .indComment  > .replies > .reply > .body {
+    font-weight: 120;
+    margin-bottom: 1px;
+ }
+
+ .indComment button {
+    outline: none;
+    border: none;
+    color: #ffffff;
+    
+    height: 28px;
+    width: 80px;
+    border-radius: 5px;
+    margin-right: 0.8rem;
+    margin-top: 0.5rem;
+
+    background-color: #24a0ed;
+}
+
+.indComment button:hover {
+    background-color: #6db7e4;
+}
+
+.indComment > .delete {
+    background-color: #ed4337;
+    color: #ffffff;
+}
+
+.indComment > .delete:hover {
+    background-color: #d03a2f;
+}
+ 
+.indComment > .form {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 0.5rem;
+}
+
+.indComment > .form input {
+    height: 28px;
+    width: 100% ;
+    border-radius: 0.5rem;
+}
+
+.indComment > .form > .commentButton {
+    outline: none;
+    border: none;
+    color: #ffffff;
+    
+    height: 28px;
+    width: 80px;
+    border-radius: 5px;
+    margin-left: 0.8rem;
+    margin-top: 0rem;
+
+    background-color: #24a0ed;
+}
+
+.indComment > .form > .commentButton:hover {
+    background-color: #6db7e4;
+}

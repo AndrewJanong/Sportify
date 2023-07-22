@@ -110,7 +110,7 @@ h3 {
 }
 
 .form input {
-    width: 80% ;
+    width: 100% ;
     border-radius: 0.5rem;
 }
 
@@ -135,15 +135,10 @@ h3 {
     background-color: #6db7e4;
 }
 
-.comments > .indComment {
+.indComment {
     margin-top: 0.6rem;
     background-color: rgb(211, 211, 211);
     
     padding: 7px;
     border-radius: 0.5rem;
-}
-
-.comments > .indComment p {
-   font-weight: 520;
-   margin-bottom: 1px;
 }

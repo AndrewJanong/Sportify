@@ -20,23 +20,21 @@ const discussionSchema = new Schema({
         require: true
     },
     likes: {
-        type: [String],
+        type: [Schema.Types.ObjectId],
+        ref: 'User',
         require: true
     },
     picture: {
         type: String,
     },
     creator: {
-        type: String,
+        type: Schema.Types.ObjectId,
+        ref: 'User',
         require: true
     },
     comments: {
-        type: [Schema.Types.Mixed],
+        type: [Schema.Types.ObjectId],
         ref: 'Comments'
-    },
-    user_id: {
-        type: String,
-        require: true
     }
 }, {timestamps: true})
 

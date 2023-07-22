@@ -14,10 +14,10 @@ const NewDiscussionPage = () => {
     const [sports, setSports] = useState('');
     const [date, setDate] = useState(new Date()); //change to auto today date with new Date()???
     const [text, setText] = useState('');
-    const [likes, setLikes] = useState(["null"]); 
+    const [likes, setLikes] = useState([]); 
     const [creator, setCreator] = useState(user.username);
     const [error, setError] = useState('');
-    const comments = [{uName: user.username, comment: "default"}];
+    const comments = {text: "DEFAULT", replies: "0", creator: user.userId};
 
     const [imageSelected, setImageSelected] = useState('');
 
@@ -45,7 +45,7 @@ const NewDiscussionPage = () => {
         const parsed = await fetched.json();
 
         //POSTING 
-        const discussion = {title, sports, date, text, likes, picture: parsed.public_id, creator, comments};
+        const discussion = {title, sports, date, text, likes, picture: parsed.public_id, creator: user.userId, comments: [comments.id]};
 
         const response = await fetch(process.env.REACT_APP_BASEURL+'/api/discussions', {
             method: 'POST',
