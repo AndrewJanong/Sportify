@@ -78,6 +78,7 @@ const NewDiscussionPage = () => {
                 icon: 'success',
                 title: 'Discussion created'
             })
+            
             navigate("/discussions");
         }
 

@@ -35,7 +35,7 @@
     color: #ffffff;
     
     height: 28px;
-    width: 80px;
+    width: 100px;
     border-radius: 5px;
     margin-right: 0.8rem;
     margin-top: 0.5rem;
@@ -84,4 +84,25 @@
 
 .indComment > .form > .commentButton:hover {
     background-color: #6db7e4;
+}
+
+@media (992px <= width) {
+
+}
+
+@media (576px <= width <= 992px) {
+    .indComment button {
+        font-size: 0.7rem;
+        height: 1.7rem;
+        width: 5rem;
+    }
+
+}
+
+@media (width < 576px) {
+    .indComment button {
+        font-size: 0.7rem;
+        height: 1.7rem;
+        width: 5rem;
+    }
 }

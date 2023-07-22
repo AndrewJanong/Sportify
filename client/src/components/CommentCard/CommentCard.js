@@ -9,6 +9,8 @@ const CommentCard = (props) => {
     const [showReply, setShowReply] = useState(false);
     const [commentForm, setCommentForm] = useState('');
 
+    setTimeout(4000);
+
     const navigate = useNavigate();
     const { user } = useAuthContext();
     const [repliesList, setRepliesList] = useState(props.comment.replies);

@@ -38,7 +38,7 @@ const DiscussionCard = (props) => {
 
     const name = discussion.creator.username;
 
-    //console.log(discussion);
+    console.log(discussion);
     //console.log(commentsList);
 
     const likeHandler = async (e) => {

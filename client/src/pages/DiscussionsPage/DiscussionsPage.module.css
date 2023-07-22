@@ -3,7 +3,8 @@
     color: #fff;
     height: 100vh;
     width: 100%;
-    padding-left: 20%;
+    padding-left: 4.5rem;
+    
 }
 
 .filter {
@@ -51,4 +52,15 @@
     display: flex;
     flex-direction: column;
     align-items: center;
+}
+
+@media (width <= 992px) {
+    .discussionspage {
+        padding-left: 0%;
+    }
+
+    .header {
+        flex-direction: column;
+        align-items: flex-start;
+    }
 }
