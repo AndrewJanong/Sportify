@@ -12,7 +12,9 @@ const groupNotificationsRoutes = require('./routes/groupNotifications');
 const groupsRoutes = require('./routes/groups');
 const groupRequestsRoutes = require('./routes/groupRequests');
 const groupChatRoutes = require('./routes/groupChat');
+const meetupChatRoutes = require('./routes/meetupChat');
 const cors = require('cors');
+const Pusher = require('pusher');
 
 const app = express();
 
@@ -38,6 +40,32 @@ app.use('/api/group-notifications', groupNotificationsRoutes);
 app.use('/api/groups', groupsRoutes);
 app.use('/api/group-requests', groupRequestsRoutes);
 app.use('/api/group-chat', groupChatRoutes);
+app.use('/api/meetup-chat', meetupChatRoutes);
+
+
+const pusher = new Pusher({
+    appId: "1638539",
+    key: "4a38210c30f8213a34a9",
+    secret: "6f10b3010c2a0aa79b06",
+    cluster: "ap1",
+    useTLS: true
+});
+
+pusher.trigger("sportify-chat", "connect", {
+    message: "hello world"
+});
+
+app.post('/pusher/chat/:groupId', (req, res) => {
+    const {groupId} = req.params;
+    const event = `chat-event-${groupId}`;
+    pusher.trigger("sportify-chat", event, req.body.message)
+})
+
+app.post('/pusher/meetup-chat/:meetupId', (req, res) => {
+    const {meetupId} = req.params;
+    const event = `meetup-chat-event-${meetupId}`;
+    pusher.trigger("sportify-chat", event, req.body.message)
+})
 
 
 //connect to DB

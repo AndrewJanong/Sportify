@@ -28,6 +28,7 @@ const NewMeetupPage = (props) => {
     const [description, setDescription] = useState('');
     const [groupInfo, setGroupInfo] = useState({});
     const [error, setError] = useState('');
+    const [submitting, setSubmitting] = useState(false);
 
     const { user } = useAuthContext();
     const navigate = useNavigate();
@@ -58,6 +59,7 @@ const NewMeetupPage = (props) => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+        setSubmitting(true);
         if (!user) {
             setError('You Must Be Logged In');
             return;
@@ -87,6 +89,7 @@ const NewMeetupPage = (props) => {
     
         if (!response.ok) {
             setError(json.error);
+            setSubmitting(false);
         } else {
             setTitle('');
             setSports('');
@@ -94,6 +97,14 @@ const NewMeetupPage = (props) => {
             setLocation('');
             setVacancy(1);
             setDescription('');
+
+            await fetch(process.env.REACT_APP_BASEURL+'/api/meetup-chat/'+json._id, {
+                method: 'POST',
+                headers: {
+                    'Authorization': `Bearer ${user.token}`
+                }
+            })
+
             dispatch({
               type: 'CREATE_MEETUP',
               payload: json
@@ -104,6 +115,7 @@ const NewMeetupPage = (props) => {
                 title: 'Meetup created'
             })
             navigate("/");
+            setSubmitting(true);
         }
     }
 
@@ -196,7 +208,7 @@ const NewMeetupPage = (props) => {
                         onChange={(e) => setDescription(e.target.value)}
                         value={description}
                     ></textarea>
-                    <button disabled={!dateValid()}>Create</button>
+                    <button disabled={submitting || !dateValid()}>Create</button>
                 </form>
                 {error && <div className={styles.error}>{error}</div>}
             </div>

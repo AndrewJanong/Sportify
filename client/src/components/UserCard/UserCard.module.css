@@ -1,6 +1,6 @@
 .card {
-    height: 6rem;
-    width: 6rem;
+    height: 6.5rem;
+    width: 6.5rem;
     border-radius: 5px;
 
     display: flex;
@@ -21,13 +21,16 @@
 }
 
 .profilePicture, .profilePicture > img {
-    height: 4.5rem;
-    width: 4.5rem;
+    height: 4rem;
+    width: 4rem;
 
     border-radius: 50%;
     background-color: var(--picture-background);
 }
 
 .username {
-    font-size: 1.5rem;
+    width: 6.5rem;
+    height: 2.5rem;
+    font-size: 1rem;
+    text-align: center;
 }
