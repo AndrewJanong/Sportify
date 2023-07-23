@@ -71,7 +71,7 @@ const MeetupsPage = (props) => {
                 </div>
                 <div className={`${filter === 'sport' ? styles.show : styles.hide} ${styles.sportsFilter} `}>
                     <p>Sports:</p>
-                    <select name="" id="" value={sports} onChange={(e) => setSports(e.target.value)} data-testid="select">
+                    <select name="" id="" value={sports} onChange={(e) => setSports(e.target.value)} data-testid="select-sport">
                         {
                             ListOfSports.map(sport =>
                                 <option
@@ -87,7 +87,7 @@ const MeetupsPage = (props) => {
                 </div>
                 <div className={`${filter === 'date' ? styles.show : styles.hide} ${styles.dateFilter} `}>
                     <p>Date:</p>
-                    <input type="date" name="" id=""  onChange={(e) => setDate(e.target.value)}/>
+                    <input type="date" name="" id=""  onChange={(e) => setDate(e.target.value)} data-testid="input-date"/>
                 </div>
             </div>
             <div className={styles.meetups}>

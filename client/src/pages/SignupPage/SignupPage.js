@@ -160,8 +160,8 @@ const SignupPage = (props) => {
 
     const checkUsername = () => {
         if (username.length === 0) return "";
-        if (username.length > 16) {
-            return "username can only be up to 16 characters";
+        if (username.length > 12) {
+            return "username can only be up to 12 characters";
         } else if (!username.match(/^[0-9a-zA-Z]+$/)) {
             return "username must be alphanumeric";
         } else {

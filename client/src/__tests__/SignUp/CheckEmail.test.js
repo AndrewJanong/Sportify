@@ -31,7 +31,7 @@ describe('Test Email', () => {
 
         act(() => {
             const emailInput = screen.getByPlaceholderText(/email/i);
-            userEvent.type(emailInput, "andrewjanong.gmail.com");
+            userEvent.type(emailInput, "adj.gmail.com");
         })
     
         expect(screen.getByText('please enter a valid email')).toBeInTheDocument();
@@ -49,7 +49,7 @@ describe('Test Email', () => {
 
         act(() => {
             const emailInput = screen.getByPlaceholderText(/email/i);
-            userEvent.type(emailInput, "andrewjanong@@gmail.com");
+            userEvent.type(emailInput, "adj@@gmail.com");
         })
     
         expect(screen.getByText('please enter a valid email')).toBeInTheDocument();
@@ -67,13 +67,13 @@ describe('Test Email', () => {
 
         act(() => {
             const emailInput = screen.getByPlaceholderText(/email/i);
-            userEvent.type(emailInput, "andrewjanong@gmailcom");
+            userEvent.type(emailInput, "adj@gmailcom");
         })
     
         expect(screen.getByText('please enter a valid email')).toBeInTheDocument();
     })
 
-    test('messi@gmail.com is a valid email' , async () => {
+    test('adj@gmail.com is a valid email' , async () => {
         const dispatch = jest.fn();
         render(
             <AuthContext.Provider value={{dispatch}}>
@@ -87,15 +87,15 @@ describe('Test Email', () => {
             const usernameInput = screen.getByPlaceholderText(/username/i);
             const emailInput = screen.getByPlaceholderText(/email/i);
             const passwordInput = screen.getByPlaceholderText(/password/i);
-            userEvent.type(usernameInput, "MessiTheGOAT");
-            userEvent.type(emailInput, "messi@gmail.com");
+            userEvent.type(usernameInput, "ADJ2357");
+            userEvent.type(emailInput, "adj@gmail.com");
             userEvent.type(passwordInput, "Messi123$");
         })
     
         expect(await screen.findByRole('button', { name: /sign up/i})).toBeEnabled();
     })
 
-    test('Email dummy1@gmail.com is already taken' , async () => {
+    test('Email andrewjanong@gmail.com is already taken' , async () => {
         const dispatch = jest.fn();
         render(
             <AuthContext.Provider value={{dispatch}}>
@@ -110,8 +110,8 @@ describe('Test Email', () => {
             const usernameInput = screen.getByPlaceholderText(/username/i);
             const emailInput = screen.getByPlaceholderText(/email/i);
             const passwordInput = screen.getByPlaceholderText(/password/i);
-            userEvent.type(usernameInput, "mario");
-            userEvent.type(emailInput, "dummy1@gmail.com");
+            userEvent.type(usernameInput, "ADJ2357");
+            userEvent.type(emailInput, "andrewjanong@gmail.com");
             userEvent.type(passwordInput, "Messi123$");
             fireEvent.click(signupButton);
         })

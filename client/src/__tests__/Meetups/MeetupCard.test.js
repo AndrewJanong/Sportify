@@ -10,13 +10,18 @@ import { BrowserRouter } from "react-router-dom";
 import { ShallowRenderer } from "react-dom/test-utils";
 
 const meetup = {
-    title: "badminton tmr",
+    title: "play tmr",
     sports: "Badminton",
     date: "2023-05-28T13:00",
     location: "PGPR",
-    members: ["adj", "ad"],
+    members: [{
+        username: 'ADJ0109'
+    }],
     vacancy: 4,
-    description: "test"
+    description: "test",
+    creator: {
+        username: 'ADJ0109'
+    }
 }
 
 describe('Meetup Card', () => {
@@ -27,8 +32,11 @@ describe('Meetup Card', () => {
             </BrowserRouter>
         );
 
-        // expect(global.fetch).toHaveBeenCalled();
-        expect(screen.getByText(/badminton tmr/i)).toBeInTheDocument();
+        expect(screen.getByText(/created by ADJ0109/i)).toBeInTheDocument();
+        expect(screen.getByText(/play tmr/i)).toBeInTheDocument();
+        expect(screen.getByText(/Badminton/i)).toBeInTheDocument();
+        expect(screen.getByText(/PGPR/i)).toBeInTheDocument();
+        expect(screen.getByText(/2023-05-28, 13:00/i)).toBeInTheDocument();
     })
 
     test('View button is clickable', () => {
