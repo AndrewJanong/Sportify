@@ -207,7 +207,7 @@
 }
 
 #friends > div {
-    margin: 0 12px;
+    margin: 4px 0.25rem;
 }
 
 @media (992px <= width) {

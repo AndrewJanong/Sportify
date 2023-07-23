@@ -56,7 +56,7 @@ const postMessage = async (req, res) => {
     const {sender, text} = req.body;
 
     if (!mongoose.Types.ObjectId.isValid(chatId)) {
-        return res.status(400).json({error: "No such meetup"});
+        return res.status(400).json({error: "No such chat"});
     }
 
     try {
