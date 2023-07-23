@@ -37,8 +37,6 @@ const SearchPage = (props) => {
         }
     }, [user, input])
 
-    console.log(users);
-
     return (
         <div className={styles.page}>
             <input 

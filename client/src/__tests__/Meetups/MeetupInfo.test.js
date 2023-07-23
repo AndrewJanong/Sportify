@@ -62,6 +62,7 @@ afterEach(() => {
 
 
 describe('Meetups Page', () => {
+    // Test that all information about the meetup is displayed in the MeetupInfoPage (title, members, description, etc.)
     test('Renders correctly and displays meetup info', async () => {
         
         const dispatch = jest.fn();
@@ -84,8 +85,12 @@ describe('Meetups Page', () => {
         expect(screen.getByText(/PGPR/i)).toBeInTheDocument();
         expect(screen.getByText(/2023-05-28, 13:00/i)).toBeInTheDocument();
         expect(await screen.findByText(/don't forget to bring your own racket/i)).toBeInTheDocument();
+        expect(screen.getByText(/ADJ0109/i)).toBeInTheDocument();
+        expect(screen.getByText(/ADJ2357/i)).toBeInTheDocument();
     })
 
+
+    // Test that users who are not in the meetup are able to join the meetup
     test('Users can join a meetup if not joined', async () => {
         
         const dispatch = jest.fn();
@@ -112,6 +117,8 @@ describe('Meetups Page', () => {
         fireEvent.click(joinButton);
     })
 
+
+    // Test that users who are in the meetup, except the creator, are able to leave the meetup
     test('Users can leave a meetup if joined', async () => {
         
         const dispatch = jest.fn();
@@ -138,6 +145,8 @@ describe('Meetups Page', () => {
         fireEvent.click(leaveButton);
     })
 
+
+    // Test that the creator of the meetup is able to edit or delete the meetup
     test('Creator of a meetup can edit and delete', async () => {
         
         const dispatch = jest.fn();
@@ -164,5 +173,30 @@ describe('Meetups Page', () => {
         // Simulate a click event on the button
         fireEvent.click(editButton);
         fireEvent.click(deleteButton);
+    })
+
+
+    // Test that users who are in the meetup are able to open chat section
+    test('Users can access chat section if joined', async () => {
+        
+        const dispatch = jest.fn();
+        const user = {
+            username: 'ADJ2357',
+            _id: '2357',
+            userId: '2357'
+        };
+
+        render(
+            <AuthContext.Provider value={{user, dispatch}}>
+                <MeetupsContext.Provider value={{meetups, dispatch}}>
+                    <BrowserRouter history={history}>
+                        <MeetupInfoPage />
+                    </BrowserRouter>
+                </MeetupsContext.Provider>
+            </AuthContext.Provider>
+        );
+
+        // Checking that chat section is available
+        expect(screen.getByText(/Chat/i)).toBeInTheDocument();
     })
 })
