@@ -9,7 +9,6 @@ const CommentCard = (props) => {
     const [showReply, setShowReply] = useState(false);
     const [commentForm, setCommentForm] = useState('');
 
-    setTimeout(4000);
 
     const navigate = useNavigate();
     const { user } = useAuthContext();
@@ -17,8 +16,6 @@ const CommentCard = (props) => {
     const [repliesObject, setRepliesObject] = useState(props.comment.replies);
     const [error, setError] = useState('');
     
-    console.log(props.comment);
-    console.log(repliesObject);
 
     const handleReply = async (e) => {
         if (showReply) {
@@ -79,7 +76,6 @@ const CommentCard = (props) => {
         if (response2.ok) {
             console.log("reply good");
             setRepliesList([...repliesList, replyId]);
-            console.log(commentForm);
             setRepliesObject([...repliesObject, {text: commentForm, replies:[], creator: user}]);
             setCommentForm('');
         }
@@ -121,7 +117,7 @@ const CommentCard = (props) => {
 
                 const response2 = await fetch(process.env.REACT_APP_BASEURL+'/api/discussions/' + props.discussion._id, {
                     method: 'PATCH',
-                    body: JSON.stringify({comments: props.discussion.comments.filter((id) => id !== props.comment)}),
+                    body: JSON.stringify({comments: props.discussion.comments.filter((id) => id !== props.comment)}), //fix this
                     headers: {
                         'Content-Type': 'application/json',
                         'Authorization': `Bearer ${user.token}`
@@ -141,13 +137,25 @@ const CommentCard = (props) => {
     }
 
     return ( 
-        props.comment && <div className={styles.indComment} key={props.comment._id}>
+        repliesObject && props.comment && <div className={styles.indComment} key={props.comment._id}>
             <p>{props.comment.creator && props.comment.creator.username}</p> 
             <div>{props.comment.text}</div>
             <button onClick={handleReply}>{showReply ? "Cancel" : "Reply"}</button>
-            {repliesObject.length > 1 && <button onClick={handleShow}>{show ? "Hide Reply" : "Show Reply"}</button>}
+            
+            
+            {repliesObject 
+            && repliesObject.length > 1 
+            && <button 
+            onClick={handleShow}>
+                {show 
+                ? "Hide Reply" 
+                : "Show Reply"}
+                </button>}
 
-            {(user.userId === props.comment.creator._id || user.userId === props.comment.creator.userId) && <button className={styles.delete} onClick={handleDelete}>Delete</button>}
+            
+            
+            {(props.comment.creator && user.username === props.comment.creator.username) 
+                && <button className={styles.delete} onClick={handleDelete}>Delete</button>}
             {showReply && <div className={styles.form}>
                 <input 
                     maxLength = {400}
@@ -164,7 +172,6 @@ const CommentCard = (props) => {
                 && repliesObject
                     .filter((reply) => show ? true : reply === repliesObject[0])
                     .map((reply) => {
-                        console.log(reply)
                     return ( reply &&
                         <div className={styles.reply}>
                             <p className={styles.uName}>{reply.creator && reply.creator.username}</p>

@@ -19,16 +19,6 @@ const DiscussionCard = (props) => {
     const { discussions, dispatch } = useDiscussionsContext();
     const [discussion, setDiscussion] = useState(props.discussion);
 
-
-    // const pauser = () => {
-    //     while (!discussion) {
-    //     }
-    //     return "OK";
-    // }
-
-    // pauser();
-
-
     const [likesList, setLikesList] = useState(discussion.likes);
     
     const [commentForm, setCommentForm] = useState('');
@@ -38,8 +28,10 @@ const DiscussionCard = (props) => {
 
     const name = discussion.creator.username;
 
-    console.log(discussion);
-    //console.log(commentsList);
+    if (!name) {
+        window.location.reload(true);
+    }
+
 
     const likeHandler = async (e) => {
         e.preventDefault();
@@ -264,9 +256,8 @@ const DiscussionCard = (props) => {
                     .filter((comment) => show ? true : comment === commentsObject[0])
                     // .filter((comment) => comment !== commentsObject[0])
                     .map((comment) => {
-                        console.log(comment);
                     return (
-                        comment && <CommentCard comment={comment} discussion={props.discussion} />
+                        comment && <CommentCard key={comment._id} comment={comment} discussion={props.discussion} />
                     )
                 })
                 : <div className={styles.indComment}>No Comment</div>}

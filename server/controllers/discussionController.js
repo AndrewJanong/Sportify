@@ -101,7 +101,24 @@ const updateDiscussion = async (req, res) => {
         return res.status(400).json({error: "No such discussion"});
     }
 
-    const discussion = await Discussions.findOneAndUpdate({_id: id}, {...req.body});
+    const discussion = await Discussions.findOneAndUpdate({_id: id}, {...req.body})
+    .populate('creator')
+    .populate('comments')
+    .populate({
+        path: 'comments',
+        populate: {  path: 'replies' }
+    })
+    .populate({
+        path: 'comments',
+        populate: { 
+            path: 'replies',
+            populate: { path: 'creator' }
+        }
+    })
+    .populate({
+        path: 'comments',
+        populate: { path: 'creator' }
+    });
 
     if (!discussion) {
         return res.status(400).json({error: "No such discussion"});
