@@ -79,6 +79,11 @@ const GroupInfoPage = (props) => {
     }
 
     const handleAddMember = () => {
+        if (user.test) {
+            if (props.testCallback) props.testCallback();
+            return;
+        }
+
         Swal.fire({
             title: 'Find username',
             input: 'text',
@@ -134,6 +139,10 @@ const GroupInfoPage = (props) => {
 
     const handleDelete = async (e) => {
         e.preventDefault();
+        if (user.test) {
+            if (props.testCallback) props.testCallback();
+            return;
+        }
 
         if (!user) {
             return;
@@ -171,6 +180,11 @@ const GroupInfoPage = (props) => {
 
     const handleLeave = (e) => {
         e.preventDefault();
+
+        if (user.test) {
+            if (props.testCallback) props.testCallback();
+            return;
+        }
 
         if (!user) {
             return;
@@ -218,14 +232,14 @@ const GroupInfoPage = (props) => {
                     <h1>{groupInfo.name}</h1>
                     <div className={styles.groupOptions}>
                         {groupInfo.captain && groupInfo.captain.username === user.username &&
-                        <button id={styles.editButton} onClick={() => navigate("/group/edit/"+params.id)}>Edit</button>}
+                        <button id={styles.editButton} onClick={() => navigate("/group/edit/"+params.id)} data-testid="edit-button">Edit</button>}
 
                         {groupInfo.captain && groupInfo.captain.username === user.username &&
-                        <button id={styles.deleteButton} onClick={handleDelete}>Delete</button>}
+                        <button id={styles.deleteButton} onClick={handleDelete} data-testid="delete-button">Delete</button>}
 
                         {groupInfo.captain && groupInfo.captain.username !== user.username &&
                         groupInfo.members && groupInfo.members.map(member => member.username).includes(user.username) && 
-                        <button id={styles.leaveButton} onClick={handleLeave}>Leave</button>}
+                        <button id={styles.leaveButton} onClick={handleLeave} data-testid="leave-button">Leave</button>}
                     </div>
                 </div>
                 <p>Sports: {groupInfo.sports}</p>
@@ -245,8 +259,8 @@ const GroupInfoPage = (props) => {
             <div className={styles.members}>
                 <div className={styles.memberHeader}>
                     <h2>Members</h2>
-                    {groupInfo.members && groupInfo.members.map(member => member.username).includes(user.username) &&
-                    <button id={styles.addMemberButton} onClick={handleAddMember}>Add</button>}
+                    {groupInfo.captain && groupInfo.captain.username === user.username &&
+                    <button id={styles.addMemberButton} onClick={handleAddMember} data-testid="add-button">Add</button>}
                 </div>
                 <div className={styles.membersContainer}>
                     {groupInfo.members &&
