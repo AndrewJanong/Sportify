@@ -49,6 +49,11 @@ const Group = (props) => {
             });
             const json = await response.json();
 
+            if (json && json.test) {
+                setGroupInfo(json);
+                setLoading(false);
+            }
+
             if (response.ok) {
                 setGroupInfo(json);
                 setLoading(false);
@@ -69,6 +74,10 @@ const Group = (props) => {
             })
             const chat_json = await chat.json();
 
+            if (chat_json && chat_json.test) {
+                setFetchingChat(false);
+            }
+
             if (chat.ok) {
                 setCurrentChat(chat_json);
                 setFetchingChat(false);
@@ -87,6 +96,11 @@ const Group = (props) => {
     const handleSendMessage = async (e) => {
         e.preventDefault();
         setText('');
+
+        if (user.test) {
+            if (props.testCallback) props.testCallback();
+            return;
+        }
 
         const message = await fetch(process.env.REACT_APP_BASEURL+'/api/group-chat/'+currentChat._id, {
             method: 'PATCH',
@@ -185,8 +199,8 @@ const Group = (props) => {
                     })}
                 </div>
                 <form action="" onSubmit={handleSendMessage}>
-                    <input value={text} onChange={(e) => setText(e.target.value)}/>
-                    <button disabled={!text.trim()}>
+                    <input value={text} onChange={(e) => setText(e.target.value)} data-testid="chat-input"/>
+                    <button disabled={!text.trim()} data-testid="send-message-button">
                         <img src={SendMessage} alt="" />
                     </button>
                 </form>

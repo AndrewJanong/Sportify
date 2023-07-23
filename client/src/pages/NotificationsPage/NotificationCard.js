@@ -11,6 +11,10 @@ const NotificationCard = (props) => {
     // Accepting a friend request
     const handleAcceptFriend = async (e) => {
         e.preventDefault();
+        if (notification.test) {
+            if (props.testCallback) props.testCallback();
+            return;
+        }
 
         const response = await fetch(process.env.REACT_APP_BASEURL+'/api/friends/accept', {
             method: 'PATCH',
@@ -57,6 +61,10 @@ const NotificationCard = (props) => {
     // Rejecting a friend request
     const handleRejectFriend = async (e) => {
         e.preventDefault();
+        if (notification.test) {
+            if (props.testCallback) props.testCallback();
+            return;
+        }
 
         const response = await fetch(process.env.REACT_APP_BASEURL+'/api/friends/reject', {
             method: 'PATCH',
@@ -103,6 +111,11 @@ const NotificationCard = (props) => {
 
     // Accepting a Group request
     const handleAcceptGroup = async (e) => {
+        if (notification.test) {
+            if (props.testCallback) props.testCallback();
+            return;
+        }
+
         const deleted = await fetch(process.env.REACT_APP_BASEURL+'/api/group-notifications/'+notification._id, {
             method: 'DELETE',
             headers: {
@@ -141,6 +154,11 @@ const NotificationCard = (props) => {
 
     // Rejecting a Group request
     const handleRejectGroup = async (e) => {
+        if (notification.test) {
+            if (props.testCallback) props.testCallback();
+            return;
+        }
+        
         const deleted = await fetch(process.env.REACT_APP_BASEURL+'/api/group-notifications/'+notification._id, {
             method: 'DELETE',
             headers: {

@@ -23,6 +23,11 @@ const NotificationsPage = (props) => {
 
             const user_json = await userNotifications.json();
 
+            if (user_json.length > 0 && user_json[0].test) {
+                setUserNotifications(user_json);
+                setLoading(false);
+            }
+
             if (userNotifications.ok) {
                 setUserNotifications(user_json);
             }
@@ -45,8 +50,6 @@ const NotificationsPage = (props) => {
             fetchNotifications();
         }
     }, [user, refresh])
-
-    console.log(userNotifications);
 
     const refreshPage = () => {
         setRefresh((refresh + 1) % 2);

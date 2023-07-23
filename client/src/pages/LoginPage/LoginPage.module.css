@@ -6,7 +6,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    padding-right: 20%;
+    padding-right: 240px;
 }
 
 .container {
@@ -41,8 +41,8 @@
     font-family: inherit;
     outline: none;
     border: 2px solid #3b62be;
-    box-shadow: 0 0 1pt 1pt #3b62be;
     margin-bottom: 12px;
+    box-shadow: 0 0 1pt 1pt #3b62be;
 
     width: 100%;
     height: 40px;
@@ -198,4 +198,30 @@
     border-radius: 4px;
 }
 
+
+@media (width <= 992px) {
+    .login {
+        padding-right: 0;
+    }
+}
+
+@media (width <= 576px) {
+    .login {
+        padding-right: 0;
+    }
+
+    .container {
+        width: 100vw;
+        height: 100vh;
+        border-radius: 0;
+        justify-content: center;
+    }
+
+    .resetPassword {
+        width: 100vw;
+        height: 100vh;
+        border-radius: 0;
+        justify-content: center;
+    }
+}
 

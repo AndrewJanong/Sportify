@@ -20,7 +20,7 @@ describe('Test Username', () => {
         expect(await screen.findByRole('button', { name: /sign up/i})).toBeDisabled();
     })
 
-    test('Username longer than 16 characters is invalid', async () => {
+    test('Username longer than 12 characters is invalid', async () => {
         const dispatch = jest.fn();
         render(
             <AuthContext.Provider value={{dispatch}}>
@@ -32,10 +32,10 @@ describe('Test Username', () => {
 
         act(() => {
             const usernameInput = screen.getByPlaceholderText(/username/i);
-            userEvent.type(usernameInput, "ilovemathematicsss");
+            userEvent.type(usernameInput, "ilovemathematics");
         })
     
-        expect(screen.getByText('username can only be up to 16 characters')).toBeInTheDocument();
+        expect(screen.getByText('username can only be up to 12 characters')).toBeInTheDocument();
     })
 
     test('Username with non-alphanumeric characters is invalid', async () => {
@@ -56,7 +56,7 @@ describe('Test Username', () => {
         expect(screen.getByText('username must be alphanumeric')).toBeInTheDocument();
     })
 
-    test('MessiTheGOAT is a valid username' , async () => {
+    test('andrewjanong is a valid username' , async () => {
         const dispatch = jest.fn();
         render(
             <AuthContext.Provider value={{dispatch}}>
@@ -70,7 +70,7 @@ describe('Test Username', () => {
             const usernameInput = screen.getByPlaceholderText(/username/i);
             const emailInput = screen.getByPlaceholderText(/email/i);
             const passwordInput = screen.getByPlaceholderText(/password/i);
-            userEvent.type(usernameInput, "MessiTheGOAT");
+            userEvent.type(usernameInput, "andrewjanong");
             userEvent.type(emailInput, "messi@gmail.com");
             userEvent.type(passwordInput, "Messi123$");
         })
@@ -78,7 +78,7 @@ describe('Test Username', () => {
         expect(await screen.findByRole('button', { name: /sign up/i})).toBeEnabled();
     })
 
-    test('Username mario is already taken' , async () => {
+    test('Username ADJ0109 is already taken' , async () => {
         const dispatch = jest.fn();
         render(
             <AuthContext.Provider value={{dispatch}}>
@@ -93,7 +93,7 @@ describe('Test Username', () => {
             const usernameInput = screen.getByPlaceholderText(/username/i);
             const emailInput = screen.getByPlaceholderText(/email/i);
             const passwordInput = screen.getByPlaceholderText(/password/i);
-            userEvent.type(usernameInput, "mario");
+            userEvent.type(usernameInput, "ADJ0109");
             userEvent.type(emailInput, "messi@gmail.com");
             userEvent.type(passwordInput, "Messi123$");
             fireEvent.click(signupButton);

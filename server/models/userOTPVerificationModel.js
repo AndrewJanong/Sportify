@@ -29,6 +29,7 @@ let transporter = nodemailer.createTransport({
     }
 })
 
+
 userOTPVerificationSchema.statics.sendVerification = async function(username, email) {
 
     const otp = `${Math.floor(1000 + Math.random() * 9000)}`;
@@ -52,12 +53,38 @@ userOTPVerificationSchema.statics.sendVerification = async function(username, em
         expiresAt: Date.now() + 3600000
     });
 
-    transporter.sendMail(mailOptions, (error, info) => {
-        if (error) {
-            return console.log(error);
-        }
-        console.log('Message sent: %s', info.messageId);
+    await new Promise((resolve, reject) => {
+        // verify connection configuration
+        transporter.verify(function (error, success) {
+            if (error) {
+                console.log(error);
+                reject(error);
+            } else {
+                console.log("Server is ready to take our messages");
+                resolve(success);
+            }
+        });
     });
+
+    await new Promise((resolve, reject) => {
+        // send mail
+        transporter.sendMail(mailOptions, (err, info) => {
+            if (err) {
+                console.error(err);
+                reject(err);
+            } else {
+                console.log(info);
+                resolve(info);
+            }
+        });
+    });
+
+    // transporter.sendMail(mailOptions, (error, info) => {
+    //     if (error) {
+    //         return console.log(error);
+    //     }
+    //     console.log('Message sent: %s', info.messageId);
+    // });
 
     return verification;
 }

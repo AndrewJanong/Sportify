@@ -11,13 +11,36 @@ const groups = [
     {
         name: "group1",
         sports: "Basketball",
-        members: ["member1", "member2"],
+        members: [{
+            username: 'ADJ0109',
+            _id: 'ADJ0109'
+        },
+        {
+            username: 'ADJ',
+            _id: 'ADJ'
+        }],
+        captain: {
+            username: 'ADJ0109',
+            _id: 'ADJ0109'
+        },
         test: true
     },
     {
         name: "group2",
         sports: "Badminton",
-        members: ["member1", "member2"]
+        members: [{
+            username: 'ADJ0109',
+            _id: 'ADJ0109'
+        },
+        {
+            username: 'ADJ',
+            _id: 'ADJ'
+        }],
+        captain: {
+            username: 'ADJ',
+            _id: 'ADJ'
+        },
+        test: true
     }
 ]
 
