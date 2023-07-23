@@ -1,9 +1,27 @@
 const mongoose = require('mongoose');
+const { populate } = require('../models/discussionModel');
 const Discussions = require('../models/discussionModel');
 
 //getting all Discussions
 const getDiscussions = async (req, res) => {
-    const discussions = await Discussions.find({}).sort({createdAt: -1});
+    const discussions = await Discussions.find({}).sort({createdAt: -1})
+    .populate('creator')
+    .populate('comments')
+    .populate({
+        path: 'comments',
+        populate: {  path: 'replies' }
+    })
+    .populate({
+        path: 'comments',
+        populate: { 
+            path: 'replies',
+            populate: { path: 'creator' }
+        }
+    })
+    .populate({
+        path: 'comments',
+        populate: { path: 'creator' }
+    });
     res.status(200).json(discussions);
 }
 
@@ -15,8 +33,24 @@ const getDiscussion = async (req, res) => {
         return res.status(404).json({error: "No such discussion"});
     }
 
-    const discussion = await Discussions.findById(id);
-
+    const discussion = await Discussions.findById(id)
+        .populate('creator')
+        .populate('comments')
+        .populate({
+            path: 'comments',
+            populate: {  path: 'replies' }
+        })
+        .populate({
+            path: 'comments',
+            populate: { 
+                path: 'replies',
+                populate: { path: 'creator' }
+            }
+        })
+        .populate({
+            path: 'comments',
+            populate: { path: 'creator' }
+        });
     if (!discussion) {
         return res.status(404).json({error: "No such discussion"});
     }
@@ -67,7 +101,24 @@ const updateDiscussion = async (req, res) => {
         return res.status(400).json({error: "No such discussion"});
     }
 
-    const discussion = await Discussions.findOneAndUpdate({_id: id}, {...req.body});
+    const discussion = await Discussions.findOneAndUpdate({_id: id}, {...req.body})
+    .populate('creator')
+    .populate('comments')
+    .populate({
+        path: 'comments',
+        populate: {  path: 'replies' }
+    })
+    .populate({
+        path: 'comments',
+        populate: { 
+            path: 'replies',
+            populate: { path: 'creator' }
+        }
+    })
+    .populate({
+        path: 'comments',
+        populate: { path: 'creator' }
+    });
 
     if (!discussion) {
         return res.status(400).json({error: "No such discussion"});

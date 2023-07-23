@@ -11,8 +11,11 @@ const userNotificationsRoutes = require('./routes/userNotifications');
 const groupNotificationsRoutes = require('./routes/groupNotifications');
 const groupsRoutes = require('./routes/groups');
 const groupRequestsRoutes = require('./routes/groupRequests');
+
+const commentRoutes =  require('./routes/comment');
 const groupChatRoutes = require('./routes/groupChat');
 const meetupChatRoutes = require('./routes/meetupChat');
+
 const cors = require('cors');
 const Pusher = require('pusher');
 
@@ -39,8 +42,11 @@ app.use('/api/user-notifications', userNotificationsRoutes);
 app.use('/api/group-notifications', groupNotificationsRoutes);
 app.use('/api/groups', groupsRoutes);
 app.use('/api/group-requests', groupRequestsRoutes);
+
+app.use('/api/comments', commentRoutes);
 app.use('/api/group-chat', groupChatRoutes);
 app.use('/api/meetup-chat', meetupChatRoutes);
+app.use('/api/comments', commentRoutes);
 
 
 const pusher = new Pusher({
@@ -66,6 +72,7 @@ app.post('/pusher/meetup-chat/:meetupId', (req, res) => {
     const event = `meetup-chat-event-${meetupId}`;
     pusher.trigger("sportify-chat", event, req.body.message)
 })
+
 
 
 //connect to DB

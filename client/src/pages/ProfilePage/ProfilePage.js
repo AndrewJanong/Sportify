@@ -399,7 +399,7 @@ const ProfilePage = (props) => {
                     <div id={styles.discussions}>
                         {discussions &&
                         discussions
-                        .filter((discussion) => discussion.creator.includes(userB))
+                        .filter((discussion) => discussion.creator._id === userB)
                         .map((discussion) => {
                             return (
                                 <DiscussionCard key={discussion._id} discussion={discussion}/>

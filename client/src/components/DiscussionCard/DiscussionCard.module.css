@@ -16,16 +16,23 @@
 .header {
     display: flex;
     justify-content: space-between;
+    height: fit-content;
+    padding-bottom: auto;
 }
 
 .header p {
-    font-size: 12px;
+    font-size: 10px;
     margin-bottom: 12px;
     text-align: right;
 }
 
+.header h1 {
+    height: auto;
+}
+
 .sports {
     margin-bottom: 5px;
+    padding-top: auto;
 }
 
 .picture {
@@ -110,7 +117,7 @@ h3 {
 }
 
 .form input {
-    width: 80% ;
+    width: 100% ;
     border-radius: 0.5rem;
 }
 
@@ -135,7 +142,7 @@ h3 {
     background-color: #6db7e4;
 }
 
-.comments > .indComment {
+.indComment {
     margin-top: 0.6rem;
     background-color: rgb(211, 211, 211);
     
@@ -143,7 +150,37 @@ h3 {
     border-radius: 0.5rem;
 }
 
-.comments > .indComment p {
-   font-weight: 520;
-   margin-bottom: 1px;
+
+@media (992px <= width) {
+
+}
+
+@media (576px <= width <= 992px) {
+    .discussioncard > .header h1 {
+        height: 2rem;
+        font-size: 1.8rem;
+        margin-bottom: 0.4rem;
+    }
+
+}
+
+@media (width < 576px) {
+    .discussioncard > .header h1 {
+        height: 2rem;
+        font-size: 1.3rem;
+        margin-bottom: 0.4rem;
+    }
+
+    .discussioncard > .info button {
+        height: 1.8rem;
+    }
+
+    .discussioncard > .form input {
+        height: 1.9rem;
+    }
+
+    .discussioncard > .form button {
+        font-size: 0.7rem;
+        height: 1.9rem;
+    }
 }
