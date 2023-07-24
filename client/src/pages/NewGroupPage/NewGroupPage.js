@@ -28,9 +28,6 @@ const NewGroupPage = (props) => {
                 body: data,
             });
             const parsed = await fetched.json();
-            console.log(
-                parsed.public_id // 200, success!
-            );
     
             if (parsed) setPicture(parsed.public_id);
         }
@@ -131,8 +128,6 @@ const NewGroupPage = (props) => {
         } else {
             setGroupName('');
             setSports('');
-    
-            console.log('New group created!');
 
             navigate("/mygroups");
         }
@@ -152,7 +147,7 @@ const NewGroupPage = (props) => {
             if (response.ok) {
                 return json;
             } else {
-                console.log('error');
+                setError(json.error);
             }
         }
 
@@ -163,7 +158,6 @@ const NewGroupPage = (props) => {
         }
         
         if (invitedUser) {
-            console.log(invitedUser);
             if (!addedMembers.find((member) => member.username === invitedUser.username)) setAddedMembers([...addedMembers, invitedUser]);
             setError('');
         } else {

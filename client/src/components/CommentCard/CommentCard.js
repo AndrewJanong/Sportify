@@ -55,10 +55,7 @@ const CommentCard = (props) => {
         const json1 = await response1.json();
 
         if (!response1.ok) {
-            console.log("comment not posted!")
             setError(json1.error);
-        } else {
-            console.log('New reply added!');
         }
 
         const replyId = json1._id;
@@ -74,7 +71,6 @@ const CommentCard = (props) => {
 
         });
         if (response2.ok) {
-            console.log("reply good");
             setRepliesList([...repliesList, replyId]);
             setRepliesObject([...repliesObject, {text: commentForm, replies:[], creator: user}]);
             setCommentForm('');
@@ -128,7 +124,6 @@ const CommentCard = (props) => {
                 const json2 = await response2.json();
         
                 if (response2.ok) {  
-                    console.log("went here");
                     document.location.reload();
                     navigate('/discussions');
                 }

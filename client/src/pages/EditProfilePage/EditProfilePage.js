@@ -44,9 +44,6 @@ const EditProfilePage = (props) => {
                 body: data,
             });
             const parsed = await fetched.json();
-            console.log(
-                parsed.public_id // 200, success!
-            );
 
             if (parsed) setPicture(parsed.public_id);
         }

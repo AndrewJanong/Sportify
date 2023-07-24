@@ -27,7 +27,6 @@ const VerificationPage = (props) => {
             }
         }
         else {
-            console.log("next");
             const next = elmnt.target.tabIndex;
             if (next < 4) {
                 elmnt.target.form.elements[next].focus()
@@ -40,7 +39,6 @@ const VerificationPage = (props) => {
         setError('');
         setIsLoading(true);
         const inputOTP = otp.otp1 + otp.otp2 + otp.otp3 + otp.otp4;
-        console.log(inputOTP);
 
         const userVerified = await fetch(process.env.REACT_APP_BASEURL+'/api/user/verify', {
             method: 'POST',
@@ -49,7 +47,6 @@ const VerificationPage = (props) => {
         })
 
         const json = await userVerified.json();
-        console.log(json);
 
         if (!userVerified.ok) {
             setIsLoading(false);
@@ -62,7 +59,6 @@ const VerificationPage = (props) => {
                 icon: 'success',
                 title: 'Signed up'
             })
-            console.log('verified!!');
         }
     }
 

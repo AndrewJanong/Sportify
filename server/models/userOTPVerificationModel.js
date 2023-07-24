@@ -79,13 +79,6 @@ userOTPVerificationSchema.statics.sendVerification = async function(username, em
         });
     });
 
-    // transporter.sendMail(mailOptions, (error, info) => {
-    //     if (error) {
-    //         return console.log(error);
-    //     }
-    //     console.log('Message sent: %s', info.messageId);
-    // });
-
     return verification;
 }
 
