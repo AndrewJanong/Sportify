@@ -32,7 +32,6 @@ const Group = (props) => {
                 const messages = [...prev.messages, message];
                 return ({...prev, messages: messages});
             })
-            console.log(message);
         });
 
         return () => {

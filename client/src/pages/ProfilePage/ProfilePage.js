@@ -49,7 +49,6 @@ const ProfilePage = (props) => {
                 }
             });
             const json = await response.json();
-            console.log(json);
             
             if (response.ok) {
                 setDisplay('friends');
@@ -65,7 +64,6 @@ const ProfilePage = (props) => {
                 }
             });
             const json = await response.json();
-            console.log(json);
             
             if (response.ok) {
                 setFriends(json.map((friendship) => friendship.recipient));
@@ -128,7 +126,6 @@ const ProfilePage = (props) => {
 
             if (response.ok) {
                 setUserNotifications(json);
-                console.log(json);
             }
         }
 
@@ -145,9 +142,6 @@ const ProfilePage = (props) => {
         if (user) fetchData();
 
     }, [meetupsDispatch, discussionsDispatch, status, user, userA, userB])
-
-    console.log('user notifications');
-    console.log(userNotifications);
 
     const handleAddFriend = async (e) => {
         e.preventDefault();
@@ -177,15 +171,13 @@ const ProfilePage = (props) => {
 
         const json = await response.json();
         const notification_json = await notification.json();
-        console.log(json);
-        console.log(notification_json);
         setStatus(json.status);
     }
 
     const handleAcceptFriend = async (e) => {
         e.preventDefault();
 
-        const response = await fetch(process.env.REACT_APP_BASEURL+'/api/friends/accept', {
+        await fetch(process.env.REACT_APP_BASEURL+'/api/friends/accept', {
             method: 'PATCH',
             body: JSON.stringify({requester: userA, recipient: userB}),
             headers: {
@@ -198,14 +190,14 @@ const ProfilePage = (props) => {
             .filter((notification) => notification.sender._id === userB && 
                                       notification.target_user._id === userA)[0]._id;
 
-        const deleted = await fetch(process.env.REACT_APP_BASEURL+'/api/user-notifications/'+notif_id, {
+        await fetch(process.env.REACT_APP_BASEURL+'/api/user-notifications/'+notif_id, {
             method: 'DELETE',
             headers: {
                 'Authorization': `Bearer ${user.token}`
             }
         })
 
-        const notification_response = await fetch(process.env.REACT_APP_BASEURL+'/api/user-notifications/', {
+        await fetch(process.env.REACT_APP_BASEURL+'/api/user-notifications/', {
             method: 'POST',
             body: JSON.stringify({
                 type: 'message',
@@ -218,22 +210,14 @@ const ProfilePage = (props) => {
                 'Authorization': `Bearer ${user.token}`
             }
         })
-            
-
-        const json = await response.json();
-        const deleted_json = await deleted.json();
-        const notification_response_json = await notification_response.json();
         
-        console.log(json);
-        console.log(deleted_json);
-        console.log(notification_response_json);
         setStatus(3);
     }
 
     const handleRejectFriend = async (e) => {
         e.preventDefault();
 
-        const response = await fetch(process.env.REACT_APP_BASEURL+'/api/friends/reject', {
+        await fetch(process.env.REACT_APP_BASEURL+'/api/friends/reject', {
             method: 'PATCH',
             body: JSON.stringify({requester: userA, recipient: userB}),
             headers: {
@@ -242,21 +226,19 @@ const ProfilePage = (props) => {
             }
         })
 
-        console.log(userNotifications);
-
         const notif_id = userNotifications
             .filter((notification) => notification.sender._id === userB && 
                                       notification.target_user._id === userA)[0]._id;
 
 
-        const deleted = await fetch(process.env.REACT_APP_BASEURL+'/api/user-notifications/'+notif_id, {
+        await fetch(process.env.REACT_APP_BASEURL+'/api/user-notifications/'+notif_id, {
             method: 'DELETE',
             headers: {
                 'Authorization': `Bearer ${user.token}`
             }
         })
 
-        const notification_response = await fetch(process.env.REACT_APP_BASEURL+'/api/user-notifications/', {
+        await fetch(process.env.REACT_APP_BASEURL+'/api/user-notifications/', {
             method: 'POST',
             body: JSON.stringify({
                 type: 'message',
@@ -269,22 +251,14 @@ const ProfilePage = (props) => {
                 'Authorization': `Bearer ${user.token}`
             }
         })
-            
 
-        const json = await response.json();
-        const deleted_json = await deleted.json();
-        const notification_response_json = await notification_response.json();
-        
-        console.log(json);
-        console.log(deleted_json);
-        console.log(notification_response_json);
         setStatus(0);
     }
 
     const handleRemoveFriend = async (e) => {
         e.preventDefault();
 
-        const response = await fetch(process.env.REACT_APP_BASEURL+'/api/friends/remove', {
+        await fetch(process.env.REACT_APP_BASEURL+'/api/friends/remove', {
             method: 'PATCH',
             body: JSON.stringify({requester: userA, recipient: userB}),
             headers: {
@@ -293,8 +267,6 @@ const ProfilePage = (props) => {
             }
         })
 
-        const json = await response.json();
-        console.log(json);
         setStatus(0);
     }
 

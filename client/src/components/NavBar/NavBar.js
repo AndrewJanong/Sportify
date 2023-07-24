@@ -114,7 +114,7 @@ const NavBar = (props) => {
                         </button>
                     </Link>
                     <div className={styles.container}>
-                        <div className={styles.user} onClick={(e) => console.log(user.token)}>
+                        <div className={styles.user}>
                             <NavLink 
                                 className={({isActive}) => isActive ? styles.active : ''}
                                 to={`/profile/${(user.userId)}`} 
@@ -125,7 +125,7 @@ const NavBar = (props) => {
                                     cloudName={`${process.env.REACT_APP_IMAGECLOUD}`} 
                                     publicId={`${user.picture || "Member_qx5vfp"}`}>
                                 </Image>
-                                <p onClick={(e) => {console.log(user)}}>{user.username}</p>
+                                <p>{user.username}</p>
                             </NavLink>
                         </div>
 

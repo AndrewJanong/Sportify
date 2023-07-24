@@ -62,11 +62,30 @@ const sendResetPasswordLink = async (req, res) => {
                 html: `<p>Click this <a href=${link}>here</a> to reset your password. Link will expire in 15 minutes.</p>`
             }
 
-            transporter.sendMail(mailOptions, (error, info) => {
-                if (error) {
-                    throw Error("Unable to send reset password link");
-                }
-                console.log('Reset password link sent: %s', info.messageId);
+            await new Promise((resolve, reject) => {
+                // verify connection configuration
+                transporter.verify(function (error, success) {
+                    if (error) {
+                        console.log(error);
+                        reject(error);
+                    } else {
+                        console.log("Server is ready to take our messages");
+                        resolve(success);
+                    }
+                });
+            });
+        
+            await new Promise((resolve, reject) => {
+                // send mail
+                transporter.sendMail(mailOptions, (err, info) => {
+                    if (err) {
+                        console.error(err);
+                        reject(err);
+                    } else {
+                        console.log(info);
+                        resolve(info);
+                    }
+                });
             });
             
             res.status(200).json(user);

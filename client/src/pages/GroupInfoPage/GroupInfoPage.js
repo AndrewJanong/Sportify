@@ -46,7 +46,7 @@ const GroupInfoPage = (props) => {
     }
 
     const addMember = async (memberId) => {
-        const request = await fetch(process.env.REACT_APP_BASEURL+'/api/group-requests/', {
+        await fetch(process.env.REACT_APP_BASEURL+'/api/group-requests/', {
             method: 'POST',
             body: JSON.stringify({
                 group: groupInfo._id,
@@ -58,7 +58,7 @@ const GroupInfoPage = (props) => {
             }
         })
 
-        const notification = await fetch(process.env.REACT_APP_BASEURL+'/api/group-notifications/', {
+        await fetch(process.env.REACT_APP_BASEURL+'/api/group-notifications/', {
             method: 'POST',
             body: JSON.stringify({
                 type: "group-request",
@@ -70,12 +70,6 @@ const GroupInfoPage = (props) => {
                 'Content-Type': 'application/json'
             }
         })
-
-        const json_request = await request.json();
-        const json_notification = await notification.json();
-
-        console.log(json_request);
-        console.log(json_notification);
     }
 
     const handleAddMember = () => {
@@ -97,7 +91,6 @@ const GroupInfoPage = (props) => {
               return fetch(process.env.REACT_APP_BASEURL+'/api/user/username/'+username)
                 .then(response => {
                   if (!response.ok) {
-                    console.log(response.json());
                     throw new Error(response.statusText);
                   }
                   return response.json()

@@ -16,7 +16,7 @@ const NotificationCard = (props) => {
             return;
         }
 
-        const response = await fetch(process.env.REACT_APP_BASEURL+'/api/friends/accept', {
+        await fetch(process.env.REACT_APP_BASEURL+'/api/friends/accept', {
             method: 'PATCH',
             body: JSON.stringify({requester: user.userId, recipient: notification.sender._id}),
             headers: {
@@ -25,14 +25,14 @@ const NotificationCard = (props) => {
             }
         })
 
-        const deleted = await fetch(process.env.REACT_APP_BASEURL+'/api/user-notifications/'+notification._id, {
+        await fetch(process.env.REACT_APP_BASEURL+'/api/user-notifications/'+notification._id, {
             method: 'DELETE',
             headers: {
                 'Authorization': `Bearer ${user.token}`
             }
         })
 
-        const notification_response = await fetch(process.env.REACT_APP_BASEURL+'/api/user-notifications/', {
+        await fetch(process.env.REACT_APP_BASEURL+'/api/user-notifications/', {
             method: 'POST',
             body: JSON.stringify({
                 type: 'message',
@@ -45,15 +45,6 @@ const NotificationCard = (props) => {
                 'Authorization': `Bearer ${user.token}`
             }
         })
-            
-
-        const json = await response.json();
-        const deleted_json = await deleted.json();
-        const notification_response_json = await notification_response.json();
-        
-        console.log(json);
-        console.log(deleted_json);
-        console.log(notification_response_json);
 
         props.refreshPage();
     }
@@ -66,7 +57,7 @@ const NotificationCard = (props) => {
             return;
         }
 
-        const response = await fetch(process.env.REACT_APP_BASEURL+'/api/friends/reject', {
+        await fetch(process.env.REACT_APP_BASEURL+'/api/friends/reject', {
             method: 'PATCH',
             body: JSON.stringify({requester: user.userId, recipient: notification.sender._id}),
             headers: {
@@ -75,14 +66,14 @@ const NotificationCard = (props) => {
             }
         })
 
-        const deleted = await fetch(process.env.REACT_APP_BASEURL+'/api/user-notifications/'+notification._id, {
+        await fetch(process.env.REACT_APP_BASEURL+'/api/user-notifications/'+notification._id, {
             method: 'DELETE',
             headers: {
                 'Authorization': `Bearer ${user.token}`
             }
         })
 
-        const notification_response = await fetch(process.env.REACT_APP_BASEURL+'/api/user-notifications/', {
+        await fetch(process.env.REACT_APP_BASEURL+'/api/user-notifications/', {
             method: 'POST',
             body: JSON.stringify({
                 type: 'message',
@@ -95,15 +86,6 @@ const NotificationCard = (props) => {
                 'Authorization': `Bearer ${user.token}`
             }
         })
-            
-
-        const json = await response.json();
-        const deleted_json = await deleted.json();
-        const notification_response_json = await notification_response.json();
-        
-        console.log(json);
-        console.log(deleted_json);
-        console.log(notification_response_json);
 
         props.refreshPage();
     }
@@ -116,14 +98,14 @@ const NotificationCard = (props) => {
             return;
         }
 
-        const deleted = await fetch(process.env.REACT_APP_BASEURL+'/api/group-notifications/'+notification._id, {
+        await fetch(process.env.REACT_APP_BASEURL+'/api/group-notifications/'+notification._id, {
             method: 'DELETE',
             headers: {
                 'Authorization': `Bearer ${user.token}`
             }
         })
 
-        const group = await fetch(process.env.REACT_APP_BASEURL+'/api/groups/add_member/'+notification.sender._id, {
+        await fetch(process.env.REACT_APP_BASEURL+'/api/groups/add_member/'+notification.sender._id, {
             method: 'PATCH',
             body: JSON.stringify({
                 member: notification.target_user._id
@@ -133,20 +115,12 @@ const NotificationCard = (props) => {
             }
         })
 
-        const request = await fetch(process.env.REACT_APP_BASEURL+'/api/group-requests/'+notification.sender._id, {
+        await fetch(process.env.REACT_APP_BASEURL+'/api/group-requests/'+notification.sender._id, {
             method: 'DELETE',
             headers: {
                 'Authorization': `Bearer ${user.token}`
             }
         })
-
-        const deleted_json = await deleted.json();
-        const group_json = group.json();
-        const request_json = request.json();
-        
-        console.log(deleted_json);
-        console.log(group_json);
-        console.log(request_json);
 
         props.refreshPage();
     }
@@ -159,25 +133,19 @@ const NotificationCard = (props) => {
             return;
         }
         
-        const deleted = await fetch(process.env.REACT_APP_BASEURL+'/api/group-notifications/'+notification._id, {
+        await fetch(process.env.REACT_APP_BASEURL+'/api/group-notifications/'+notification._id, {
             method: 'DELETE',
             headers: {
                 'Authorization': `Bearer ${user.token}`
             }
         })
 
-        const request = await fetch(process.env.REACT_APP_BASEURL+'/api/group-requests/'+notification.sender._id, {
+        await fetch(process.env.REACT_APP_BASEURL+'/api/group-requests/'+notification.sender._id, {
             method: 'DELETE',
             headers: {
                 'Authorization': `Bearer ${user.token}`
             }
         })
-
-        const deleted_json = await deleted.json();
-        const request_json = request.json();
-        
-        console.log(deleted_json);
-        console.log(request_json);
 
         props.refreshPage();
     }

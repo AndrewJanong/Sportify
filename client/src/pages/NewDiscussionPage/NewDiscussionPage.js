@@ -72,8 +72,7 @@ const NewDiscussionPage = () => {
                 type: 'CREATE_DISCUSSION',
                 payload: json
             })
-
-            console.log('New discussion added!');
+            
             Success.fire({
                 icon: 'success',
                 title: 'Discussion created'
