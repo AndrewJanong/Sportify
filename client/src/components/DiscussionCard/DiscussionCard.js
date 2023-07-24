@@ -233,7 +233,7 @@ const DiscussionCard = (props) => {
                     <img src={Likes} alt="" />
                     <p>{likesList.length}</p>
                 </button>
-                {user.username === name && <button className={styles.delete} onClick={handleDelete}>Delete
+                {user.username === name && <button className={styles.delete} onClick={handleDelete} data-testid="deletetest">Delete
                 </button>}
             </div>
 
@@ -246,8 +246,8 @@ const DiscussionCard = (props) => {
                     onChange={(e) => setCommentForm(e.target.value)}
                     value={commentForm}
                 />
-                <button onClick={handleClick} disabled={commentForm === ''} id={styles.commentButton}>Comment</button>
-                <button onClick={handleShow}>{show ? "Show Less" : "Show More"}</button>
+                <button onClick={handleClick} disabled={commentForm === ''} id={styles.commentButton} data-testid="commenttest">Comment</button>
+                <button onClick={handleShow} data-testid="showtest">{show ? "Show Less" : "Show More"}</button>
             </div>
 
             <div className={styles.comments}>

@@ -140,7 +140,7 @@ const CommentCard = (props) => {
         repliesObject && props.comment && <div className={styles.indComment} key={props.comment._id}>
             <p>{props.comment.creator && props.comment.creator.username}</p> 
             <div>{props.comment.text}</div>
-            <button onClick={handleReply}>{showReply ? "Cancel" : "Reply"}</button>
+            <button onClick={handleReply} data-testid="replytest">{showReply ? "Cancel" : "Reply"}</button>
             
             
             {repliesObject 
@@ -155,13 +155,14 @@ const CommentCard = (props) => {
             
             
             {(props.comment.creator && user.username === props.comment.creator.username) 
-                && <button className={styles.delete} onClick={handleDelete}>Delete</button>}
+                && <button className={styles.delete} onClick={handleDelete} data-testid="replydeletetest">Delete</button>}
             {showReply && <div className={styles.form}>
                 <input 
                     maxLength = {400}
                     type="text" 
                     onChange={(e) => setCommentForm(e.target.value)}
                     value={commentForm}
+                    data-testid="replyform"
                 />
                 <button onClick={handleClick} disabled={commentForm === ''} className={styles.commentButton}>Comment</button>
             </div>}
