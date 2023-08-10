@@ -6,17 +6,6 @@ import { useMeetupsContext } from "../../hooks/useMeetupsContext";
 import { useAuthContext } from "../../hooks/useAuthContext";
 import { useParams } from "react-router-dom";
 
-// const getTomorrowDate = () => {
-//     let tomorrow = new Date();
-//     tomorrow.setDate(tomorrow.getDate()+1); 
-
-//     let day = tomorrow.getDate();
-//     let month = tomorrow.getMonth() + 1;
-//     let year = tomorrow.getFullYear();
-
-//     return `${year}-${month}-${day}T00:00`;
-// }
-
 const EditMeetupPage = (props) => {
     const params = useParams();
     const { meetups, dispatch } = useMeetupsContext();
@@ -26,15 +15,20 @@ const EditMeetupPage = (props) => {
     const { user } = useAuthContext();
     const navigate = useNavigate();
 
+    // Array of possible sports for the meetup
     const ListOfSports = ['', 'Basketball', 'Soccer', 'Voleyball', 'Badminton', 'Table Tennis', 'Tennis'];
 
+    // Edit function handler
     const handleSubmit = async (e) => {
         e.preventDefault();
+
+        // Make sure user is logged in
         if (!user) {
             setError('You Must Be Logged In');
             return;
         }
 
+        // The new edited meetup which values are obtained from the form
         const editedMeetup = {
             title: meetup.title,
             sports: meetup.sports,
@@ -46,6 +40,7 @@ const EditMeetupPage = (props) => {
             creator: meetup.creator._id
         }
     
+        // Send PATCH request to the backend to handle meetup editing
         const response = await fetch(process.env.REACT_APP_BASEURL+'/api/meetups/'+params.meetupId, {
             method: 'PATCH',
             body: JSON.stringify(editedMeetup),
@@ -60,6 +55,7 @@ const EditMeetupPage = (props) => {
         if (!response.ok) {
             setError(json.error);
         } else {
+            // Change context state
             dispatch({
               type: 'SET_MEETUPS',
               payload: [json, ...meetups.filter((meetup) => meetup._id !== params.meetupId)], 
@@ -70,10 +66,12 @@ const EditMeetupPage = (props) => {
                 title: 'Meetup edited'
             })
 
+            // Navigate user to meetups page
             navigate("/meetups/"+json._id);
         }
     }
 
+    // Check if date input is valid
     const dateValid = () => {
         let tomorrow = new Date();
         tomorrow.setDate(tomorrow.getDate()+1); 

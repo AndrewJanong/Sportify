@@ -13,6 +13,8 @@ export const friendsReducer = (state, action) => {
     }
 }
 
+
+// Context provider for all friend relationships
 export const FriendsContextProvider = ({ children }) => {
     const [state, dispatch] = useReducer(friendsReducer, {
         friends: null

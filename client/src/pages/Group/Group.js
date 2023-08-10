@@ -25,8 +25,11 @@ const Group = (props) => {
         });
 
         const event = `chat-event-${params.id}`;
+
+        // Subscribe to Pusher channel
         const channel = pusher.subscribe("sportify-chat");
 
+        // Change messages state when someone sends a message
         channel.bind(event, (message) => {
             setCurrentChat((prev) => {
                 const messages = [...prev.messages, message];
@@ -34,12 +37,14 @@ const Group = (props) => {
             })
         });
 
+        // When leaving page, unsubscribe from Pusher channel
         return () => {
             pusher.unsubscribe("sportify-chat");
         }
     }, [user, params.id])
 
     useEffect(() => {
+        // Fetch current group info
         const getGroupInfo = async () => {
             const response = await fetch(process.env.REACT_APP_BASEURL+'/api/groups/'+params.id, {
                 headers: {
@@ -65,6 +70,7 @@ const Group = (props) => {
     }, [user, params.id])
 
     useEffect(() => {
+        // Fetch current group chat
         const getGroupChat = async () => {
             const chat = await fetch(process.env.REACT_APP_BASEURL+'/api/group-chat/'+params.id, {
                 headers: {
@@ -88,10 +94,13 @@ const Group = (props) => {
         }
     }, [user, params.id])
 
+    // To always scroll to last message sent
     useEffect(() => {
         scrollRef.current?.scrollIntoView({behavior: 'smooth'});
     }, [currentChat])
 
+
+    // Handle a user sending a message
     const handleSendMessage = async (e) => {
         e.preventDefault();
         setText('');
@@ -101,6 +110,7 @@ const Group = (props) => {
             return;
         }
 
+        // Send PATCH request to the backend
         const message = await fetch(process.env.REACT_APP_BASEURL+'/api/group-chat/'+currentChat._id, {
             method: 'PATCH',
             body: JSON.stringify({
@@ -116,6 +126,7 @@ const Group = (props) => {
         const message_json = await message.json();
 
         if (message.ok) {
+            // This POST request will trigger an event that will be sent to all users subscribed to the Pusher channel
             await fetch(process.env.REACT_APP_BASEURL+'/pusher/chat/'+params.id, {
                 method: 'POST',
                 body: JSON.stringify({
@@ -129,6 +140,7 @@ const Group = (props) => {
         }
     }
 
+    // If group info or group chat has not been fetched, display loading page
     if (loading || fetchingChat) {
         return <LoadingPage />;
     }

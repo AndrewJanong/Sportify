@@ -21,6 +21,8 @@ export const discussionsReducer = (state, action) => {
     }
 }
 
+
+// Context provider for all discussions
 export const DiscussionsContextProvider = ({ children }) => {
     const [state, dispatch] = useReducer(discussionsReducer, {
         discussions: null

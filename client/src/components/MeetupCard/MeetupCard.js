@@ -5,9 +5,12 @@ import Location from '../../icons/Location.png';
 import Member from '../../icons/Member.png';
 import { useNavigate } from "react-router-dom";
 
+
+// MeetupCard shows some meetup infos and is used to display meetups in My Meetups Page and Meetups Page
 const MeetupCard = (props) => {
     const navigate = useNavigate();
 
+    // Opens MeetupInfoPage when 'view' button is clicked
     const viewHandler = (e) => {
         e.preventDefault();
 

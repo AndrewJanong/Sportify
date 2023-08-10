@@ -17,6 +17,8 @@ const EditGroupPage = (props) => {
     const [fetched, setFetched] = useState(false);
 
     useEffect(() => {
+
+        // Fetching original group info before editing
         const getGroupInfo = async () => {
             const response = await fetch(process.env.REACT_APP_BASEURL+'/api/groups/'+params.id, {
                 headers: {
@@ -33,6 +35,7 @@ const EditGroupPage = (props) => {
             }
         }
 
+        // Upload image if image selected changes so that it can be displayed on screen
         const uploadImage = async () => {
             const url = `https://api.cloudinary.com/v1_1/dpjocjbpp/image/upload`;
             const data = new FormData();
@@ -52,8 +55,12 @@ const EditGroupPage = (props) => {
         if (imageSelected) uploadImage();
     }, [imageSelected, fetched, params.id, user]);
 
+
+    // Array of possible sports for the group
     const ListOfSports = ['', 'Basketball', 'Soccer', 'Voleyball', 'Badminton', 'Table Tennis', 'Tennis'];
 
+
+    // Edit function
     const handleSubmit = async (e) => {
         e.preventDefault();
         if (!user) {
@@ -67,6 +74,7 @@ const EditGroupPage = (props) => {
             sports,
         };
     
+        // Send PATCH request to the backend to handle group info editing
         const response = await fetch(process.env.REACT_APP_BASEURL+'/api/groups/'+params.id, {
             method: 'PATCH',
             body: JSON.stringify(group),
@@ -77,18 +85,15 @@ const EditGroupPage = (props) => {
         })
 
         const json = await response.json();
-
-        if (!response.ok) {
-            setError(json.error);
-            return;
-        }   
     
         if (!response.ok) {
             setError(json.error);
+            return;
         } else {
             setGroupName('');
             setSports('');
 
+            // Navigate to the group info page after editing
             navigate("/group/info/"+params.id);
         }
     }

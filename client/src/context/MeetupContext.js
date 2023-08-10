@@ -21,6 +21,7 @@ export const meetupsReducer = (state, action) => {
     }
 }
 
+// Context provider for all meetups
 export const MeetupsContextProvider = ({ children }) => {
     const [state, dispatch] = useReducer(meetupsReducer, {
         meetups: null

@@ -165,14 +165,12 @@ const DiscussionCard = (props) => {
         const json1 = await response1.json();
 
         if (!response1.ok) {
-            console.log("comment not posted!")
             setError(json1.error);
         } else {
             dispatch({
                 type: 'CREATE_COMMENT',
                 payload: json1
             })
-            console.log('New comment added!');
         }
 
         const commentId = json1._id;
