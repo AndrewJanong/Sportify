@@ -16,6 +16,7 @@ import Pusher from "pusher-js";
 import PuffLoader from "react-spinners/PuffLoader";
 
 
+// Meetup Chat Component
 const MeetupChat = (props) => {
 
     const params = useParams();
@@ -29,21 +30,25 @@ const MeetupChat = (props) => {
         });
 
         const event = `meetup-chat-event-${params.meetupId}`;
+
+        // Subscribe to Pusher channel
         const channel = pusher.subscribe("sportify-chat");
 
+        // Change messages state when someone sends a message
         channel.bind(event, (message) => {
             props.setCurrentChat((prev) => {
                 const messages = [...prev.messages, message];
                 return ({...prev, messages: messages});
             })
-            console.log(message);
         });
 
+        // When leaving page, unsubscribe from Pusher channel
         return () => {
             pusher.unsubscribe("sportify-chat");
         }
     }, [user, params.meetupId, props])
 
+    // To always scroll to last message sent
     useEffect(() => {
         scrollRef.current?.scrollIntoView({behavior: 'smooth'});
     }, [props.currentChat])
@@ -51,10 +56,12 @@ const MeetupChat = (props) => {
 
     let currentChat = props.currentChat;
 
+    // Handle a user sending a message
     const handleSendMessage = async (e) => {
         e.preventDefault();
         setText('');
 
+        // Send PATCH request to the backend
         const message = await fetch(process.env.REACT_APP_BASEURL+'/api/meetup-chat/'+currentChat._id, {
             method: 'PATCH',
             body: JSON.stringify({
@@ -70,6 +77,7 @@ const MeetupChat = (props) => {
         const message_json = await message.json();
 
         if (message.ok) {
+            // This POST request will trigger an event that will be sent to all users subscribed to the Pusher channel
             await fetch(process.env.REACT_APP_BASEURL+'/pusher/meetup-chat/'+params.meetupId, {
                 method: 'POST',
                 body: JSON.stringify({
@@ -83,6 +91,7 @@ const MeetupChat = (props) => {
         }
     }
 
+    // Show loading when chat is still being fetched
     if (props.fetchingChat) {
         return (
             <div className={styles.chat}>
@@ -168,6 +177,7 @@ const MeetupInfoPage = (props) => {
     const [fetchingChat, setFetchingChat] = useState(true);
 
     useEffect(() => {
+        // Fetch data of the meetup chat
         const getMeetupChat = async () => {
             const chat = await fetch(process.env.REACT_APP_BASEURL+'/api/meetup-chat/'+params.meetupId, {
                 headers: {
@@ -191,6 +201,7 @@ const MeetupInfoPage = (props) => {
     const meetup = meetups.filter(meetup => meetup._id === meetupId)[0];
     const usernames = meetup.members.map(member => member.username); 
 
+    // Handle user joining the meetup when 'Join' button is clicked
     const handleJoin = async (e) => {
         e.preventDefault();
 
@@ -198,11 +209,13 @@ const MeetupInfoPage = (props) => {
             return;
         }
 
+        // User cannot join if meetup is full
         if (usernames.length === meetup.vacancy) {
             Swal.fire('Meetup is full!');
             return;
         }
 
+        // Send PATCH request to the backend to add the user to the meetup
         const response = await fetch(process.env.REACT_APP_BASEURL+'/api/meetups/add-member/' + meetupId, {
             method: 'PATCH',
             body: JSON.stringify({memberId: user.userId}),
@@ -223,6 +236,7 @@ const MeetupInfoPage = (props) => {
         })
 
         if (response.ok) {
+            // Change meetups state in the context
             dispatch({
                 type: 'SET_MEETUPS',
                 payload: newMeetups
@@ -231,12 +245,15 @@ const MeetupInfoPage = (props) => {
                 icon: 'success',
                 title: 'Joined Meetup'
             })
+
+            // Navigate user to meetups page
             navigate('/');
         } else {
             console.log('error update');
         }
     }
 
+    // Handle deleting the meetup when 'delete' button clicked
     const handleDelete = async (e) => {
         e.preventDefault();
 
@@ -244,6 +261,7 @@ const MeetupInfoPage = (props) => {
             return;
         }
 
+        // Confirmation Popup
         Swal.fire({
             title: 'Are you sure?',
             text: "You won't be able to revert this!",
@@ -253,6 +271,7 @@ const MeetupInfoPage = (props) => {
             cancelButtonColor: '#d33',
             confirmButtonText: 'Yes, delete it!'
         }).then(async (result) => {
+            // Once confirmed, send DELETE request to the backend
             if (result.isConfirmed) {
                 Swal.fire(
                     'Deleted!',
@@ -270,11 +289,13 @@ const MeetupInfoPage = (props) => {
                 const json = await response.json();
         
                 if (response.ok) {
+                    // Change meetups state in the context
                     dispatch({
                         type: 'DELETE_WORKOUT',
                         payload: json
                     })
         
+                    // Navigate to meetups page
                     navigate('/');
                 }
             }
@@ -282,6 +303,7 @@ const MeetupInfoPage = (props) => {
         
     }
 
+    // Handle user leaving the meetup when 'Leave' button is clicked
     const handleLeave = async (e) => {
         e.preventDefault();
 
@@ -289,6 +311,7 @@ const MeetupInfoPage = (props) => {
             return;
         }
 
+        // Confirmation
         Swal.fire({
             title: 'Are you sure?',
             text: "Others might replace you!",
@@ -298,6 +321,7 @@ const MeetupInfoPage = (props) => {
             cancelButtonColor: '#d33',
             confirmButtonText: 'Yes, leave!'
         }).then(async (result) => {
+            // Once confirmed, send PATCH request to the backend to remove the member from the meetup
             if (result.isConfirmed) {
                 Swal.fire(
                     'Left!',
@@ -323,14 +347,15 @@ const MeetupInfoPage = (props) => {
                         return meetup;
                     } 
                 })
-        
-                console.log(newMeetups);
 
                 if (response.ok) {
+                    // Change meetups state in the context
                     dispatch({
                         type: 'SET_MEETUPS',
                         payload: newMeetups
                     })
+
+                    // Navigate to meetups page
                     navigate('/');
                 } else {
                     console.log('error update');

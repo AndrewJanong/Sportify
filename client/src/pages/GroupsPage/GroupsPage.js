@@ -13,6 +13,7 @@ const GroupsPage = (props) => {
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
+        // Fetch all groups the user is in
         const fetchUserGroups = async () => {
             const response = await fetch(process.env.REACT_APP_BASEURL+'/api/groups/user/'+user.userId, {
                 headers: {
@@ -37,10 +38,13 @@ const GroupsPage = (props) => {
         }
     }, [user])
 
+    // Navigate to New Group Page when 'Create' buttton is clicked
     const handleCreateGroup = () => {
         navigate('/newgroup');
     }
 
+
+    // While groups are still fetched, display loading page
     if (loading) {
         return <LoadingPage />;
     }

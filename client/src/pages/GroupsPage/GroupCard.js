@@ -3,6 +3,7 @@ import styles from './GroupCard.module.css';
 import { useNavigate } from "react-router-dom";
 import { Image } from "cloudinary-react";
 
+// Group Card to display the group in Groups Page
 const GroupCard = (props) => {
     const navigate = useNavigate();
 

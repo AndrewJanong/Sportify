@@ -13,9 +13,11 @@ const MeetupsPage = (props) => {
     const [loading, setLoading] = useState(true);
     const [filter, setFilter] = useState('sport');
 
+    // Array of possible sports of the meetup for filter purposes
     const ListOfSports = ['Any', 'Basketball', 'Soccer', 'Voleyball', 'Badminton', 'Table Tennis', 'Tennis'];
 
     useEffect(() => {
+        // Fetch all meetups
         const fetchMeetups = async () => {
             const response = await fetch(process.env.REACT_APP_BASEURL+'/api/meetups', {
                 headers: {
@@ -39,10 +41,12 @@ const MeetupsPage = (props) => {
         }
     }, [dispatch, user])
 
+    // While meetups being fetched, display loading page
     if (loading) {
         return <LoadingPage />
     }
 
+    // Filtered meetups
     const filteredMeetups = meetups
     .filter((meetup) => {
         if (sports === 'Any') {

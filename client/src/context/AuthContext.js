@@ -15,11 +15,15 @@ export const authReducer = (state, action) => {
     }
 }
 
+
+// Context provider for user info to help authentication
 export const AuthContextProvider = ({children}) => {
     const [state, dispatch] = useReducer(authReducer, {
         user: null
     })
 
+    
+    // Gets the user value in the local storage and change the state
     useEffect(() => {
         const user = JSON.parse(localStorage.getItem('user'));
         if (user) {

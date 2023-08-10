@@ -17,6 +17,7 @@ const GroupInfoPage = (props) => {
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
+        // Fetching current group info
         const getGroupInfo = async () => {
             const response = await fetch(process.env.REACT_APP_BASEURL+'/api/groups/'+params.id, {
                 headers: {
@@ -41,11 +42,14 @@ const GroupInfoPage = (props) => {
         }
     }, [user, params.id])
 
+
+    // If group info has not been fetched, display loading page
     if (loading) {
         return <LoadingPage />;
     }
 
     const addMember = async (memberId) => {
+        // POST request to add group request
         await fetch(process.env.REACT_APP_BASEURL+'/api/group-requests/', {
             method: 'POST',
             body: JSON.stringify({
@@ -58,6 +62,8 @@ const GroupInfoPage = (props) => {
             }
         })
 
+
+        // POST request to send a notification to the user added
         await fetch(process.env.REACT_APP_BASEURL+'/api/group-notifications/', {
             method: 'POST',
             body: JSON.stringify({
@@ -72,12 +78,15 @@ const GroupInfoPage = (props) => {
         })
     }
 
+
+    // Handle add member function when submitted
     const handleAddMember = () => {
         if (user.test) {
             if (props.testCallback) props.testCallback();
             return;
         }
 
+        // Find username popup
         Swal.fire({
             title: 'Find username',
             input: 'text',
@@ -87,6 +96,7 @@ const GroupInfoPage = (props) => {
             showCancelButton: true,
             confirmButtonText: 'Look up',
             showLoaderOnConfirm: true,
+            // Check if the username exists
             preConfirm: (username) => {
               return fetch(process.env.REACT_APP_BASEURL+'/api/user/username/'+username)
                 .then(response => {
@@ -104,11 +114,13 @@ const GroupInfoPage = (props) => {
             allowOutsideClick: () => !Swal.isLoading()
           }).then((result) => {
             if (result.isConfirmed) {
+                // Check whether the user is already in the group or not
                 if (groupInfo.members.map(member => member.username).includes(result.value.username)) {
                     Swal.fire({
                         title: `${result.value.username} is already in the group`,
                     })
                 } else {
+                    // Confirmation
                     Swal.fire({
                         title: `Invite ${result.value.username} to the group?`,
                         showCancelButton: true,
@@ -116,6 +128,7 @@ const GroupInfoPage = (props) => {
                         cancelButtonColor: '#d33',
                         confirmButtonText: 'Invite'
                     }).then((res) => {
+                        // Once confirmed, run the addMember function
                         if (res.isConfirmed) {
                             addMember(result.value._id);
                             Swal.fire(
@@ -130,6 +143,7 @@ const GroupInfoPage = (props) => {
           })
     }
 
+    // Handle deleting the group when 'delete' button clicked
     const handleDelete = async (e) => {
         e.preventDefault();
         if (user.test) {
@@ -141,6 +155,7 @@ const GroupInfoPage = (props) => {
             return;
         }
 
+        // Confirmation Popup
         Swal.fire({
             title: 'Are you sure?',
             text: "You won't be able to revert this!",
@@ -150,6 +165,7 @@ const GroupInfoPage = (props) => {
             cancelButtonColor: '#d33',
             confirmButtonText: 'Yes, delete it!'
         }).then(async (result) => {
+            // Once confirmed, send DELETE request to the backend
             if (result.isConfirmed) {
                 await fetch(process.env.REACT_APP_BASEURL+'/api/groups/' + params.id, {
                     method: 'DELETE',
@@ -164,6 +180,7 @@ const GroupInfoPage = (props) => {
                     'success'
                 )
 
+                // Navigate to My Groups page
                 navigate('/mygroups');
         
             }
@@ -171,6 +188,7 @@ const GroupInfoPage = (props) => {
         
     }
 
+    // Handle user leaving the group when 'Leave' button is clicked
     const handleLeave = (e) => {
         e.preventDefault();
 
@@ -183,6 +201,7 @@ const GroupInfoPage = (props) => {
             return;
         }
 
+        // Confirmation
         Swal.fire({
             title: 'Are you sure?',
             text: "Others might replace you!",
@@ -192,6 +211,7 @@ const GroupInfoPage = (props) => {
             cancelButtonColor: '#d33',
             confirmButtonText: 'Yes, leave!'
         }).then(async (result) => {
+            // Once confirmed, send PATCH request to the backend to remove the member from the group
             if (result.isConfirmed) {
                 await fetch(process.env.REACT_APP_BASEURL+'/api/groups/remove_member/' + params.id, {
                     method: 'PATCH',
@@ -209,6 +229,7 @@ const GroupInfoPage = (props) => {
                     'success'
                 )
 
+                // Navigate to My Groups page
                 navigate('/mygroups');
             }
         })

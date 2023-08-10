@@ -13,6 +13,7 @@ const SearchPage = (props) => {
     const [users, setUsers] = useState([]);
 
     useEffect(() => {
+        // Fetch all users
         const fetchUsers = async () => {
             const response = await fetch(process.env.REACT_APP_BASEURL+'/api/user/', {
                 headers: {

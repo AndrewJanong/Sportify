@@ -2,6 +2,7 @@ import React from "react";
 import styles from './LoadingPage.module.css';
 import PuffLoader from "react-spinners/PuffLoader";
 
+// Loading page which usually displayed when fetching data necessary to the specific page
 const LoadingPage = (props) => {
 
     return (

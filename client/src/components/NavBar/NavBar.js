@@ -7,6 +7,11 @@ import NotificationsWhite from '../../icons/NotificationsWhite.png';
 import Section from './Section';
 import { useAuthContext } from '../../hooks/useAuthContext';
 
+
+/* 
+NavBar is the navigation bar for the users to navigate to different pages.
+Pages the user can navigate to consist of: My Meetups, Search Page, Groups Page, Meetups Page, Discussions Page, Profile Page, and Notifications Page. 
+*/
 const NavBar = (props) => {
 
     const { user } = useAuthContext();
@@ -87,14 +92,6 @@ const NavBar = (props) => {
                 </div>}
             </div>
             <div className={styles.bottom}>
-                { !user && 
-                <div className={styles.loggedout}>
-                    <Link to="/login" style={{ textDecoration: 'none' }} >
-                        <button type='button' className={styles.login}>
-                            Login
-                        </button>
-                    </Link>
-                </div>}
                 { user &&
                 <div className={styles.loggedin}> 
                     <Link to="/newdiscussion" 

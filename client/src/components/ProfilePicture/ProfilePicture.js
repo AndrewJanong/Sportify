@@ -2,6 +2,11 @@ import React from "react";
 import { Image } from "cloudinary-react";
 import { useNavigate } from "react-router-dom";
 
+
+/*
+The ProfilePicture component displays the picture of a user or group.
+If clicked, it will bring the user to the profile/group info
+*/
 const ProfilePicture = (props) => {
     const navigate = useNavigate();
 

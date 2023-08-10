@@ -17,6 +17,7 @@ const EditProfilePage = (props) => {
     const [imageSelected, setImageSelected] = useState("");
 
     useEffect(() => {
+        // Fetching original user info before editing
         const getUserInfo = async () => {
             const response = await fetch(process.env.REACT_APP_BASEURL+'/api/user/'+params.userId, {
                 headers: {
@@ -33,6 +34,7 @@ const EditProfilePage = (props) => {
             }
         }
 
+        // Upload image if image selected changes so that it can be displayed on screen
         const uploadImage = async () => {
             const url = `https://api.cloudinary.com/v1_1/dpjocjbpp/image/upload`;
             const data = new FormData();
@@ -57,9 +59,11 @@ const EditProfilePage = (props) => {
         }
     }, [user, params.userId, imageSelected, fetched])
 
+    // Edit function
     const handleSubmit = async (e) => {
         e.preventDefault();
 
+        // Send PATCH request to the backend to handle user info editing
         await fetch(process.env.REACT_APP_BASEURL+'/api/user/'+params.userId, {
             method: 'PATCH',
             body: JSON.stringify({picture, name, bio}),
@@ -69,14 +73,17 @@ const EditProfilePage = (props) => {
             },
         })
 
+        // Change context state of user
         dispatch({
              type: 'EDIT',
              payload: {picture, name, bio}
         })
 
+        // Navigate user to profile page
         navigate('/profile/'+params.userId);
     }
 
+    // Display loading page if previous user info not fetched
     if (!fetched) {
         return <LoadingPage />;
     }
