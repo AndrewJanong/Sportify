@@ -1,16 +1,16 @@
-/* eslint-disable */
-
 import React, { useEffect, useState } from "react";
 import styles from './DiscussionsPage.module.css';
 import DiscussionCard from "../../components/DiscussionCard/DiscussionCard";
 import { useDiscussionsContext } from "../../hooks/useDiscussionsContext";
 import { useAuthContext } from "../../hooks/useAuthContext";
+import LoadingPage from "../LoadingPage/LoadingPage";
 
 const DiscussionsPage = (props) => {
     const { discussions, dispatch } = useDiscussionsContext();
     const { user } = useAuthContext();
 
     const [sports, setSports] = useState('Any');
+    const [loading, setLoading] = useState(true);
 
     const ListOfSports = ['Any', 'Basketball', 'Soccer', 'Voleyball', 'Badminton', 'Table Tennis', 'Tennis'];
 
@@ -22,19 +22,26 @@ const DiscussionsPage = (props) => {
                 }
             });
             const json = await response.json();
+            setLoading(false);
 
             if (response.ok) {
                 dispatch({
                     type: 'SET_DISCUSSIONS',
                     payload: json
                 })
+                setLoading(false);
             }
         }
 
         if (user) {
             fetchDiscussions();
         }
+
     }, [dispatch, user])
+
+    if (loading) {
+        return <LoadingPage />;
+    }
 
     return (
         <div className={styles.discussionspage}>
