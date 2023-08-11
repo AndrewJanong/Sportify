@@ -16,7 +16,7 @@ const CommentCard = (props) => {
     const [repliesObject, setRepliesObject] = useState(props.comment.replies);
     const [error, setError] = useState('');
     
-
+    // show or not show reply form
     const handleReply = async (e) => {
         if (showReply) {
             setShowReply(false);
@@ -25,6 +25,7 @@ const CommentCard = (props) => {
         }
     }
     
+    // show or not show replies
     const handleShow = async (e) => {
         if (show) {
             setShow(false);
@@ -33,6 +34,7 @@ const CommentCard = (props) => {
         }
     }
 
+    // handle submitting a reply
     const handleClick = async (e) => {
         e.preventDefault();
 
@@ -79,6 +81,7 @@ const CommentCard = (props) => {
 
     }
 
+    // handle deleting a comment
     const handleDelete = async (e) => {
         e.preventDefault();
 

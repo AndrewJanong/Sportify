@@ -28,14 +28,11 @@ const DiscussionCard = (props) => {
 
     const name = discussion.creator.username;
 
-    if (!name) {
-        window.location.reload(true);
-    }
-
-
+    // handling like action
     const likeHandler = async (e) => {
         e.preventDefault();
 
+        // if the user never like the post
         if (!likesList.includes(user.userId)) { 
             const response = await fetch(process.env.REACT_APP_BASEURL+'/api/discussions/' + id, {
                 method: 'PATCH',
@@ -66,7 +63,7 @@ const DiscussionCard = (props) => {
             } else {
                 console.log('error update');
             }
-        } else {
+        } else { // if the user already like the post
             const response = await fetch(process.env.REACT_APP_BASEURL+'/api/discussions/' + id, {
                 method: 'PATCH',
                 body: JSON.stringify({likes: likesList.filter((u) => u!== user.userId)}),
@@ -99,6 +96,7 @@ const DiscussionCard = (props) => {
 
     }
 
+    // handle the deletion of discussion
     const handleDelete = async (e) => {
         e.preventDefault();
 
@@ -143,7 +141,7 @@ const DiscussionCard = (props) => {
         })
     }
 
-    const handleClick = async (e) => { //comment click
+    const handleClick = async (e) => { //handle submittiong comment
         e.preventDefault();
 
         if (!commentForm) {
@@ -151,7 +149,7 @@ const DiscussionCard = (props) => {
         }
 
         //Adding comment to DB
-        const comment = {text: commentForm, replies:[], creator: user.userId}; //RECHECK THIS
+        const comment = {text: commentForm, replies:[], creator: user.userId};
 
         const response1 = await fetch(process.env.REACT_APP_BASEURL+'/api/comments', {
             method: 'POST',
@@ -209,6 +207,7 @@ const DiscussionCard = (props) => {
         }
     }
 
+    // handle showing more or less comments
     const handleShow = async (e) => {
         if (show) {
             setShow(false);
@@ -252,7 +251,6 @@ const DiscussionCard = (props) => {
                 {commentsObject.length !== 0
                 ? commentsObject
                     .filter((comment) => show ? true : comment === commentsObject[0])
-                    // .filter((comment) => comment !== commentsObject[0])
                     .map((comment) => {
                     return (
                         comment && <CommentCard key={comment._id} comment={comment} discussion={props.discussion} />
