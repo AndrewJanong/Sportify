@@ -76,4 +76,8 @@ describe('Discussions Page', () => {
         expect(dropdown.value).toBe('Tennis');
         expect(await screen.findByText(/Tennis Tuesday/i)).toBeInTheDocument();
     })
+
+    //delete a discussion
+
+    
 })
